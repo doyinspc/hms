@@ -1,19 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { registerInventorytype, updateInventorytype } from './../../actions/inventorytype';
+import { registerInventorytype, updateInventorytype } from '../../actions/inventorytype';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, FormText,  Input, Col } from 'reactstrap';
-import axios from 'axios';
-import moment from 'moment';
 import Select  from 'react-select';
-import { MAIN_TOKEN, API_PATHS, axiosConfig, callError } from './../../actions/common';
 
-const path = API_PATHS;
-const ses = [
-  {'value':'First Term', 'label':'First Term'},
-  {'value':'Second Term', 'label':'Second Term'},
-  {'value':'Third Term', 'label':'Third Term'},
-  {'value':'Admission', 'label':'Admission'}
-];
 const Modals = (props) => {
   
   const [modal, setModal] = useState(false);
@@ -21,8 +11,8 @@ const Modals = (props) => {
   const [categoryid, setCategoryid] = useState({});
   const [name, setName] = useState(null);
   const [description, setDescription] = useState(null);
-  const [cost, setCost] = useState(null);
-  const [options, setOptions] = useState({'value':1, 'label':'Select'});
+  const [options, setOptions] = useState({});
+  const [cats, setCats] = useState(false);
 
   const resetdata= async() =>{
     toggle();
@@ -30,7 +20,6 @@ const Modals = (props) => {
     setName('');
     setCategoryid({});
     setDescription('');
-    setCost('');
     props.handleClose();
 }
 
@@ -41,9 +30,29 @@ const Modals = (props) => {
     if(parseInt(props.mid) > 0 )
     {
      setId(parseInt(props.mid));
-     populate(props.inventorytype.inventorytype);  
+     populate(props.inventorytypes.inventorytype);  
     }
-},[props.mid]);
+    if(props.st1 && parseInt(props.st1) > 0)
+    {
+      let se = props.inventorycategorys.inventorycategorys && Array.isArray(props.inventorycategorys.inventorycategorys) ? props.inventorycategorys.inventorycategory.filter(rw=>parseInt(rw.id) === parseInt(props.st1))[0]  : [] ;
+      let ar = {'value':props.st1, 'label':se.name};
+      setCategoryid(ar);
+      setCats(true);
+     }else
+     {
+      let se = props.inventorycategorys.inventorycategorys && Array.isArray(props.inventorycategorys.inventorycategorys) ? props.inventorycategorys.inventorycategorys  : [] ;
+      let newArrs = se.map(element => {
+      let ar = {};
+      ar['value'] = element.id;
+      ar['label'] = element.name;
+      return ar;
+    });
+    setOptions(newArrs);
+    }
+    
+    
+
+},[props.mid, props.st1, props.st]);
 
   const handleSubmit = (e) =>{
         e.preventDefault();
@@ -51,7 +60,6 @@ const Modals = (props) => {
         let fd = new FormData();
         fd.append('name', name);
         fd.append('description', description);
-        fd.append('cost', cost);
         fd.append('categoryid', categoryid.value);
         fd.append('table', 'inventory_types');
         
@@ -69,13 +77,13 @@ const Modals = (props) => {
   }
 
   const populate = async(data) =>{
+        
         let nm = {};
         nm['value'] = data.categoryid;
         nm['label'] = data.categoryname;
         setCategoryid(nm);
         setName(data.name);
         setDescription(data.description);
-        setCost(data.cost);
     }
   const handleCate = (selected) => {
       setCategoryid( selected );
@@ -83,15 +91,13 @@ const Modals = (props) => {
     const customStyles = {
       option: (provided, state) => ({
         ...provided,
-        borderBottom: '1px dotted orange',
+        borderBottom: '1px dotted green',
         color: state.isSelected ? 'yellow' : 'black',
-        backgroundColor: state.isSelected ? 'orange' : 'white',
-        width:'100%'
+        backgroundColor: state.isSelected ? 'green' : 'white'
       }),
       control: (provided) => ({
         ...provided,
         marginTop: "1%",
-        width:'100%'
       })
     }
 
@@ -102,26 +108,28 @@ const Modals = (props) => {
   return (
     <div>
       <Modal isOpen={modal} toggle={toggle} backdrop='static' keyboard={false}>
-        <ModalHeader toggle={resetdata}><i className='fa fa-bed'></i> Inventories</ModalHeader>
+        <ModalHeader toggle={resetdata}><i className='fa fa-bed'></i> Inventorys</ModalHeader>
         <ModalBody>
         <Form>
-        <FormGroup row>
+        {!cats ? <FormGroup row>
         <Col sm={12}>
             <div class="input-group">
               <div class="input-group-prepend">
                 <div class="input-group-text"><i class="fa fa-hospital-o"></i></div>
               </div>
-              <Select
+              <Col sm={11}>
+                <Select
                   styles = { customStyles }
                   value={categoryid}
                   onChange={handleCate}
                   options={options}
                   autoFocus={true}
-                  width='100%'
                 />
+                <FormText></FormText>
+                </Col> 
             </div>
           </Col>
-            </FormGroup>
+            </FormGroup>:<h2>{categoryid.label}</h2>}
           <FormGroup row>
           <Col sm={12}>
             <div class="input-group">
@@ -140,24 +148,7 @@ const Modals = (props) => {
             </div>
           </Col>
           </FormGroup>
-          <FormGroup row>
-          <Col sm={12}>
-            <div class="input-group">
-              <div class="input-group-prepend">
-                <div class="input-group-text"><i class="fa fa-euro"></i></div>
-              </div>
-              <Input 
-                    type="text" 
-                    name="cost" 
-                    id="cost"  
-                    placeholder='Price'
-                    required
-                    defaultValue={cost}
-                    onChange={e=>setCost(e.target.value)} 
-                     />
-            </div>
-          </Col>
-          </FormGroup>
+          
             
             <FormGroup row>
                 <Col sm={12}>
@@ -186,7 +177,8 @@ const Modals = (props) => {
 }
 const mapStateToProps = (state, ownProps) => ({ 
     user:state.userReducer.user,
-    inventorytype:state.inventorytypeReducer.inventorytype
+    inventorycategorys:state.inventorycategoryReducer,
+    inventorytypes:state.inventorytypeReducer
   })
   
 export default connect(mapStateToProps, { registerInventorytype, updateInventorytype })(Modals)

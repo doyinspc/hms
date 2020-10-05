@@ -8,8 +8,8 @@ class BookingCell extends React.Component {
         this.state ={
             is_paid:false,
             is_lodged:false,
-            data:data,
-            dataid:dateid
+            data:{},
+            dataid:''
         }
     }
 
@@ -20,13 +20,13 @@ class BookingCell extends React.Component {
                 data: d,
                 is_lodged: d.guestislodged,
                 guestname: d.guestname,
-                dataid:
+                dataid:d.guestname,
             })
    }
 
     render() {
-        let {is_paid, is_lodged, data}
-        let passedDate = new Date(this.props.dateid) > new Date() ? true : false ;
+        let {is_paid, is_lodged, data}= this.state;
+        let passedDate = new Date(this.props.dateid) >= new Date() ? true : false ;
 
         return (
             <>
@@ -35,10 +35,10 @@ class BookingCell extends React.Component {
                 onClick={()=>this.props.loadBooking(0)}
                 className='col-xs-6 text-success' 
                 style={{minWidth:'200px', height:'40px', paddingBlock:'1px',textAlign:'center', fontSize:'1.2em'}}>
-                           { passedDate ? <i className="now-ui-icons ui-1_simple-add"></i>: <i className="fa fa-lock"></i>}
+                           { !passedDate ?  <i className="text-warning fa fa-lock"></i> : this.props.maint === 1 ? <i className="text-danger now-ui-icons ui-1_simple-remove"></i> :<i className="now-ui-icons ui-1_simple-add"></i> }
             </td>: 
             <td 
-                onClick={()=>this.props.loadBooking(id)}
+                onClick={()=>this.props.loadBooking(data.id)}
                 className={ passedDate ? "col-xs-6 bg-info" : "col-xs-6 bg-success"} 
                 style={{minWidth:'200px', height:'40px', paddingBlock:'1px',textAlign:'center', fontSize:'1.2em'}}>
                             {data.guestname} 

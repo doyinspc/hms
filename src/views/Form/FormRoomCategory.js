@@ -2,38 +2,25 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { registerRoomcategory, updateRoomcategory } from './../../actions/roomcategory';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, FormText, Label, Input, Col } from 'reactstrap';
-import axios from 'axios';
-import moment from 'moment';
-import Select  from 'react-select';
 
-import { MAIN_TOKEN, API_PATHS, axiosConfig, callError } from './../../actions/common';
 
-const path = API_PATHS;
-const ses = [
-  {'value':'First Term', 'label':'First Term'},
-  {'value':'Second Term', 'label':'Second Term'},
-  {'value':'Third Term', 'label':'Third Term'},
-  {'value':'Admission', 'label':'Admission'}
-];
 const Modals = (props) => {
   
   const [modal, setModal] = useState(false);
   const [id, setId] = useState(null);
   const [name, setName] = useState(null);
   const [description, setDescription] = useState(null);
-  const [cost, setCost] = useState(null);
+  
 
   const resetdata= async() =>{
     toggle();
     setId(0);
     setName('');
     setDescription('');
-    setCost('');
     props.handleClose();
 }
 
   const toggle = () => setModal(!modal);
-  
   useEffect(() => {
     setModal(props.st);
     if(parseInt(props.mid) > 0 )
@@ -41,7 +28,8 @@ const Modals = (props) => {
      setId(parseInt(props.mid));
      populate(props.roomcategorys.roomcategory);  
     }
-},[props.mid]);
+    
+},[props.st]);
 
   const handleSubmit = (e) =>{
         e.preventDefault();
@@ -49,7 +37,6 @@ const Modals = (props) => {
         let fd = new FormData();
         fd.append('name', name);
         fd.append('description', description);
-        fd.append('cost', cost);
         fd.append('table', 'room_categorys');
         
         if(id && id > 0)
@@ -68,22 +55,9 @@ const Modals = (props) => {
   const populate = async(data) =>{
         setName(data.name);
         setDescription(data.description);
-        setCost(data.cost);
     }
 
-    const customStyles = {
-      option: (provided, state) => ({
-        ...provided,
-        borderBottom: '1px dotted orange',
-        color: state.isSelected ? 'yellow' : 'black',
-        backgroundColor: state.isSelected ? 'orange' : 'white'
-      }),
-      control: (provided) => ({
-        ...provided,
-        marginTop: "1%",
-      })
-    }
-
+    
   
   let editId = id ? id : null;
   let editColor = 'primary';
@@ -112,24 +86,7 @@ const Modals = (props) => {
             </div>
           </Col>
           </FormGroup>
-          <FormGroup row>
-          <Col sm={12}>
-            <div class="input-group">
-              <div class="input-group-prepend">
-                <div class="input-group-text"><i class="fa fa-euro"></i></div>
-              </div>
-              <Input 
-                    type="text" 
-                    name="cost" 
-                    id="cost"  
-                    placeholder='Price'
-                    required
-                    defaultValue={cost}
-                    onChange={e=>setCost(e.target.value)} 
-                     />
-            </div>
-          </Col>
-          </FormGroup>
+          
             
             <FormGroup row>
                 <Col sm={12}>
@@ -158,7 +115,7 @@ const Modals = (props) => {
 }
 const mapStateToProps = (state, ownProps) => ({ 
     user:state.userReducer.user,
-    roomcategory:state.roomcategoryReducer.romcategory
+    roomcategorys:state.roomcategoryReducer
   })
   
 export default connect(mapStateToProps, { registerRoomcategory, updateRoomcategory })(Modals)

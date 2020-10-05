@@ -6,13 +6,7 @@ import {
   DropdownMenu,
   DropdownItem,
   UncontrolledDropdown,
-  FormGroup,
-  Form,
-  Input,
-  InputGroupAddon,
-  InputGroupText,
-  InputGroup,
-  NavbarBrand,
+  
   Navbar,
   NavItem,
   NavLink,
@@ -48,6 +42,7 @@ function ServiceNavbar(props){
                   <i className='fa fa-tasks'></i> Booking
                 </NavLink>
               </NavItem>
+              
               <UncontrolledDropdown nav>
                 <DropdownToggle
                   aria-haspopup={true}
@@ -85,7 +80,7 @@ function ServiceNavbar(props){
                   href="#pablo"
                   id="inventoryid"
                   nav
-                  onClick={e =>{props.menuAction(3, 0)}}
+                  
                 >
                 <i className='fa fa-thumb-tack'></i> Inventory Manager
                 </DropdownToggle>
@@ -122,13 +117,13 @@ function ServiceNavbar(props){
                   </DropdownItem>
                   <DropdownItem
                     href="#"
-                    onClick={e=>props.props.menuAction(3, 3)}
+                    onClick={e=>props.menuAction(3, 4)}
                   >
                     Inventory History
                   </DropdownItem>
                   <DropdownItem
                     href="#"
-                    onClick={e=>props.props.menuAction(3, 4)}
+                    onClick={e=>props.menuAction(3, 6)}
                   >
                     Inventory Report
                   </DropdownItem>
@@ -143,7 +138,7 @@ function ServiceNavbar(props){
                   href="#"
                   id="maintenanceid"
                   nav
-                  onClick={e =>{props.menuAction(4, 0)}}
+                  
                 >
                   <i className='fa fa-wrench'></i> Maintenance Manager
                 </DropdownToggle>
@@ -156,37 +151,39 @@ function ServiceNavbar(props){
                   </DropdownItem>
                   <DropdownItem
                     href="#"
+                    onClick={e=>props.addMaintenance()}
+                  >
+                    Add Maintenance type
+                  </DropdownItem>
+                  <DropdownItem
+                    href="#"
+                    onClick={e=>props.postMaintenance()}
+                  >
+                    Maintenance Request Form
+                  </DropdownItem>
+                  <DropdownItem
+                    href="#"
                     onClick={e =>props.menuAction(4, 1)}
                   >
                     Maintenance Categories
                   </DropdownItem>
-                  <DropdownItem
-                    href="#"
-                    onClick={e=>props.addRoom()}
-                  >
-                    Add Maintenance type
-                  </DropdownItem>
+                 
                   <DropdownItem
                     href="#"
                     onClick={e =>props.menuAction(4, 2)}
                   >
                     Maintenance Types List
                   </DropdownItem>
+                  
                   <DropdownItem
                     href="#"
-                    onClick={e=>props.postInventory()}
-                  >
-                    Maintenance Request Form
-                  </DropdownItem>
-                  <DropdownItem
-                    href="#"
-                    onClick={e=>props.props.menuAction(3, 3)}
+                    onClick={e=>props.menuAction(4, 3)}
                   >
                     Maintenance History
                   </DropdownItem>
                   <DropdownItem
                     href="#"
-                    onClick={e=>props.props.menuAction(3, 4)}
+                    onClick={e=>props.menuAction(4, 4)}
                   >
                     Maintenance Report
                   </DropdownItem>
@@ -201,7 +198,7 @@ function ServiceNavbar(props){
                   href="#"
                   id="roomsid"
                   nav
-                  onClick={e =>{props.menuAction(5, 0)}}
+                  
                 >
                   <i className='fa fa-hotel'></i> Rooms Manager
                 </DropdownToggle>
@@ -210,13 +207,7 @@ function ServiceNavbar(props){
                     href="#"
                     onClick={e =>props.addRoomCategory()}
                   >
-                    Add Category
-                  </DropdownItem>
-                  <DropdownItem
-                    href="#"
-                    onClick={e =>props.menuAction(5, 1)}
-                  >
-                    Room Categories
+                    Add House
                   </DropdownItem>
                   <DropdownItem
                     href="#"
@@ -226,31 +217,86 @@ function ServiceNavbar(props){
                   </DropdownItem>
                   <DropdownItem
                     href="#"
-                    onClick={e =>props.menuAction(5, 2)}
-                  >
-                    Rooms List
-                  </DropdownItem>
-                  <DropdownItem
-                    href="#"
-                    onClick={e=>props.postInventory()}
+                    onClick={e=>props.postRoom()}
                   >
                     Booking
                   </DropdownItem>
                   <DropdownItem
                     href="#"
-                    onClick={e=>props.props.menuAction(3, 3)}
+                    onClick={e =>props.menuAction(5, 1)}
                   >
-                    Inventory History
+                    Houses
+                  </DropdownItem>
+                  
+                  <DropdownItem
+                    href="#"
+                    onClick={e =>props.menuAction(5, 2)}
+                  >
+                    Rooms List
+                  </DropdownItem>
+                  
+                  <DropdownItem
+                    href="#"
+                    onClick={e=>props.menuAction(5, 3)}
+                  >
+                    Room History
                   </DropdownItem>
                   <DropdownItem
                     href="#"
-                    onClick={e=>props.props.menuAction(3, 4)}
+                    onClick={e=>props.menuAction(5, 4)}
                   >
                     Rooms Report
                   </DropdownItem>
                 </DropdownMenu>
               </UncontrolledDropdown>
-            </Nav>
+              <UncontrolledDropdown nav>
+                <DropdownToggle
+                  aria-haspopup={true}
+                  caret
+                  color="default"
+                  data-toggle="dropdown"
+                  href="#pablo"
+                  id="usersid"
+                  nav
+                  
+                >
+                <i className='fa fa-user'></i> Staff Manager
+                </DropdownToggle>
+                <DropdownMenu aria-labelledby="usersid">
+                  <DropdownItem
+                    href="#"
+                    onClick={e =>props.addUserCategory()}
+                  >
+                    Add Department
+                  </DropdownItem>
+                  <DropdownItem
+                    href="#"
+                    onClick={e=>props.addUser()}
+                  >
+                    Add Staff
+                  </DropdownItem>
+                  <DropdownItem
+                    href="#"
+                    onClick={e =>props.menuAction(6, 1)}
+                  >
+                    Departments
+                  </DropdownItem>
+                  
+                  <DropdownItem
+                    href="#"
+                    onClick={e =>props.menuAction(6, 2)}
+                  >
+                    Staff List
+                  </DropdownItem>
+                  <DropdownItem
+                    href="#"
+                    onClick={e=>props.menuAction(6, 4)}
+                  >
+                    Staff Activity Log
+                  </DropdownItem>
+                </DropdownMenu>
+              </UncontrolledDropdown>        
+                </Nav>
           </UncontrolledCollapse>
         </Container>
       </Navbar>

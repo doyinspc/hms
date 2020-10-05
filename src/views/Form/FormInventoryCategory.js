@@ -10,6 +10,7 @@ const Modals = (props) => {
   const [id, setId] = useState(null);
   const [name, setName] = useState(null);
   const [description, setDescription] = useState(null);
+  
 
   const resetdata= async() =>{
     toggle();
@@ -20,7 +21,6 @@ const Modals = (props) => {
 }
 
   const toggle = () => setModal(!modal);
-  
   useEffect(() => {
     setModal(props.st);
     if(parseInt(props.mid) > 0 )
@@ -28,7 +28,8 @@ const Modals = (props) => {
      setId(parseInt(props.mid));
      populate(props.inventorycategorys.inventorycategory);  
     }
-},[props.mid]);
+    
+},[props.st]);
 
   const handleSubmit = (e) =>{
         e.preventDefault();
@@ -114,7 +115,7 @@ const Modals = (props) => {
 }
 const mapStateToProps = (state, ownProps) => ({ 
     user:state.userReducer.user,
-    inventorycategory:state.inventorycategoryReducer.romcategory
+    inventorycategorys:state.inventorycategoryReducer
   })
   
 export default connect(mapStateToProps, { registerInventorycategory, updateInventorycategory })(Modals)

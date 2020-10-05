@@ -58,7 +58,7 @@ export default function(state = initialState, action){
             };
         case MAINTENANCETYPE_GET_ONE:
             let all = [...state.maintenancetypes];
-            let ses = all.filter(row=>row.cid == action.payload)[0];
+            let ses = all.filter(row=>row.id == action.payload)[0];
             return {
                 ...state,
                 maintenancetype : ses,
@@ -88,7 +88,7 @@ export default function(state = initialState, action){
                 maintenancetypes: rem
             }
         case MAINTENANCETYPE_UPDATE_SUCCESS:
-            const findInd = state.maintenancetypes.findIndex(cat => cat.id == action.payload.id);
+            const findInd = state.maintenancetypes.findIndex(cat => parseInt(cat.id) === parseInt(action.payload.id));
             let newState = [...state.maintenancetypes];
             newState[findInd] = action.payload;
             localStorage.setItem('maintenancetype', JSON.stringify(newState));

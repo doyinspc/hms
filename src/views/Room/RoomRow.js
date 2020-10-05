@@ -1,11 +1,18 @@
 import React from "react";
 import { UncontrolledTooltip } from "reactstrap";
 
+
+let ars = {
+    1:'Supply',
+    2:'Dispatched',
+    3:'Deployed',
+    4:'Damaged',
+}
 class RoomRow extends React.Component {
    constructor(props){
        super(props);
        this.state ={
-            grp:null,
+            id:null,
             num:0,
             data:{}
        }
@@ -14,102 +21,114 @@ class RoomRow extends React.Component {
     async componentDidMount(){
         let id = this.props.id;
         let num = this.props.num;
-        this.setState({grp:id, num:num});
+        this.setState({id:id, num:num});
+    }
+
+    componentDidUpdate(prevProps, prevState){
+        if(prevProps.id !== this.state.id || prevProps.id !== this.props.id){
+        let id = this.props.id;
+        let num = this.props.num;
+        this.setState({id:id, num:num});
+        }
     }
 
 
     render() {
-        let { num, grp } = this.state;
+        let { num } = this.state;
+        let { id, name, qty, is_active, cost, description, categoryname } = this.props.data || '';
+        let sum = this.state.id === 6 ?
+        Number(this.props.data[1])  ? Number(this.props.data[1]) : 0  - 
+        Number(this.props.data[2])  ? Number(this.props.data[2]) : 0  -  
+        Number(this.props.data[3])  ? Number(this.props.data[3]) : 0  - 
+        Number(this.props.data[4])  ? Number(this.props.data[4]) : 0 : 0 ;
+        
         return (
             <>
-            {grp === 1 ? 
+            {this.state.id === 1 && parseInt(id) > 0 ? 
             <tr>
                 <td className='text-center'>{num}</td>
-                <td>{this.props.data.name}</td>
-                <td>{this.props.data.qty}</td>
-                <td>
-                    <button id={`too1${this.props.data.id}`} className="btn mx-1 mb-1 btn-round btn-raised btn-icon btn-outline-primary" onClick={()=>this.props.catexpand(parseInt(this.props.data.id))}><i className="fa fa-tasks"></i></button>
+                <td>{name}</td>
+                <td>{description}</td>
+                <td className='text-left'>
+                <button id={`too0${id}`} className="btn btn-sm my-0 py-0 mx-1 mb-1 btn-round btn-raised btn-icon btn-outline-primary" onClick={()=>this.props.catreport(parseInt(id))}><i className="fa fa-file"></i></button>
+                    <button id={`too1${id}`} className="btn btn-sm my-0 py-0 mx-1 mb-1 btn-round btn-raised btn-icon btn-outline-primary" onClick={()=>this.props.catexpand(parseInt(id))}><span className='badge badge-primary'>{qty}</span></button>
                     <button 
-                            id={`too2${this.props.data.id}`} 
-                            className= {parseInt(this.props.data.is_active) === 0 ? "btn mx-1 mb-1 btn-round btn-raised btn-icon btn-success" : "btn mx-1 mb-1 btn-round btn-raised btn-icon btn-outline-danger"} 
-                            onClick={()=>this.props.catactivate(parseInt(this.props.data.id), parseInt(this.props.data.is_active))}>
-                                <i className= {parseInt(this.props.data.is_active) === 0 ? "fa fa-thumbs-up" : "fa fa-thumbs-down"}></i>
+                            id={`too2${id}`} 
+                            className= {parseInt(is_active) === 0 ? "btn btn-sm my-0 py-0 mx-1 mb-1 btn-round btn-raised btn-icon btn-primary" : "btn btn-sm mx-1 mb-1 my-0 py-0 btn-round btn-raised btn-icon btn-outline-danger"} 
+                            onClick={()=>this.props.catactivate(parseInt(id), parseInt(is_active))}>
+                                <i className= {parseInt(is_active) === 0 ? "fa fa-thumbs-up" : "fa fa-thumbs-down"}></i>
                     </button>
-                    <button id={`too3${this.props.data.id}`} className="btn mx-1 mb-1 btn-round btn-raised btn-icon btn-outline-primary" onClick={()=>this.props.catedit(parseInt(this.props.data.id))}><i className="fa fa-edit"></i></button>
-                    <button id={`too4${this.props.data.id}`} className="btn mx-1 mb-1 btn-round btn-raised btn-icon btn-outline-primary" onClick={()=>this.props.catdelete(parseInt(this.props.data.id))}><i className="now-ui-icons ui-1_simple-remove"></i></button>
-                    <UncontrolledTooltip target={`too1${this.props.data.id}`}>Rooms</UncontrolledTooltip>
-                    <UncontrolledTooltip target={`too2${this.props.data.id}`}>Activate/Deactivate</UncontrolledTooltip>
-                    <UncontrolledTooltip target={`too3${this.props.data.id}`}>Edit</UncontrolledTooltip>
-                    <UncontrolledTooltip target={`too4${this.props.data.id}`}>Delete</UncontrolledTooltip>
+                    <button id={`too3${id}`} className="btn btn-sm my-0 py-0 mx-1 mb-1 btn-round btn-raised btn-icon btn-outline-primary" onClick={()=>this.props.catadd(parseInt(id))}><i className="now-ui-icons ui-1_simple-add"></i></button>
+                    <button id={`too3${id}`} className="btn btn-sm my-0 py-0 mx-1 mb-1 btn-round btn-raised btn-icon btn-outline-primary" onClick={()=>this.props.catedit(parseInt(id))}><i className="fa fa-edit"></i></button>
+                    <button id={`too4${id}`} className="btn btn-sm my-0 py-0 mx-1 mb-1 btn-round btn-raised btn-icon btn-outline-primary" onClick={()=>this.props.catdelete(parseInt(id))}><i className="now-ui-icons ui-1_simple-remove"></i></button>
+                    
                 </td>
             </tr>:''}
-            {grp === 2 ? 
+            {this.state.id === 2 && parseInt(id) > 0 ? 
             <tr>
                 <td className='text-center'>{num}</td>
-                <td>{this.props.data.name}</td>
-                <td>{this.props.data.description}</td>
-                <td>{this.props.data.categoryname}</td>
+                <td>{name}</td>
+                <td>{description}</td>
+                <td>{categoryname}</td>
                 <td>
-                   <button id={`tooa1${this.props.data.id}`} className="btn mx-1 mb-1 btn-round btn-raised btn-icon btn-outline-primary" onClick={()=>this.props.catexpand(parseInt(this.props.data.id))}><i className="fa fa-tasks"></i></button>
-                   <button id={`tooa1${this.props.data.id}`} className="btn mx-1 mb-1 btn-round btn-raised btn-icon btn-outline-primary" onClick={()=>this.props.catexpand(parseInt(this.props.data.id))}><i className="fa fa-tasks"></i></button>
+                   <button id={`tooa1${id}`} className="btn mx-1 mb-1 btn-round btn-raised btn-icon btn-outline-primary" ><i className="fa fa-tasks"></i></button>
+                  
                     <button 
-                            id={`tooa2${this.props.data.id}`} 
-                            className= {parseInt(this.props.data.is_active) === 0 ? "btn mx-1 mb-1 btn-round btn-raised btn-icon btn-success" : "btn mx-1 mb-1 btn-round btn-raised btn-icon btn-outline-danger"} 
-                            onClick={()=>this.props.activate(parseInt(this.props.data.id), parseInt(this.props.data.is_active))}>
-                                <i className= {parseInt(this.props.data.is_active) === 0 ? "fa fa-thumbs-up" : "fa fa-thumbs-down"}></i>
+                            id={`tooa2${id}`} 
+                            className= {parseInt(is_active) === 0 ? "btn mx-1 mb-1 btn-round btn-raised btn-icon btn-primary" : "btn mx-1 mb-1 btn-round btn-raised btn-icon btn-outline-danger"} 
+                            onClick={()=>this.props.activate(parseInt(id), parseInt(is_active))}>
+                                <i className= {parseInt(is_active) === 0 ? "fa fa-thumbs-up" : "fa fa-thumbs-down"}></i>
                     </button>
-                    <button id={`tooa3${this.props.data.id}`} className="btn mx-1 mb-1 btn-round btn-raised btn-icon btn-outline-primary" onClick={()=>this.props.edit(parseInt(this.props.data.id))}><i className="fa fa-edit"></i></button>
-                    <button id={`tooa4${this.props.data.id}`} className="btn mx-1 mb-1 btn-round btn-raised btn-icon btn-outline-primary" onClick={()=>this.props.delete(parseInt(this.props.data.id))}><i className="now-ui-icons ui-1_simple-remove"></i></button>
-                    <UncontrolledTooltip target={`tooa1${this.props.data.id}`}>Rooms</UncontrolledTooltip>
-                    <UncontrolledTooltip target={`tooa2${this.props.data.id}`}>Open/Close Room</UncontrolledTooltip>
-                    <UncontrolledTooltip target={`tooa3${this.props.data.id}`}>Edit</UncontrolledTooltip>
-                    <UncontrolledTooltip target={`tooa4${this.props.data.id}`}>Delete</UncontrolledTooltip>
+                    <button id={`tooa3${id}`} className="btn mx-1 mb-1 btn-round btn-raised btn-icon btn-outline-primary" onClick={()=>this.props.edit(parseInt(id))}><i className="fa fa-edit"></i></button>
+                    <button id={`tooa4${id}`} className="btn mx-1 mb-1 btn-round btn-raised btn-icon btn-outline-primary" onClick={()=>this.props.delete(parseInt(id))}><i className="now-ui-icons ui-1_simple-remove"></i></button>
+                   
                 </td>
             </tr>:''}
-            {grp === 3 ? 
+            {this.state.id === 3 && parseInt(id) > 0 ? 
             <tr>
                 <td className='text-center'>{num}</td>
-                <td>{this.props.data.name}</td>
-                <td>{this.props.data.description}</td>
-                <td>
-                    
+                <td>{name}</td>
+                <td>{description}</td>
+                <td className='align-left'>
+                   <button id={`tooa1${id}`} className="btn mx-1 mb-1 btn-round btn-raised btn-icon btn-outline-primary" ><i className="fa fa-tasks"></i></button>
+                    <button 
+                            id={`tooa2${id}`} 
+                            className= {parseInt(is_active) === 0 ? "btn mx-1 mb-1 btn-round btn-raised btn-icon btn-primary" : "btn mx-1 mb-1 btn-round btn-raised btn-icon btn-outline-danger"} 
+                            onClick={()=>this.props.activate(parseInt(id), parseInt(is_active))}>
+                                <i className= {parseInt(is_active) === 0 ? "fa fa-thumbs-up" : "fa fa-thumbs-down"}></i>
+                    </button>
+                    <button id={`tooa3${id}`} className="btn mx-1 mb-1 btn-round btn-raised btn-icon btn-outline-primary" onClick={()=>this.props.edit(parseInt(id))}><i className="fa fa-edit"></i></button>
+                    <button id={`tooa4${id}`} className="btn mx-1 mb-1 btn-round btn-raised btn-icon btn-outline-primary" onClick={()=>this.props.delete(parseInt(id))}><i className="now-ui-icons ui-1_simple-remove"></i></button>   
                 </td>
             </tr>:''}
-            {grp === 4 ? 
+            {this.state.id === 4 && parseInt(id) > 0 ? 
             <tr>
-                <td className='text-center'>{num}</td>
-                <td>{this.props.data.roomname}</td>
-                <td>{this.props.data.issue}</td>
-                <td>{this.props.data.status}</td>
-                <td>
-                    
-                </td>
+                <td className='text-center'><a className='text-danger' onClick={()=>this.props.tdelete(parseInt(id))}>x</a>{num}</td>
+                <td>{this.props.data.transaction_date}</td>
+                <td><a href='#' onClick={()=>this.props.tedit(parseInt(id), this.props.data)}>{this.props.data.roomname}</a></td>
+                <td>{ars[parseInt(this.props.data.status)]}</td>
+                <td>{this.props.data.quantity}</td>
+                <td>{this.props.data.receiver}</td>
+                <td>{this.props.data.username}</td>
             </tr>:''}
-            {grp === 5 ? 
+            {this.state.id === 5 && parseInt(id) > 0 ? 
             <tr>
-                <td className='text-center'>{num}</td>
-                <td>{this.props.data.roomname}</td>
-                <td>{this.props.data.maintenanceall}</td>
-                <td>{this.props.data.maintenancecritical}</td>
-                <td>{this.props.data.maintenancepending}</td>
-                <td>{this.props.data.maintenancerate}</td>
-                <td>{this.props.data.maintenancerate}</td>
-                <td>{this.props.data.maintenancerate}</td>
-                <td>
-                    
-                </td>
+                <td className='text-center'><a className='text-danger' onClick={()=>this.props.tdelete(parseInt(id))}>x</a>{num}</td>
+                <td><a href='#' onClick={()=>this.props.tedit(parseInt(id), this.props.data)}>{this.props.data.transaction_date}</a></td>
+                <td>{ars[parseInt(this.props.data.status)]}</td>
+                <td>{this.props.data.quantity}</td>
+                <td>{this.props.data.receiver}</td>
+                <td>{this.props.data.username}</td>
             </tr>:''}
-            {grp === 6 ? 
+            {this.state.id === 6 && parseInt(id) > 0 ? 
             <tr>
-               <td className='text-center'>{num}</td>
+                <td className='text-center' width='70px'>{num}</td>
                 <td>{this.props.data.roomname}</td>
-                <td>{this.props.data.uptime}</td>
-                <td>{this.props.data.downtime}</td>
-                <td>{this.props.data.occupancyrate}</td>
-                <td>{this.props.data.maintenancerate}</td>
-                <td>
-                    
-                </td>
+                <td className='text-center'>{this.props.data[1]}</td>
+                <td className='text-center'>{this.props.data[2]}</td>
+                <td className='text-center'>{this.props.data[3]}</td>
+                <td className='text-center'>{this.props.data[4]}</td>
+                <td className='text-center'>{sum}</td>
             </tr>:''}
               
             </>

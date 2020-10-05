@@ -24,10 +24,9 @@ let params = {
     token:MAIN_TOKEN
   }
 //GET ALL INVENTORYCATEGORY 
-export const getInventorycategorys = dat => (dispatch, getState) => {
+export const getInventorycategorys = params => (dispatch, getState) => {
     //SET PAGE LOADING
-    params.data = dat;
-    params.cat = 'select';
+    params.token = MAIN_TOKEN;
     dispatch({type : INVENTORYCATEGORY_LOADING});
         axios.get(path, {params}, axiosConfig)
             .then(res => {                                                                                                                                                                                                                                        

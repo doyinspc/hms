@@ -11,6 +11,11 @@ import maintenancetype from "./maintenancetype";
 import room from "./room";
 import roomcategory from "./roomcategory";
 import roominventory from "./roominventory";
+import roomtype from "./roomtype";
+import roomtransaction from "./roomtransaction";
+import usercategory from "./usercategory";
+import usertransaction from "./usertransaction";
+import usertype from "./usertype";
 import user from "./user";
 
 export default combineReducers({
@@ -24,6 +29,11 @@ export default combineReducers({
     maintenancetypeReducer: maintenancetype,
     roomReducer: room,
     roomcategoryReducer: roomcategory,
+    roomtransactionReducer: roomtransaction,
+    roomtypeReducer: roomtype,
     roominventoryReducer: roominventory, 
+    usercategoryReducer: usercategory,
+    usertransactionReducer: usertransaction,
+    usertypeReducer: usertype,
     userReducer: user
 });

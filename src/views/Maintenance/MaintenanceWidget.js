@@ -13,9 +13,9 @@ class RoomWidget extends React.Component {
                         <div class="statistics">
                             <div class="info">
                                 <div class="icon icon-primary">
-                                    <i class="now-ui-icons ui-2_chat-round"></i>
+                                    <i class="now-ui-icons ui-2_settings-90"></i>
                                 </div>
-                                <h3 class="info-title">859</h3>
+                                <h3 class="info-title">52</h3>
                                 <h6 class="stats-title">Outstanding Maintenance issues</h6>
                             </div>
                         </div>
@@ -24,9 +24,9 @@ class RoomWidget extends React.Component {
                         <div class="statistics">
                             <div class="info">
                                 <div class="icon icon-success">
-                                    <i class="now-ui-icons business_money-coins"></i>
+                                    <i class="now-ui-icons ui-2_settings-90"></i>
                                 </div>
-                                <h3 class="info-title"><small>$</small>3,521</h3>
+                                <h3 class="info-title">9</h3>
                                 <h6 class="stats-title">Critical Maintenance Issues</h6>
                             </div>
                         </div>
@@ -35,9 +35,9 @@ class RoomWidget extends React.Component {
                         <div class="statistics">
                             <div class="info">
                                 <div class="icon icon-info">
-                                    <i class="now-ui-icons users_single-02"></i>
+                                    <i class="now-ui-icons ui-2_settings-90"></i>
                                 </div>
-                                <h3 class="info-title">562</h3>
+                                <h3 class="info-title">7</h3>
                                 <h6 class="stats-title">Ongoing Maintenance</h6>
                             </div>
                         </div>
@@ -46,9 +46,9 @@ class RoomWidget extends React.Component {
                         <div class="statistics">
                             <div class="info">
                                 <div class="icon icon-danger">
-                                    <i class="now-ui-icons objects_support-17"></i>
+                                    <i class="now-ui-icons ui-2_settings-90"></i>
                                 </div>
-                                <h3 class="info-title">353</h3>
+                                <h3 class="info-title">3 days</h3>
                                 <h6 class="stats-title">Average Maintenance Resolution Time</h6>
                             </div>
                         </div>

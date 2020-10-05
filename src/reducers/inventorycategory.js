@@ -58,7 +58,8 @@ export default function(state = initialState, action){
             };
         case INVENTORYCATEGORY_GET_ONE:
             let all = [...state.inventorycategorys];
-            let ses = all.filter(row=>row.cid == action.payload)[0];
+            let ses = all.filter(row=>parseInt(row.id) === parseInt(action.payload))[0];
+            console.log(ses, action.payload );
             return {
                 ...state,
                 inventorycategory : ses,

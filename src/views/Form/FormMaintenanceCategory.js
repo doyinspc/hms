@@ -10,6 +10,7 @@ const Modals = (props) => {
   const [id, setId] = useState(null);
   const [name, setName] = useState(null);
   const [description, setDescription] = useState(null);
+  
 
   const resetdata= async() =>{
     toggle();
@@ -20,7 +21,6 @@ const Modals = (props) => {
 }
 
   const toggle = () => setModal(!modal);
-  
   useEffect(() => {
     setModal(props.st);
     if(parseInt(props.mid) > 0 )
@@ -28,7 +28,8 @@ const Modals = (props) => {
      setId(parseInt(props.mid));
      populate(props.maintenancecategorys.maintenancecategory);  
     }
-},[props.mid]);
+    
+},[props.st]);
 
   const handleSubmit = (e) =>{
         e.preventDefault();
@@ -64,14 +65,14 @@ const Modals = (props) => {
   return (
     <div>
       <Modal isOpen={modal} toggle={toggle} backdrop='static' keyboard={false}>
-        <ModalHeader toggle={resetdata}><i className='fa fa-wrench'></i> Maintenance Categories</ModalHeader>
+        <ModalHeader toggle={resetdata}><i className='fa fa-hospital-o'></i> Maintenance Categories</ModalHeader>
         <ModalBody>
         <Form>
           <FormGroup row>
           <Col sm={12}>
             <div class="input-group">
               <div class="input-group-prepend">
-                <div class="input-group-text"><i class="fa fa-wrench"></i></div>
+                <div class="input-group-text"><i class="fa fa-hospital-o"></i></div>
               </div>
               <Input 
                       type="text" 
@@ -114,7 +115,7 @@ const Modals = (props) => {
 }
 const mapStateToProps = (state, ownProps) => ({ 
     user:state.userReducer.user,
-    maintenancecategory:state.maintenancecategoryReducer.romcategory
+    maintenancecategorys:state.maintenancecategoryReducer
   })
   
 export default connect(mapStateToProps, { registerMaintenancecategory, updateMaintenancecategory })(Modals)

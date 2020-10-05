@@ -58,7 +58,7 @@ export default function(state = initialState, action){
             };
         case INVENTORYTYPE_GET_ONE:
             let all = [...state.inventorytypes];
-            let ses = all.filter(row=>row.cid == action.payload)[0];
+            let ses = all.filter(row=>row.id == action.payload)[0];
             return {
                 ...state,
                 inventorytype : ses,
@@ -88,7 +88,7 @@ export default function(state = initialState, action){
                 inventorytypes: rem
             }
         case INVENTORYTYPE_UPDATE_SUCCESS:
-            const findInd = state.inventorytypes.findIndex(cat => cat.id == action.payload.id);
+            const findInd = state.inventorytypes.findIndex(cat => parseInt(cat.id) === parseInt(action.payload.id));
             let newState = [...state.inventorytypes];
             newState[findInd] = action.payload;
             localStorage.setItem('inventorytype', JSON.stringify(newState));

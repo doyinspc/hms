@@ -24,10 +24,9 @@ let params = {
     token:MAIN_TOKEN
   }
 //GET ALL INVENTORYTRANSACTION 
-export const getInventorytransactions = dat => (dispatch, getState) => {
+export const getInventorytransactions = params => (dispatch, getState) => {
     //SET PAGE LOADING
-    params.data = dat;
-    params.cat = 'select';
+    params.token = MAIN_TOKEN;
     dispatch({type : INVENTORYTRANSACTION_LOADING});
         axios.get(path, {params}, axiosConfig)
             .then(res => {                                                                                                                                                                                                                                        

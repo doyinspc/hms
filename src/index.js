@@ -15,6 +15,7 @@ import 'react-bootstrap-range-slider/dist/react-bootstrap-range-slider.css';
 import AdminLayout from "layouts/Admin.jsx";
 import AccountLayout from "layouts/Account.jsx";
 import HomeLayout from "views/Home.js";
+import Login from "views/EmployeeLoginPage.js";
 
 const hist = createBrowserHistory();
 
@@ -25,8 +26,8 @@ ReactDOM.render(
             <Switch>
               <Route path="/admin" render={props => <AdminLayout {...props} />} />
               <Route path="/account" render={props => <AccountLayout {...props} />} />
-              
-              <Route path="/" render={props => <HomeLayout {...props} />} />
+              <Route path="/home" render={props => <HomeLayout {...props} />} />
+              <Route path="/" render={props => <Login {...props} />} />
               <Redirect to="/" />
             </Switch>
           </Switch>

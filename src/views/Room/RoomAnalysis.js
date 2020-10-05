@@ -1,7 +1,57 @@
 import React from "react";
-
+import Chart from "./../Booking/Chart";
+import LineChart from "./../Booking/LineChart";
 class RoomWidget extends React.Component {
+    constructor(props){
+      super(props);
+      this.state ={
+        orate:0,
+        ostate:1,
+        odata:{},
+        orange:{},
+        srate:0,
+        sstate:1,
+        sdata:{},
+        srange:{},
+        brate:0,
+        bstate:1,
+        bdata:{},
+        brange:{},
+      }
+    }
+
+      
+
+
     render() {
+      let {orate, ostate, odata, orange, srate, sstate, sdata, srange, brate, bstate, bdata, brange } = this.state || '';
+
+      let otable = Object.keys(odata).map((prop, ind)=>{
+            return  <tr key={ind}>
+                      <td>{prop}</td>
+                      <td class="text-right">
+                      {prop in sdata ? odata[prop] : 0 }%
+                      </td>
+                  </tr>
+      });
+      let stable = Object.keys(sdata).map((prop, ind)=>{
+        return  <div key={ind} class="progress-container progress-danger">
+                  <span class="progress-badge">{prop}</span>
+                  <div class="progress">
+                    <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style={{width:'0.11%'}}>
+                      <span class="progress-value">{prop in sdata ? sdata[prop] : 0}%</span>
+                    </div>
+                  </div>
+                </div>
+      });
+      let btable = Object.keys(bdata).map((prop, ind)=>{
+        return  <tr key={ind}>
+                  <td>{prop}</td>
+                  <td class="text-right">
+                    {prop in bdata ? bdata[prop] : 0 }
+                  </td>
+              </tr>
+      });
         return (
             <>
             <div class="row">
@@ -9,83 +59,32 @@ class RoomWidget extends React.Component {
         <div class="card card-chart">
             <div class="card-header">
             <h5 class="card-category">Occupancy Rate</h5>
-            <h2 class="card-title">34,252</h2>
+            <h2 class="card-title">{orate}%</h2>
             <div class="dropdown">
                 <button type="button" class="btn btn-round btn-icon dropdown-toggle btn-outline-default no-caret" data-toggle="dropdown">
                     <i class="now-ui-icons loader_gear"></i>
                 </button>
                 <div class="dropdown-menu dropdown-menu-right">
-                <a class="dropdown-item" href="#">Action</a>
-                <a class="dropdown-item" href="#">Another action</a>
-                <a class="dropdown-item" href="#">Something else here</a>
-                <a class="dropdown-item text-danger" href="#">Remove Data</a>
+                  <a class="dropdown-item" href="#" onClick={()=>this.setState({ostate:1})}>Chart</a>
+                  <a class="dropdown-item" href="#" onClick={()=>this.setState({ostate:2})}>Table</a>
+                  <a class="dropdown-item" href="#" onClick={()=>this.setState({ostate:3})}>Both</a>
+                  <a class="dropdown-item" href="#">Share</a>
+                  <a class="dropdown-item" href="#">Print</a>
                 </div>
                 </div>
             </div>
             <div class="card-body">
-            <div class="chart-area">
-                <canvas id="activeUsers"></canvas>
-            </div>
-            <div class="table-responsive">
+            {ostate === 1 || ostate === 3 ? 
+            <div id="chart" class="chart">
+              <LineChart label={Object.keys(odata)} data={Object.values(odata)} />
+            </div>: ''}
+            {ostate === 2 || ostate === 3  ? <div class="table-responsive">
                 <table class="table">
                     <tbody>
-                        <tr>
-                            <td>USA</td>
-                            <td class="text-right">
-                                2.920
-                            </td>
-                            <td class="text-right">
-                                53.23%
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Germany</td>
-                            <td class="text-right">
-                                1.300
-                            </td>
-                            <td class="text-right">
-                                20.43%
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Australia</td>
-                            <td class="text-right">
-                                760
-                            </td>
-                            <td class="text-right">
-                                10.35%
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>United Kingdom</td>
-                            <td class="text-right">
-                                690
-                            </td>
-                            <td class="text-right">
-                                7.87%
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Romania</td>
-                            <td class="text-right">
-                                600
-                            </td>
-                            <td class="text-right">
-                                5.94%
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Brasil</td>
-                            <td class="text-right">
-                                550
-                            </td>
-                            <td class="text-right">
-                                4.34%
-                            </td>
-                        </tr>
+                       {otable}
                     </tbody>
                 </table>
-            </div>
+            </div>:''}
             </div>
         <div class="card-footer">
           <div class="stats">
@@ -98,69 +97,27 @@ class RoomWidget extends React.Component {
       <div class="card card-chart">
         <div class="card-header">
           <h5 class="card-category">Average Length of Stay</h5>
-          <h2 class="card-title">55,300</h2>
+          <h2 class="card-title">{srate} days</h2>
           <div class="dropdown">
             <button type="button" class="btn btn-round dropdown-toggle btn-outline-default btn-icon no-caret" data-toggle="dropdown">
                 <i class="now-ui-icons loader_gear"></i>
             </button>
           	<div class="dropdown-menu dropdown-menu-right">
-              <a class="dropdown-item" href="#">Action</a>
-              <a class="dropdown-item" href="#">Another action</a>
-              <a class="dropdown-item" href="#">Something else here</a>
-              <a class="dropdown-item text-danger" href="#">Remove Data</a>
+              <a class="dropdown-item" href="#">Chart</a>
+              <a class="dropdown-item" href="#">Table</a>
+              <a class="dropdown-item" href="#">Both</a>
+              <a class="dropdown-item" href="#">Share</a>
+              <a class="dropdown-item" href="#">Print</a>
           	</div>
 		      </div>
         </div>
         <div class="card-body">
-          <div class="chart-area">
-            <canvas id="emailsCampaignChart"></canvas>
-          </div>
-
+            {sstate === 1 || sstate === 3 ? 
+            <div  class="chart">
+              <Chart label={Object.keys(sdata)} data={Object.values(sdata)} />
+            </div>: ''}
           <div class="card-progress">
-            <div class="progress-container">
-              <span class="progress-badge">Delivery Rate</span>
-              <div class="progress">
-                <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style={{width:'90%'}}>
-                  <span class="progress-value">90%</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="progress-container progress-success">
-              <span class="progress-badge">Open Rate</span>
-              <div class="progress">
-                <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style={{width:'60%'}}>
-                  <span class="progress-value">60%</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="progress-container progress-info">
-              <span class="progress-badge">Click Rate</span>
-              <div class="progress">
-                <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style={{width:'12%'}}>
-                  <span class="progress-value">12%</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="progress-container progress-warning">
-              <span class="progress-badge">Hard Bounce</span>
-              <div class="progress">
-                <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style={{width:'5%'}}>
-                  <span class="progress-value">5%</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="progress-container progress-danger">
-              <span class="progress-badge">Spam Report</span>
-              <div class="progress">
-                <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style={{width:'0.11%'}}>
-                  <span class="progress-value">0.11%</span>
-                </div>
-              </div>
-            </div>
+             {sstate === 2 || sstate === 3  ? stable : ''}
           </div>
         </div>
         <div class="card-footer">
@@ -175,13 +132,32 @@ class RoomWidget extends React.Component {
       <div class="card card-chart">
         <div class="card-header">
           <h5 class="card-category">Average Lead Time for Booking</h5>
-          <h2 class="card-title">105</h2>
+          <h2 class="card-title">{brate}</h2>
+          <div class="dropdown">
+                <button type="button" class="btn btn-round btn-icon dropdown-toggle btn-outline-default no-caret" data-toggle="dropdown">
+                    <i class="now-ui-icons loader_gear"></i>
+                </button>
+                <div class="dropdown-menu dropdown-menu-right">
+                  <a class="dropdown-item" href="#" onClick={()=>this.setState({bstate:1})}>Chart</a>
+                  <a class="dropdown-item" href="#" onClick={()=>this.setState({bstate:2})}>Table</a>
+                  <a class="dropdown-item" href="#" onClick={()=>this.setState({bstate:3})}>Both</a>
+                  <a class="dropdown-item" href="#">Share</a>
+                  <a class="dropdown-item" href="#">Print</a>
+                </div>
+          </div>
         </div>
         <div class="card-body">
-          <div class="chart-area">
-            <canvas id="activeCountries"></canvas>
-          </div>
-          <div id="worldMap" class="map"></div>
+          {bstate === 1 || bstate === 3 ? 
+            <div id="chart" class="chart">
+              <Chart label={Object.keys(bdata)} data={Object.values(bdata)} />
+            </div>: ''}
+            {bstate === 2 || bstate === 3  ? <div class="table-responsive">
+                <table class="table">
+                    <tbody>
+                       {btable}
+                    </tbody>
+                </table>
+            </div>:''}
         </div>
         <div class="card-footer">
           <div class="stats">

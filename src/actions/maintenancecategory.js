@@ -24,10 +24,9 @@ let params = {
     token:MAIN_TOKEN
   }
 //GET ALL MAINTENANCECATEGORY 
-export const getMaintenancecategorys = dat => (dispatch, getState) => {
+export const getMaintenancecategorys = params => (dispatch, getState) => {
     //SET PAGE LOADING
-    params.data = dat;
-    params.cat = 'select';
+    params.token = MAIN_TOKEN;
     dispatch({type : MAINTENANCECATEGORY_LOADING});
         axios.get(path, {params}, axiosConfig)
             .then(res => {                                                                                                                                                                                                                                        

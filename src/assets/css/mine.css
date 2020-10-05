@@ -1,0 +1,18 @@
+.calenderHeader{
+    height:50px; 
+    width: 70px;
+    padding: 'auto';
+    text-align:'center'; 
+    font-weight:'bolder';
+    margin: 2px;
+    align-items: 'center';
+    justify-items: 'center';
+
+}
+.tablerow{
+    height:80px; 
+    width: 70px;
+    padding: '0px';
+    
+
+}

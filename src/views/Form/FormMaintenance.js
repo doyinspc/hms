@@ -34,7 +34,7 @@ const Modals = (props) => {
     }
     if(props.st1 && parseInt(props.st1) > 0)
     {
-      let se = props.maintenancecategorys.maintenancecategorys && Array.isArray(props.maintenancecategorys.maintenancecategorys) ? props.maintenancecategorys.maintenancecategory.filter(rw=>parseInt(rw.id) === parseInt(props.st1))[0]  : [] ;
+      let se = props.maintenancecategorys.maintenancecategorys && Array.isArray(props.maintenancecategorys.maintenancecategorys) ? props.maintenancecategorys.maintenancecategorys.filter(rw=>parseInt(rw.id) === parseInt(props.st1))[0]  : [] ;
       let ar = {'value':props.st1, 'label':se.name};
       setCategoryid(ar);
       setCats(true);

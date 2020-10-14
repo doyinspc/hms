@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
+import moment from 'moment';
 import { registerMaintenancetransaction, updateMaintenancetransaction } from '../../actions/maintenancetransaction';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, FormText,  Input, Col, Label } from 'reactstrap';
 import Select  from 'react-select';
 import { callError, axiosConfig, MAIN_TOKEN, API_PATHS } from 'actions/common';
 
 const statuss = [
-    {'value':1, 'label':'Urgent'},
-    {'value':2, 'label':'Daily'},
-    {'value':3, 'label':'Weekly'},
-    {'value':4, 'label':'Monthly'}
+    {'value':1, 'label':'Low'},
+    {'value':2, 'label':'Normal'},
+    {'value':3, 'label':'High'},
+    {'value':4, 'label':'Emergency'}
   ];
 
 
@@ -21,7 +22,7 @@ const Modals = (props) => {
   const [categoryid, setCategoryid] = useState({});
   const [nameid, setNameid] = useState({0:'none'});
   const [status, setStatus] = useState({0:'None'});
-  const [date, setDate] = useState(null);
+  const [date, setDate] = useState(moment(new Date()).format('YYYY-MM-DD hh:mm:ss'));
   const [quantity, setQuantity] = useState(0);
   const [description, setDescription] = useState(null);
   const [location, setLocation] = useState(null);
@@ -59,7 +60,7 @@ const Modals = (props) => {
            setOptions1(opt);
         })
         .catch(err => {
-            callError(err);
+           // callError(err);
         })
   
    },[categoryid.value]);
@@ -89,8 +90,8 @@ const Modals = (props) => {
     setModal(props.st);
     if(parseInt(props.mid) > 0 )
     {
-     setId(parseInt(props.mid));
-     populate(props.maintenancetransactions.maintenancetransaction);  
+      setId(parseInt(props.mid));
+      populate(props.maintenancetransactions.maintenancetransaction);  
     }
     if(props.st1 && parseInt(props.st1) > 0)
     {
@@ -108,6 +109,7 @@ const Modals = (props) => {
       return ar;
     });
     setOptions(newArrs);
+    setLocation(parseInt(props.loc));
     }
     
     
@@ -125,7 +127,6 @@ const Modals = (props) => {
 
         fd.append('description', description);
         fd.append('maintenanceid', nameid.value);
-        fd.append('categoryid', categoryid.value);
         fd.append('userid', props.user.id);
         fd.append('transaction_date', date);
         fd.append('status', status.value);
@@ -196,8 +197,9 @@ const Modals = (props) => {
   return (
     <div>
       <Modal isOpen={modal} toggle={toggle} backdrop='static' keyboard={false}>
-        <ModalHeader toggle={resetdata}><i className='fa fa-bed'></i> Maintenances Request Form</ModalHeader>
+        <ModalHeader toggle={resetdata}><i className='fa fa-wrench'></i> Maintenances Request Form</ModalHeader>
         <ModalBody>
+          <h6><i className='fa fa-hotel'></i> {props.data.categoryname}{" "}{props.data.name}</h6>
         <Form>
         <FormGroup row>
               <Label for="category" sm={3}>Category</Label>
@@ -226,7 +228,7 @@ const Modals = (props) => {
               </Col> 
             </FormGroup>
             <FormGroup row>
-              <Label for="status" sm={3}>Status</Label>
+              <Label for="status" sm={3}>Piority</Label>
               <Col sm={9}>
                 <Select
                   styles = { customStyles }
@@ -243,7 +245,7 @@ const Modals = (props) => {
                 <Label for="date" sm={3}>Date  </Label>
                 <Col sm={9}>
                 <Input 
-                    type="date" 
+                    type="datetime" 
                     name="date" 
                     id="date"
                     defaultValue={date}

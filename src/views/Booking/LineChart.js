@@ -13,10 +13,10 @@ const data = (canvas, vals, data) => {
     gradientFill.addColorStop(0, "rgba(128, 182, 244, 0)");
     gradientFill.addColorStop(1, "rgba(249, 99, 59, 0.40)");
     return {
-        labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+        labels: vals,
         //labels: vals,
         datasets: [{
-            label: "Active Users",
+            label: "Occupancy rate",
             borderColor: "#f96332",
             pointBorderColor: "#FFF",
             pointBackgroundColor: "#f96332",
@@ -27,14 +27,14 @@ const data = (canvas, vals, data) => {
             fill: true,
             backgroundColor: gradientFill,
             borderWidth: 2,
-            data: [232, 243, 256, 234,345, 343, 453, 232,234, 267, 289, 300]
+            data: data
         }]
     }
 };
 const options = {
     maintainAspectRatio: false,
     legend: {
-        display: false
+        display: true
     },
     tooltips: {
         bodySpacing: 4,
@@ -81,7 +81,7 @@ class Chart extends React.Component{
     render(){
         return(
             <Line
-                data={(canvas)=>data(canvas, this.props.labels, this.props.data)} 
+                data={(canvas)=>data(canvas, this.props.label, this.props.data)} 
                 options={options} 
             />
         );

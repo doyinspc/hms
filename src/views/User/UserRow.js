@@ -1,6 +1,6 @@
 import React from "react";
 import { UncontrolledTooltip } from "reactstrap";
-
+import moment from 'moment';
 
 let ars = {
     1:'Supply',
@@ -67,20 +67,25 @@ class UserRow extends React.Component {
             {this.state.id === 2 && parseInt(id) > 0 ? 
             <tr>
                 <td className='text-center'>{num}</td>
-                <td>{name}</td>
-                <td>{description}</td>
-                <td>{categoryname}</td>
+                <td>{`${this.props.data.title} ${this.props.data.surname} ${this.props.data.firstname} ${this.props.data.middlename}`}</td>
+                <td>{this.props.data.gender == 1? 'Male' : 'Female'}</td>
+                <td>{moment(this.props.data.dob).format("Do MMMM YYYY")}</td>
+                <td>{moment(this.props.data.doe).format("Do MMMM YYYY")}</td>
+                <td>{this.props.data.phone1}{' '}{this.props.data.phone2}</td>
+                <td>{this.props.data.email}</td>
+                <td>{this.props.data.categoryname}</td>
                 <td>
-                   <button id={`tooa1${id}`} className="btn mx-1 mb-1 btn-round btn-raised btn-icon btn-outline-primary" ><i className="fa fa-tasks"></i></button>
+                   <button id={`tooa1${id}`} className="btn mx-1 mb-1 btn-sm  btn-round btn-raised btn-icon btn-outline-primary" ><i className="fa fa-tasks"></i></button>
                   
                     <button 
                             id={`tooa2${id}`} 
-                            className= {parseInt(is_active) === 0 ? "btn mx-1 mb-1 btn-round btn-raised btn-icon btn-primary" : "btn mx-1 mb-1 btn-round btn-raised btn-icon btn-outline-danger"} 
+                            className= {parseInt(is_active) === 0 ? "btn btn-sm  mx-1 mb-1 btn-round btn-raised btn-icon btn-primary" : "btn mx-1 mb-1 btn-round btn-raised btn-icon btn-outline-danger"} 
                             onClick={()=>this.props.activate(parseInt(id), parseInt(is_active))}>
                                 <i className= {parseInt(is_active) === 0 ? "fa fa-thumbs-up" : "fa fa-thumbs-down"}></i>
                     </button>
-                    <button id={`tooa3${id}`} className="btn mx-1 mb-1 btn-round btn-raised btn-icon btn-outline-primary" onClick={()=>this.props.edit(parseInt(id))}><i className="fa fa-edit"></i></button>
-                    <button id={`tooa4${id}`} className="btn mx-1 mb-1 btn-round btn-raised btn-icon btn-outline-primary" onClick={()=>this.props.delete(parseInt(id))}><i className="now-ui-icons ui-1_simple-remove"></i></button>
+                    <button id={`tooa5${id}`} className="btn mx-1 mb-1 btn-sm  btn-round btn-raised btn-icon btn-outline-primary" onClick={()=>this.props.access(parseInt(id), this.props.data)}><i className="fa fa-lock"></i></button>
+                    <button id={`tooa3${id}`} className="btn mx-1 mb-1 btn-sm  btn-round btn-raised btn-icon btn-outline-primary" onClick={()=>this.props.edit(parseInt(id))}><i className="fa fa-edit"></i></button>
+                    <button id={`tooa4${id}`} className="btn mx-1 mb-1 btn-sm  btn-round btn-raised btn-icon btn-outline-primary" onClick={()=>this.props.delete(parseInt(id))}><i className="now-ui-icons ui-1_simple-remove"></i></button>
                    
                 </td>
             </tr>:''}
@@ -90,15 +95,16 @@ class UserRow extends React.Component {
                 <td>{name}</td>
                 <td>{description}</td>
                 <td className='align-left'>
-                   <button id={`tooa1${id}`} className="btn mx-1 mb-1 btn-round btn-raised btn-icon btn-outline-primary" ><i className="fa fa-tasks"></i></button>
+                   <button id={`tooa1${id}`} className="btn mx-1 mb-1 btn-sm btn-round btn-raised btn-icon btn-outline-primary" ><i className="fa fa-tasks"></i></button>
                     <button 
                             id={`tooa2${id}`} 
-                            className= {parseInt(is_active) === 0 ? "btn mx-1 mb-1 btn-round btn-raised btn-icon btn-primary" : "btn mx-1 mb-1 btn-round btn-raised btn-icon btn-outline-danger"} 
+                            className= {parseInt(is_active) === 0 ? "btn mx-1 btn-sm  mb-1 btn-round btn-raised btn-icon btn-primary" : "btn mx-1 mb-1 btn-round btn-raised btn-icon btn-outline-danger"} 
                             onClick={()=>this.props.activate(parseInt(id), parseInt(is_active))}>
                                 <i className= {parseInt(is_active) === 0 ? "fa fa-thumbs-up" : "fa fa-thumbs-down"}></i>
                     </button>
-                    <button id={`tooa3${id}`} className="btn mx-1 mb-1 btn-round btn-raised btn-icon btn-outline-primary" onClick={()=>this.props.edit(parseInt(id))}><i className="fa fa-edit"></i></button>
-                    <button id={`tooa4${id}`} className="btn mx-1 mb-1 btn-round btn-raised btn-icon btn-outline-primary" onClick={()=>this.props.delete(parseInt(id))}><i className="now-ui-icons ui-1_simple-remove"></i></button>   
+                    
+                    <button id={`tooa3${id}`} className="btn mx-1 mb-1 btn-sm  btn-round btn-raised btn-icon btn-outline-primary" onClick={()=>this.props.edit(parseInt(id))}><i className="fa fa-edit"></i></button>
+                    <button id={`tooa4${id}`} className="btn mx-1 mb-1 btn-sm  btn-round btn-raised btn-icon btn-outline-primary" onClick={()=>this.props.delete(parseInt(id))}><i className="now-ui-icons ui-1_simple-remove"></i></button>   
                 </td>
             </tr>:''}
             {this.state.id === 4 && parseInt(id) > 0 ? 

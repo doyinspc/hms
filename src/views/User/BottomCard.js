@@ -10,6 +10,7 @@ import FormUserCategory from "views/Form/FormUserCategory";
 import FormUser from "views/Form/FormUser";
 import UserRow from './UserRow';
 import FormUserTransaction from "views/Form/FormUserTransaction";
+import FormUserAccess from "views/Form/FormUserAccess";
 
 class BottomCard extends React.Component {
    constructor(props){
@@ -18,6 +19,7 @@ class BottomCard extends React.Component {
            id:null,
            cat:null,
             grp:null,
+            afid:false,
             tfid:false,
             cfid:false,
             mfid:false,
@@ -362,6 +364,11 @@ class BottomCard extends React.Component {
         this.props.getUsertype(id);
         this.setState({fid:true, mid:id});
     }
+    //EDIT USER
+    accessForm = (id, data) =>{
+        this.props.getUsertype(id);
+        this.setState({afid:true, mid:id, data:data});
+    }
     //DELETE USER
     deleteForm = id =>{
         Swal.fire({
@@ -430,7 +437,7 @@ class BottomCard extends React.Component {
     } 
 
     render() {
-        let { tfid, cfid, fid, mid } = this.state  || '';
+        let { afid, tfid, cfid, fid, mid } = this.state  || '';
         let data = [];
         
         if(this.state.id === 1)
@@ -483,6 +490,7 @@ class BottomCard extends React.Component {
                         catdelete={(rid)=>{this.categoryDeleteForm(rid)}}
                         catactivate={(rid, act)=>{this.categoryActivateForm(rid, act)}}
                         edit={(rid)=>{this.editForm(rid)}}
+                        access={(rid, rdata)=>{this.accessForm(rid, prop)}}
                         delete={(rid)=>{this.deleteForm(rid)}}
                         activate={(rid, act)=>{this.activateForm(rid, act)}}
                         addtransaction={(rid)=>{this.aaddTransactionForm(rid)}}
@@ -512,6 +520,13 @@ class BottomCard extends React.Component {
                 st={tfid}
                 mid={mid}
                 handleClose={()=>this.setState({mid:null, tfid:false})}
+            />:''}
+             {afid === true? 
+            <FormUserAccess
+                st={afid}
+                mid={mid}
+                data={this.state.data}
+                handleClose={()=>this.setState({mid:null, afid:false})}
             />:''}
             {cfid === true? 
             <FormUserCategory
@@ -552,9 +567,12 @@ class BottomCard extends React.Component {
                             <tr>
                                 <th>SN.</th>
                                 <th>NAME</th>
-                                <th>DESCRIPTION</th>
-                                <th>CATEGORY</th>
-                                <th width='260px'>ACTION</th>
+                                <th>GENDER</th>
+                                <th>BIRTH DATE</th>
+                                <th>DATE EMPL.</th>
+                                <th>PHONE</th>
+                                <th>EMAIL</th>
+                                <th width='120px'>ACTION</th>
                             </tr>
                         </thead> :''}
                         {this.state.id === 3 ? <thead>

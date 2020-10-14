@@ -14,7 +14,7 @@ import {
 } from "./../types/maintenancetransaction";
 import { MAIN_TOKEN, API_PATHS, axiosConfig1, axiosConfig } from './common';
 
-let TABLE_NAME = 'maintenancetransactions';
+let TABLE_NAME = 'maintenance_transactions';
 const path = API_PATHS;
 
 let params = {

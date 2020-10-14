@@ -538,12 +538,11 @@ class BottomCard extends React.Component {
                                 {" "}<span class='h4'>{this.state.subtopic}</span>
             
                   <div className='card'>
-                    <table className='table table-bordered' id='table' width='100%'>
+                    <table className='table table-bordered' id='myTable' width='100%'>
                         {this.state.id === 1 ? <thead>
                             <tr>
                                 <th width='60px'>SN.</th>
                                 <th>NAME</th>
-                                <th>DESCRIPTION</th>
                                 <th width='260px'>ACTION</th>
                             </tr>
                         </thead> :''}
@@ -551,7 +550,6 @@ class BottomCard extends React.Component {
                             <tr>
                                 <th>SN.</th>
                                 <th>NAME</th>
-                                <th>DESCRIPTION</th>
                                 <th>CATEGORY</th>
                                 <th width='260px'>ACTION</th>
                             </tr>

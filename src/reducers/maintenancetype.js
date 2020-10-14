@@ -1,5 +1,6 @@
 import {
     MAINTENANCETYPE_GET_MULTIPLE,
+    MAINTENANCETYPE_GET_MULTIPLE_ANALYSIS,
     MAINTENANCETYPE_GET_ONE,
     MAINTENANCETYPE_REGISTER_SUCCESS,
     MAINTENANCETYPE_REGISTER_FAIL,
@@ -14,11 +15,13 @@ import {
     MAINTENANCETYPE_EDIT
 } from "../types/maintenancetype";
 
-let maintenancetypeStore = JSON.parse(localStorage.getItem('maintenancetype'))
+let maintenancetypeStore = JSON.parse(localStorage.getItem('maintenancetype'));
+let maintenanceanalysisStore = JSON.parse(localStorage.getItem('maintenanceanalysis'))
 
 const initialState = {
     isLoading: false,
     maintenancetypes: maintenancetypeStore ? maintenancetypeStore : [],
+    maintenanceanalysis: maintenanceanalysisStore ? maintenanceanalysisStore : [],
     maintenancetype:{},
     msg: null,
     isEdit:-1,
@@ -55,6 +58,12 @@ export default function(state = initialState, action){
                 ...state,
                 maintenancetypes : action.payload,
                 msg:'DONE!!!'
+            };
+        case MAINTENANCETYPE_GET_MULTIPLE_ANALYSIS:
+            localStorage.setItem('maintenanceanalysis', JSON.stringify(action.payload));
+            return {
+                ...state,
+                maintenanceanalysis : action.payload
             };
         case MAINTENANCETYPE_GET_ONE:
             let all = [...state.maintenancetypes];

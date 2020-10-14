@@ -10,6 +10,7 @@ import ClientBottomCard from "./Client/BottomCard";
 import BookingTopCard from "./Booking/TopCard";
 import BookingBottomCard from "./Booking/BottomCard";
 import RoomBottomCard from "./Room/BottomCard";
+import RoomBottomCard1 from "./Room/BottomCard1";
 import MaintenanceBottomCard from "./Maintenance/BottomCard";
 import InventoryBottomCard from "./Inventory/BottomCard";
 import UserBottomCard from "./User/BottomCard";
@@ -253,7 +254,7 @@ class Home extends React.Component {
                           numbooking:rowid,
                           bookingroomid:roomid,
                           bookingroomdata:roomdata,
-                          bookikgroomdate:roomdate
+                          bookingroomdate:roomdate
                       })}
                       setDate={(start, end)=>this.setState({choicestarted:start, choiceended:end})}
                       />
@@ -261,20 +262,63 @@ class Home extends React.Component {
                 </> :''}
               {topcard === 1 ?
                 <>
-                  <BookingTopCard  id={topcard}/>
+                  <HomeTopCard  
+                      id={topcard}
+                      title={'Booking'}
+                      icon='fa fa-dashboard'
+                      handleBooking={(roomid, roomdata, roomdate, rowid)=>this.setState({
+                          addbooking:true,
+                          numbooking:rowid,
+                          bookingroomid:roomid,
+                          bookingroomdata:roomdata,
+                          bookingroomdate:roomdate
+                      })}
+                      setDate={(start, end)=>this.setState({choicestarted:start, choiceended:end})}
+                      />
                   <BookingBottomCard id={bottomcard}/>
                 </> :''}
               {topcard === 2 ?
                 <>
-                  <ClientTopCard  id={topcard}/>
-                  <ClientBottomCard id={bottomcard}/>
+                  <HomeTopCard  
+                      id={topcard}
+                      title={'Guest'}
+                      icon='fa fa-users'
+                      handleBooking={(roomid, roomdata, roomdate, rowid)=>this.setState({
+                          addbooking:true,
+                          numbooking:rowid,
+                          bookingroomid:roomid,
+                          bookingroomdata:roomdata,
+                          bookingroomdate:roomdate
+                      })}
+                      setDate={(start, end)=>this.setState({choicestarted:start, choiceended:end})}
+                       />
+                  <RoomBottomCard1 
+                      id={bottomcard}
+                      categoryid={categoryid}
+                      categoryname={categoryname}
+                      roomid={roomid}
+                      roomname={roomname}
+                      choicestarted={choicestarted}
+                      choiceended={choiceended}
+                      defaultstarted={defaultstarted}
+                      defaultended={defaultended}
+                      roomAdd={(rid)=>this.setState({addroom:true, numroom:rid})}
+                      roomTransactionAdd={(rid)=>this.setState({addroomtransaction:true, numroomtransaction:rid})}
+                      />
                 </> :''}
               {topcard === 3 ?
                 <>
-                  <HomeTopCard  
+                    <HomeTopCard  
                       id={topcard}
                       title={'Inventory '}
                       icon={'fa fa-thumb-tack'}
+                      handleBooking={(roomid, roomdata, roomdate, rowid)=>this.setState({
+                          addbooking:true,
+                          numbooking:rowid,
+                          bookingroomid:roomid,
+                          bookingroomdata:roomdata,
+                          bookingroomdate:roomdate
+                      })}
                       setDate={(start, end)=>this.setState({choicestarted:start, choiceended:end})}
                       />
                   <InventoryBottomCard 
@@ -296,8 +340,15 @@ class Home extends React.Component {
                   <HomeTopCard  
                       id={topcard}
                       title={'Maintenance '}
-                      icon={'fa fa-wrench'}
-                      setDate={(start, end)=>this.setState({choicestarted:start, choiceended:end})}
+                      icon={'fa fa-wrench'} 
+                      handleBooking={(roomid, roomdata, roomdate, rowid)=>this.setState({
+                        addbooking:true,
+                        numbooking:rowid,
+                        bookingroomid:roomid,
+                        bookingroomdata:roomdata,
+                        bookingroomdate:roomdate
+                    })}
+                    setDate={(start, end)=>this.setState({choicestarted:start, choiceended:end})}
                       />
                   <MaintenanceBottomCard 
                       id={bottomcard}
@@ -319,7 +370,15 @@ class Home extends React.Component {
                       id={topcard}
                       title={'Room '}
                       icon={'fa fa-hotel'}
-                      setDate={(start, end)=>this.setState({choicestarted:start, choiceended:end})}
+                      handleBooking={(roomid, roomdata, roomdate, rowid)=>this.setState({
+                        addbooking:true,
+                        numbooking:rowid,
+                        bookingroomid:roomid,
+                        bookingroomdata:roomdata,
+                        bookingroomdate:roomdate
+                    })}
+                    setDate={(start, end)=>this.setState({choicestarted:start, choiceended:end})}
+                     
                       />
                   <RoomBottomCard 
                       id={bottomcard}
@@ -341,6 +400,13 @@ class Home extends React.Component {
                       id={topcard}
                       title={'Staff '}
                       icon={'fa fa-user'}
+                      handleBooking={(roomid, roomdata, roomdate, rowid)=>this.setState({
+                        addbooking:true,
+                        numbooking:rowid,
+                        bookingroomid:roomid,
+                        bookingroomdata:roomdata,
+                        bookingroomdate:roomdate
+                      })}
                       setDate={(start, end)=>this.setState({choicestarted:start, choiceended:end})}
                       />
                   <UserBottomCard 

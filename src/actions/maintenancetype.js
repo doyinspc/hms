@@ -2,6 +2,7 @@ import axios from 'axios';
 import {
     MAINTENANCETYPE_GET_ONE,
     MAINTENANCETYPE_GET_MULTIPLE,
+    MAINTENANCETYPE_GET_MULTIPLE_ANALYSIS,
     MAINTENANCETYPE_REGISTER_SUCCESS,
     MAINTENANCETYPE_REGISTER_FAIL,
     MAINTENANCETYPE_LOADING,
@@ -32,6 +33,24 @@ export const getMaintenancetypes = params=> (dispatch, getState) => {
             .then(res => {                                                                                                                                                                                                                                        
                 dispatch({
                     type: MAINTENANCETYPE_GET_MULTIPLE,
+                    payload: res.data
+                })
+            })
+            .catch(err => {
+                dispatch({
+                    type : MAINTENANCETYPE_LOADING_ERROR,
+                    payload:err
+                })
+            })
+};
+//GET ALL MAINTENANCETYPE 
+export const getMaintenanceanalysis= params => (dispatch, getState) => {
+    //SET PAGE LOADING
+    params.token = MAIN_TOKEN;
+        axios.get(path, {params}, axiosConfig)
+            .then(res => {                                                                                                                                                                                                                                        
+                dispatch({
+                    type: MAINTENANCETYPE_GET_MULTIPLE_ANALYSIS,
                     payload: res.data
                 })
             })

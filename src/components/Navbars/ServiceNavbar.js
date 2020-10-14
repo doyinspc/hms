@@ -65,7 +65,7 @@ function ServiceNavbar(props){
                   </DropdownItem>
                   <DropdownItem
                     href="#pablo"
-                    onClick={e =>{props.menuAction(2, 2)}}
+                    onClick={e =>{props.menuAction(2, 3)}}
                   >
                     Report
                   </DropdownItem>
@@ -82,7 +82,7 @@ function ServiceNavbar(props){
                   nav
                   
                 >
-                <i className='fa fa-thumb-tack'></i> Inventory Manager
+                <i className='fa fa-thumb-tack'></i> Inventory 
                 </DropdownToggle>
                 <DropdownMenu aria-labelledby="inventoryid">
                   <DropdownItem
@@ -140,7 +140,7 @@ function ServiceNavbar(props){
                   nav
                   
                 >
-                  <i className='fa fa-wrench'></i> Maintenance Manager
+                  <i className='fa fa-wrench'></i> Maintenance 
                 </DropdownToggle>
                 <DropdownMenu aria-labelledby="maintenanceid">
                   <DropdownItem
@@ -200,7 +200,7 @@ function ServiceNavbar(props){
                   nav
                   
                 >
-                  <i className='fa fa-hotel'></i> Rooms Manager
+                  <i className='fa fa-hotel'></i> Rooms 
                 </DropdownToggle>
                 <DropdownMenu aria-labelledby="roomsid" >
                   <DropdownItem
@@ -260,7 +260,7 @@ function ServiceNavbar(props){
                   nav
                   
                 >
-                <i className='fa fa-user'></i> Staff Manager
+                <i className='fa fa-user'></i> Staff 
                 </DropdownToggle>
                 <DropdownMenu aria-labelledby="usersid">
                   <DropdownItem

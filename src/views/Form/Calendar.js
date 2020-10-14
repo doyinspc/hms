@@ -1,21 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { registerBooking, updateBooking } from './../../actions/booking';
+import { getRoomtransactions, getRoomtransaction, registerRoomtransaction, updateRoomtransaction } from './../../actions/roomtransaction';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, FormText, Label, Input, Col, Container, Row } from 'reactstrap';
 import axios from 'axios';
 import moment from 'moment';
-import Select  from 'react-select';
-import { MAIN_TOKEN, API_PATHS, axiosConfig, callError } from './../../actions/common';
 import "assets/css/mine.css";
-import { createNull } from 'typescript';
 
-const path = API_PATHS;
-const ses = [
-  {'value':'First Term', 'label':'First Term'},
-  {'value':'Second Term', 'label':'Second Term'},
-  {'value':'Third Term', 'label':'Third Term'},
-  {'value':'Admission', 'label':'Admission'}
-];
 const Modals = (props) => {
   
   const [modal, setModal] = useState(false);
@@ -23,10 +13,37 @@ const Modals = (props) => {
   const [title, setTitle] = useState(null);
   const [activemonth, setActivemonth] = useState(0);
   const [activeyear, setActiveyear] = useState(0);
-  
+  const [booking, setBooking] = useState({});
+  const [datas, setDatas] = useState({});
 
   const toggle = () => setModal(!modal);
-  
+  useEffect(()=>{
+    let arrr = calendarArray(activeyear, activemonth);
+    setDatas(arrr);   
+  },[activemonth, activeyear])
+  useEffect(()=>{
+    let rt = props.roomtransactions;
+        let roomarr = {};
+        rt.forEach(element => {
+                //inventory, days
+                if(element !== null && element !== undefined && Array.isArray(Object.keys(element)) && Object.keys(element).length > 0 ){
+                let ar = {};
+                    ar['name'] = element.fullname;
+                    ar['rowid'] = element.id;
+                    ar['islodged'] = element.is_lodged;
+                if(element.roomid in roomarr)
+                {
+                    roomarr[element.roomid][moment(new Date(element.transaction_date)).format("YYYY-MM-DD")] = ar;
+                }else
+                {
+                    roomarr[element.roomid] = {};
+                    roomarr[element.roomid][moment(new Date(element.transaction_date)).format("YYYY-MM-DD")] = ar;
+                }
+            }
+                
+            });
+        setBooking(roomarr); 
+  },[props.roomtransactions])
   useEffect(() => {
     setModal(true);
     if(parseInt(props.mid) > 0)
@@ -45,7 +62,6 @@ const Modals = (props) => {
 const resetdata = () =>{
     props.handleClose();
 }
-
 const onNext=()=>{
     let cmonth = activemonth;
     let cyear = activeyear;
@@ -63,7 +79,6 @@ const onNext=()=>{
     setActivemonth(nmonth);
     setActiveyear(nyear);
 }
-
 const onPrev=()=>{
     let cmonth = activemonth;
     let cyear = activeyear;
@@ -82,8 +97,8 @@ const onPrev=()=>{
     setActiveyear(nyear);
 }
 
-const calendarArray = (yr, mt) =>{
-    let dt = new Date();
+const calendarArray = (yr, mt) =>{ 
+    
     let numOfDays = new Date(yr, mt, 0).getDate() ;
     let firstday = new Date(yr, mt, 1).getDay();
     let lastday = new Date(yr, mt + 1, 0).getDay();
@@ -91,7 +106,19 @@ const calendarArray = (yr, mt) =>{
     let noOfWeeks = Math.ceil(totaldays / 7);
     let offset = numOfDays - totaldays + 1;
     let days = {};
-    for(let i = 0; i < noOfWeeks; ++i)
+
+    let dt0 = {
+        'starts': moment(new Date(yr, mt, 1)).format("YYYY-MM-DD"),
+        'ends': moment(new Date(yr, mt + 1, 0)).format("YYYY-MM-DD"),
+         'roomid':id
+    }
+    let params = {
+        data:JSON.stringify(dt0),
+        cat:'roomtransaction',
+        table:'room_transactions'
+    }
+    props.getRoomtransactions(params);
+      for(let i = 0; i < noOfWeeks; ++i)
     {
         let b = {};
             for(let j = 0 ; j < 7; ++j)
@@ -102,7 +129,7 @@ const calendarArray = (yr, mt) =>{
                     'year':yr,
                     'month':mt,
                     'ds': offset++,
-                    'dt':new Date(yr, mt, offset).toDateString(),
+                    'dt':new Date(yr, mt, offset).toJSON(),
                     'dx':new Date(yr, mt, offset).getDate()
                 }
                 b[j] = ar;
@@ -112,26 +139,45 @@ const calendarArray = (yr, mt) =>{
     return days;
 }
 
-let arrr = calendarArray(activeyear, activemonth);
+const loadForm= (roomid, roomdata, roomdate) =>{
+    props.handleBooking(roomid, roomdata, roomdate, id)
+}
+
 
 let d = [0, 1, 2, 3, 4].map((prop, ind)=>{
      return <tr>
-            { 
+            { prop in datas ?
                 [0, 1, 2, 3, 4, 5, 6].map((prop1, ind1)=>{
-                    return <td 
-                            className="tablerow"
-                            onClick={()=>props.handleBooking(props.mid, props.data, arrr[prop][prop1]['dt'], null)}>
+                    return prop1 in datas[prop] ? <td 
+                            key={ind1.toString() + ind.toString()}
+                            className={ id in booking && moment(new Date(datas[prop][prop1]['dt'])).format("YYYY-MM-DD") in booking[id] && booking[id][moment(new Date(datas[prop][prop1]['dt'])).format("YYYY-MM-DD")]['islodged'] == 1 ? "tablerow1" : "tablerow2"}
+                            onClick={()=>loadForm(props.mid, props.data, datas[prop][prop1]['dt'])}>
                         <div>
-                          <b>{arrr[prop][prop1]['dx']}</b>
+                          <b>{datas[prop][prop1]['dx']}</b>
                         </div>
-                        <div className='m-0 p-0' style={{width:'100%', fontSize:'0.8em', minHeight:'80%'}}>
-                        </div>
-                    </td>
+                        <div 
+                            className='m-0 p-0' 
+                            style={{
+                                width:'100%', 
+                                fontSize:'0.8em', 
+                                minHeight:'80%',
+                                lineHeight:'110%',
+                                textAlign:'center'
+                                }}>
+                            <b className={id in booking && moment(new Date(datas[prop][prop1]['dt'])).format("YYYY-MM-DD") in booking[id] && booking[id][moment(new Date(datas[prop][prop1]['dt'])).format("YYYY-MM-DD")]['islodged'] == 0 ? 'text-info': 'text-light'}>
+                            {id in booking && moment(new Date(datas[prop][prop1]['dt'])).format("YYYY-MM-DD") in booking[id] ? booking[id][moment(new Date(datas[prop][prop1]['dt'])).format("YYYY-MM-DD")]['name'] : ''}
+                            </b></div>
+                    </td>: ''
                 })
-            }
+            :''}
      </tr>
 
 });
+
+let get_days_num = id in booking ?  Object.keys(booking[id]).length : 0;
+let month_days = new Date(activeyear, activemonth, 0).getDate();
+let occ = get_days_num >  0 ? (get_days_num/month_days) * 100 : 0;
+
   return (
     <div>
       <Modal isOpen={modal} size='lg'  toggle={toggle} backdrop='static' keyboard={false}>
@@ -151,16 +197,15 @@ let d = [0, 1, 2, 3, 4].map((prop, ind)=>{
                     </Col>
                     <Col xs='10' class="pull-right" style={{margin:'0px', top:'0px'}}>
                     <Row xs='12'>{title}</Row>
-                    <Row xs='12'><small>{moment(new Date(activeyear, activemonth, 1)).format('MMMM YYYY')}</small></Row>
+  <Row xs='12'><small>{moment(new Date(activeyear, activemonth, 1)).format('MMMM YYYY')} ({Number(occ).toFixed(2)}%)</small></Row>
                     </Col>
-                    
-
                 </Row>
                 </Container>
             </ModalHeader>
         <ModalBody>
-            <Container>
-            <table width='100%' border='2px'>
+            <Container xs='12'>
+                <Row xs='12' className='table-responsive'>
+           <table width='100%' border='2px' style={{tableLayout:'fixed', width:'100%'}}>
                 <thead>
                     <tr>
                         <td className='calenderHeader'>Mon</td>
@@ -177,6 +222,7 @@ let d = [0, 1, 2, 3, 4].map((prop, ind)=>{
                 </tbody>
 
             </table>
+            </Row> 
             </Container>
         </ModalBody>
         <ModalFooter>
@@ -189,10 +235,10 @@ let d = [0, 1, 2, 3, 4].map((prop, ind)=>{
   );
 }
 const mapStateToProps = (state, ownProps) => ({ 
-    booking: state.bookingReducer.booking,
+    roomtransactions: state.roomtransactionReducer.roomtransactions,
     user:state.userReducer.user,
     roomcategorys:state.roomcategoryReducer.roomcategorys,
     rooms:state.roomReducer.rooms,
   })
   
-export default connect(mapStateToProps, { registerBooking, updateBooking})(Modals)
+export default connect(mapStateToProps, { getRoomtransactions, getRoomtransaction, registerRoomtransaction, updateRoomtransaction})(Modals)

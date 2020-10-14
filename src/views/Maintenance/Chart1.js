@@ -1,40 +1,32 @@
 import React from 'react';
-import { Line, Bar } from 'react-chartjs-2';
+import { Pie } from 'react-chartjs-2';
 const chartColor = '#FFFFFF';
 
 const data = (canvas, vals, data) => {
-    var ctx = canvas.getContext("2d");
 
-    var gradientStroke = ctx.createLinearGradient(500, 0, 100, 0);
-    gradientStroke.addColorStop(0, '#80b6f4');
-    gradientStroke.addColorStop(1, chartColor);
-
-    var gradientFill = ctx.createLinearGradient(0, 170, 0, 50);
-    gradientFill.addColorStop(0, "rgba(128, 182, 244, 0)");
-    gradientFill.addColorStop(1, "rgba(249, 99, 59, 0.40)");
     return {
         labels: vals,
         datasets: [{
-            label: "Active Users",
-            borderColor: "#f96332",
-            pointBorderColor: "#FFF",
-            pointBackgroundColor: "#f96332",
-            pointBorderWidth: 2,
-            pointHoverRadius: 4,
-            pointHoverBorderWidth: 1,
-            pointRadius: 4,
-            fill: true,
-            backgroundColor: gradientFill,
-            borderWidth: 2,
-            data: data
+            label: "maintenance",
+            
+            backgroundColor: [
+                '#FF6384',
+                '#36A2EB',
+                '#FFCE56',
+                "rgba(253,180,92,0.6)",
+                "rgba(70,191,189,0.6)"
+                ],
+                hoverBackgroundColor: 'gray',
+                data: data
         }]
     }
 };
 const options = {
     maintainAspectRatio: false,
     legend: {
-        display: false
+        display: true
     },
+    
     tooltips: {
         bodySpacing: 4,
         mode:"nearest",
@@ -69,7 +61,9 @@ const options = {
                 display: false,
                 drawBorder: false
             }
-        }]
+        }],
+        
+        
     },
     layout:{
         padding:{left:0,right:0,top:15,bottom:15}
@@ -77,11 +71,40 @@ const options = {
 };
 
 class Chart extends React.Component{
+    constructor(props){
+        super(props);
+        this.state ={
+            label:[0],
+            datas:[0]
+        }
+    }
+
+    componentDidMount(){
+        this.setState({
+            label:this.props.label,
+            datas:this.props.data
+        })
+    }
+
+    componentDidUpdate(prevProps){
+        if(this.props.label !== prevProps.label)
+        {
+            this.setState({
+                label:this.props.label,
+                datas:this.props.data
+            })
+
+        }
+
+    }
+
     render(){
+        let { label, datas } = this.state;
         return(
-            <Bar
-                data={(canvas)=>data(canvas, this.props.label, this.props.data)} 
-                options={options} 
+            <Pie
+                data={(canvas)=>data(canvas, label, datas)} 
+                height='300px'
+                options={{}} 
             />
         );
     }

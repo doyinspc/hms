@@ -6,7 +6,7 @@ import PerfectScrollbar from "perfect-scrollbar";
 import { Route, Switch, Redirect } from "react-router-dom";
 
 // core components
-import DemoNavbar from "components/Navbars/DemoNavbar.jsx";
+import DemoNavbar from "components/Navbars/ExamplesNavbar.js";
 import Footer from "components/Footer/Footer.jsx";
 import Sidebar from "components/Sidebar/Sidebar.jsx";
 import FixedPlugin from "components/FixedPlugin/FixedPlugin.jsx";

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Line, Bar } from 'react-chartjs-2';
+import { Pie, Doughnut } from 'react-chartjs-2';
 const chartColor = '#FFFFFF';
 
 const data = (canvas, vals, data) => {
@@ -79,7 +79,7 @@ const options = {
 class Chart extends React.Component{
     render(){
         return(
-            <Bar
+            <Doughnut
                 data={(canvas)=>data(canvas, this.props.label, this.props.data)} 
                 options={options} 
             />

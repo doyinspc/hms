@@ -1,5 +1,5 @@
 
-
+import Home from "views/Home.js";
 
 var dashRoutes = [
   {
@@ -10,6 +10,14 @@ var dashRoutes = [
     layout: "/admin"
   },
   
+  {
+    path: "/home",
+    name: "Home",
+    icon: "design_app",
+    component: Home ,
+    layout: "/account",
+    num: 1
+  },
   
 ];
 export default dashRoutes;

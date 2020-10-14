@@ -48,7 +48,6 @@ class RoomRow extends React.Component {
             <tr>
                 <td className='text-center'>{num}</td>
                 <td>{name}</td>
-                <td>{description}</td>
                 <td className='text-left'>
                 <button id={`too0${id}`} className="btn btn-sm my-0 py-0 mx-1 mb-1 btn-round btn-raised btn-icon btn-outline-primary" onClick={()=>this.props.catreport(parseInt(id))}><i className="fa fa-file"></i></button>
                     <button id={`too1${id}`} className="btn btn-sm my-0 py-0 mx-1 mb-1 btn-round btn-raised btn-icon btn-outline-primary" onClick={()=>this.props.catexpand(parseInt(id))}><span className='badge badge-primary'>{qty}</span></button>
@@ -68,7 +67,6 @@ class RoomRow extends React.Component {
             <tr>
                 <td className='text-center'>{num}</td>
                 <td>{name}</td>
-                <td>{description}</td>
                 <td>{categoryname}</td>
                 <td>
                    <button id={`tooa1${id}`} className="btn mx-1 mb-1 btn-round btn-raised btn-icon btn-outline-primary" ><i className="fa fa-tasks"></i></button>

@@ -57,7 +57,7 @@ const Modals = (props) => {
     if(parseInt(props.mid) > 0  )
     {
      setId(parseInt(props.mid));
-     populate(props.booking);
+     populate(props.roomtransaction);
     }
     let se = props.roomcategory && Array.isArray(props.roomcategory) ? props.roomcategory  : [] ;
     let newArrs = [];
@@ -67,12 +67,25 @@ const Modals = (props) => {
       ar['lable'] = element.name;
       newArrs.push(ar);
     });
+
+    //SET ROOM
+    if(props.roomid && parseInt(props.roomid) > 0)
+    {
+      let er = {};
+      er.value = props.roomid;
+      er.label = props.roomdata.name;
+      setRoomid(er);
+    }
+
+    if(props.roomdate && props.roomdate !== "" && props.roomdate != null)
+    {
+      setStartbook(moment(props.roomdate).format("YYYY-MM-DD hh:mm:ss"));
+    }
     setCate(newArrs);
 },[props.mid]);
-console.log(props);
 
   useEffect(() => {
-    let d = props.rooms && Array.isArray(props.rooms) ? props.rooms : [];
+    let d = props.room_types && Array.isArray(props.room_types) ? props.room_types : [];
     let r = d.filter(r=>r.categoryid === cateid)
     let newArr = [];
     r.forEach(element => {
@@ -88,12 +101,11 @@ console.log(props);
         e.preventDefault();
         let duration = Math.abs(new Date(startbook) - new Date());
         let fd = new FormData();
-        fd.append('surname', surname);
         fd.append('fullname', fullname);
         fd.append('roomid', roomid.value);
         fd.append('userid', props.user.id);
         fd.append('guestno', guestno);
-        fd.append('startbook', startbook);
+        fd.append('transaction_date', startbook);
         fd.append('endbook', endbook);
         fd.append('description', description);
         fd.append('is_paid', ispaid);
@@ -102,7 +114,9 @@ console.log(props);
         fd.append('idtype', idtype);
         fd.append('idnumber', idnumber);
         fd.append('duration', duration);
+        fd.append('checker', startbook+":::"+roomid.value);
         fd.append('table', 'room_transactions');
+
         if(id && id > 0)
         {
           fd.append('id', id);
@@ -168,6 +182,7 @@ console.log(props);
       <Modal isOpen={modal} toggle={toggle} backdrop='static' keyboard={false}>
         <ModalHeader toggle={resetdata}>{parseInt(props.roomid) > 0 ? props.roomdata.categoryname +" "+ props.roomdata.name: "Booking"}</ModalHeader>
         <ModalBody>
+          {props.rommdate === null ? '' : <h6>{new Date(props.roomdate).toDateString()}</h6>}{startbook}
         <Form>
         {parseInt(props.roomid) > 0 ? "" : 
               <><FormGroup row>
@@ -245,7 +260,7 @@ console.log(props);
                     onChange={e=>setEndbook(e.target.value)} 
                      />
                 </Col>
-            </FormGroup></>:<h6>{new Date(props.roomdate).toDateString()}</h6>}
+            </FormGroup></>:''}
             <FormGroup row>
                 <Label for="phone" sm={3}>Phone No.</Label>
                 <Col sm={9}>

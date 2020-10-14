@@ -26,7 +26,7 @@ ReactDOM.render(
             <Switch>
               <Route path="/admin" render={props => <AdminLayout {...props} />} />
               <Route path="/account" render={props => <AccountLayout {...props} />} />
-              <Route path="/home" render={props => <HomeLayout {...props} />} />
+              <Route path="/account/home" render={props => <HomeLayout {...props} />} />
               <Route path="/" render={props => <Login {...props} />} />
               <Redirect to="/" />
             </Switch>

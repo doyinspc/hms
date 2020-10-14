@@ -2,6 +2,8 @@ import axios from 'axios';
 import {
     ROOMTYPE_GET_ONE,
     ROOMTYPE_GET_MULTIPLE,
+    ROOMTYPE_GET_MULTIPLE_DATA,
+    ROOMTYPE_GET_MULTIPLE_ANALYSIS,
     ROOMTYPE_REGISTER_SUCCESS,
     ROOMTYPE_REGISTER_FAIL,
     ROOMTYPE_LOADING,
@@ -32,6 +34,42 @@ export const getRoomtypes = params=> (dispatch, getState) => {
             .then(res => {                                                                                                                                                                                                                                        
                 dispatch({
                     type: ROOMTYPE_GET_MULTIPLE,
+                    payload: res.data
+                })
+            })
+            .catch(err => {
+                dispatch({
+                    type : ROOMTYPE_LOADING_ERROR,
+                    payload:err
+                })
+            })
+};
+//GET ALL ROOMTYPE 
+export const getRoomdata = params => (dispatch, getState) => {
+    //SET PAGE LOADING
+    params.token = MAIN_TOKEN;
+        axios.get(path, {params}, axiosConfig)
+            .then(res => {                                                                                                                                                                                                                                        
+                dispatch({
+                    type: ROOMTYPE_GET_MULTIPLE_DATA,
+                    payload: res.data
+                })
+            })
+            .catch(err => {
+                dispatch({
+                    type : ROOMTYPE_LOADING_ERROR,
+                    payload:err
+                })
+            })
+};
+//GET ALL ROOMTYPE 
+export const getRoomanalysis= params => (dispatch, getState) => {
+    //SET PAGE LOADING
+    params.token = MAIN_TOKEN;
+        axios.get(path, {params}, axiosConfig)
+            .then(res => {                                                                                                                                                                                                                                        
+                dispatch({
+                    type: ROOMTYPE_GET_MULTIPLE_ANALYSIS,
                     payload: res.data
                 })
             })

@@ -1,5 +1,7 @@
 import {
     ROOMTYPE_GET_MULTIPLE,
+    ROOMTYPE_GET_MULTIPLE_DATA,
+    ROOMTYPE_GET_MULTIPLE_ANALYSIS,
     ROOMTYPE_GET_ONE,
     ROOMTYPE_REGISTER_SUCCESS,
     ROOMTYPE_REGISTER_FAIL,
@@ -15,10 +17,14 @@ import {
 } from "../types/roomtype";
 
 let roomtypeStore = JSON.parse(localStorage.getItem('roomtype'))
+let roomdataStore = JSON.parse(localStorage.getItem('roomdata'))
+let roomanalysisStore = JSON.parse(localStorage.getItem('roomanalysis'))
 
 const initialState = {
     isLoading: false,
     roomtypes: roomtypeStore ? roomtypeStore : [],
+    roomdata: roomdataStore ? roomdataStore : [],
+    roomanalysis: roomanalysisStore ? roomanalysisStore : [],
     roomtype:{},
     msg: null,
     isEdit:-1,
@@ -55,6 +61,18 @@ export default function(state = initialState, action){
                 ...state,
                 roomtypes : action.payload,
                 msg:'DONE!!!'
+            };
+        case ROOMTYPE_GET_MULTIPLE_DATA:
+            localStorage.setItem('roomdata', JSON.stringify(action.payload));
+            return {
+                ...state,
+                roomdata : action.payload
+            };
+        case ROOMTYPE_GET_MULTIPLE_ANALYSIS:
+            localStorage.setItem('roomanalysis', JSON.stringify(action.payload));
+            return {
+                ...state,
+                roomanalysis : action.payload
             };
         case ROOMTYPE_GET_ONE:
             let all = [...state.roomtypes];

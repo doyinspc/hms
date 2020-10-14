@@ -18,7 +18,7 @@ import {
 
 function ExamplesNavbar() {
   
-  const [navbarColor, setNavbarColor] = React.useState("navbar-transparent");
+  const [navbarColor, setNavbarColor] = React.useState("navbar-info");
   const [collapseOpen, setCollapseOpen] = React.useState(false);
   React.useEffect(() => {
     const updateNavbarColor = () => {

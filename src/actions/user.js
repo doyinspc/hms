@@ -1,5 +1,9 @@
 import axios from 'axios';
 import {
+    USER_LOGIN,
+    USER_LOGIN_ERROR,
+    USER_LOGOUT_SUCCESS,
+    USER_LOGOUT_FAIL,
     USER_GET_ONE,
     USER_GET_MULTIPLE,
     USER_REGISTER_SUCCESS,
@@ -11,10 +15,10 @@ import {
     USER_DELETE_SUCCESS,
     USER_DELETE_FAIL,
     USER_EDIT,
-} from "./../types/user";
-import { MAIN_TOKEN, API_PATHS, axiosConfig1, axiosConfig } from './common';
+} from "../types/user";
+import { MAIN_TOKEN, API_PATHS, axiosConfig, axiosConfig1 } from './common';
 
-let TABLE_NAME = 'users';
+let TABLE_NAME = 'user_types';
 const path = API_PATHS;
 
 let params = {
@@ -24,10 +28,10 @@ let params = {
     token:MAIN_TOKEN
   }
 //GET ALL USER 
-export const getUsers = dat => (dispatch, getState) => {
+export const getUsers = data => (dispatch, getState) => {
     //SET PAGE LOADING
-    params.data = dat;
-    params.cat = 'select';
+    params.data = data;
+    params.cat = 'all';
     dispatch({type : USER_LOADING});
         axios.get(path, {params}, axiosConfig)
             .then(res => {                                                                                                                                                                                                                                        
@@ -43,6 +47,32 @@ export const getUsers = dat => (dispatch, getState) => {
                 })
             })
 };
+export const userLogin = data => (dispatch, getState) => {
+
+    dispatch({type : USER_LOADING});
+        axios.post(path, data, axiosConfig1)
+            .then(res => {                                                                                                                                                                                                                                      
+                dispatch({
+                    type: USER_LOGIN,
+                    payload: res.data.data,
+                    token: res.data.token
+                })
+            })
+            .catch(err => {
+                
+                dispatch({
+                    type : USER_LOGIN_ERROR,
+                    payload:err
+                })
+            })
+};
+export const getUserLogout = () => (dispatch, getState) => {
+    dispatch({
+        type: USER_LOGOUT_SUCCESS
+    })
+       
+};
+
 //GET SINGLE USER 
 export const getUser = id => (dispatch, getState) => {
     //SET PAGE LOADING
@@ -53,15 +83,13 @@ export const getUser = id => (dispatch, getState) => {
     });  
 };
 //USER DELETE
-export const deleteUser = dat => (dispatch, getState) =>{
-    
-    params.data = dat;
-    params.cat = 'deleter';
-    axios.get(path, {params}, axiosConfig)
+export const deleteUser = data => (dispatch, getState) =>{
+    dispatch({type : USER_LOADING});
+    axios.get(path, JSON.stringify({data}), {params})
         .then(res => {
             dispatch({
                 type: USER_DELETE_SUCCESS,
-                payload: dat.id
+                payload: res.data
             })
         })
         .catch(err => {
@@ -72,14 +100,15 @@ export const deleteUser = dat => (dispatch, getState) =>{
         })
         
 }
+
 //USER REGISTER
 export const registerUser = data => dispatch => {
-   
+    dispatch({type : USER_LOADING});
     axios.post(path, data, axiosConfig1)
         .then(res => {
             dispatch({
                 type: USER_REGISTER_SUCCESS,
-                payload: res.data.data
+                payload: res.data
             })
         })
         .catch(err => {
@@ -89,14 +118,36 @@ export const registerUser = data => dispatch => {
             })
         })
 };
- //USER UPDATE
-export const updateUser = (data) => (dispatch, getState) => {
-    //body
+
+//USER REGISTER
+export const registerUserPost = data => dispatch => {
     axios.post(path, data, axiosConfig1)
         .then(res => {
             dispatch({
+                type: USER_LOGIN,
+                payload: res.data.data,
+                token: res.data.token
+            })
+        })
+        .catch(err => {
+            dispatch({
+                type : USER_UPDATE_FAIL,
+                payload: err
+            })
+        })
+};
+ //USER UPDATE
+export const updateUser = (data, id) => (dispatch, getState) => {
+    //body
+    const body = JSON.stringify(data);  
+    params.data = body;
+    params.id = id;
+    params.cat = 'update';
+    axios.get(path, {params}, axiosConfig)
+        .then(res => {
+            dispatch({
                 type: USER_UPDATE_SUCCESS,
-                payload: res.data.data
+                payload: res.data
             })
         })
         .catch(err => {

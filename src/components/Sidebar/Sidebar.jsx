@@ -5,6 +5,7 @@ import { Nav } from "reactstrap";
 import PerfectScrollbar from "perfect-scrollbar";
 import logo from "logo-white.svg";
 import {SERVER_URL, imgx} from './../../actions/common';
+import "assets/css/mine.css";
 var ps;
 
 class Sidebar extends React.Component {
@@ -40,7 +41,7 @@ class Sidebar extends React.Component {
             target="_blank"
           >
             <div className="logo-img">
-              <img src={logo} alt="react-logo" />
+              <img src={require("assets/img/logo.png")} alt="s" />
             </div>
           </a>
           <a
@@ -54,111 +55,80 @@ class Sidebar extends React.Component {
         <div className="logo">
           <a
             href=""
-            className="simple-text logo-mini"
-            target="_blank"
-          >
-            <div className="photo">
-              <img 
-              height={30}
-              className="rounded-circle img-circle avatar border-gray" 
-              src={`${SERVER_URL + photo}`}
-              onError={(e)=>{e.target.onerror = null; e.target.src=imgx}} 
-              />
-            </div>
-          </a>
-          <a
-            href=""
             className="simple-text logo-normal"
             target="_blank"
+            style={{fontFamily:'Josefin Sans', textTransform:'none', textAlign:'center', fontSize:'1.6rem'}}
           >
-           {`${username}`}
+           Jebba
           </a>
         </div>
         
           
         <div className="sidebar-wrapper sc" id="sidebar-wrapper" ref="sidebar">
         <Nav>
-            {this.props.routes.map((prop, key) => { 
-              if(prop.name && prop.num === this.props.group && this.props.group  === 1 )
-              {
-              if (prop.redirect) return null;
-              return (
-                <li
-                  className={
-                    this.activeRoute(prop.layout + prop.path) +
-                    ( "")
-                  }
-                  key={key}
-                >
-                  <NavLink
-                    to={prop.layout + prop.path}
-                    className="nav-link"
-                    activeClassName="active"
-                  >
-                    <i className={"now-ui-icons " + prop.icon} />
-                    <p>{prop.name}</p>
-                  </NavLink>
-                </li>
-              );
-           }
-           
-           
-           
-           })}
-            {this.props.routes.map((prop, key) => { 
-              if(prop.name && this.props.group  === 2 && prop.num === this.props.group)
-              {
-              if (prop.redirect) return null;
-              return (
-                <li
-                  className={
-                    this.activeRoute(prop.layout + prop.path) +
-                    ( "")
-                  }
-                  key={key}
-                >
-                  <NavLink
-                    to={prop.layout + prop.path}
-                    className="nav-link"
-                    activeClassName="active"
-                  >
-                    <i className={"now-ui-icons " + prop.icon} />
-                    <p>{prop.name}</p>
-                  </NavLink>
-                </li>
-              );
-           }
-           
-           
-           
-           })}
-            {this.props.routes.map((prop, key) => { 
-              if(prop.name && this.props.group  === 3 && prop.num !== 1)
-              {
-              if (prop.redirect) return null;
-              return (
-                <li
-                  className={
-                    this.activeRoute(prop.layout + prop.path) +
-                    ( "")
-                  }
-                  key={key}
-                >
-                  <NavLink
-                    to={prop.layout + prop.path}
-                    className="nav-link"
-                    activeClassName="active"
-                  >
-                    <i className={"now-ui-icons " + prop.icon} />
-                    <p>{prop.name}</p>
-                  </NavLink>
-                </li>
-              );
-           }
-           
-           
-           
-           })}
+              <li className="sidebarmenu">
+                    <span className="fa fa-dashboard" ></span>
+                    <p className="" >Dashboard {" "}</p>  
+              </li>
+              <li className="sidebarmenu">
+                    <span className="fa fa-user" ></span>
+                    <p className="" data-toggle='collapse' data-target="#guest">Guest {" "}</p>  
+                    <span className="fa fa-caret-right" ></span>
+              </li>
+              <span className='collapse fade in' id='guest'>
+              <li className="sidebarmenus my-0 py-0" >
+                    <p className="" > Guest List {" "}</p>  
+              </li>
+              <li className="sidebarmenus my-0 py-0">
+                    <p className="" > Report {" "}</p>  
+              </li>
+              </span>
+              <li className="sidebarmenu">
+                    <span className="fa fa-thumb-tack" ></span>
+                    <p className="" data-toggle='collapse' data-target="#invt">Inventory {" "}</p>  
+                    <span className="fa fa-caret-right" ></span>
+              </li>
+              <span className='collapse' id='invt'>
+              <li className="sidebarmenus my-0 py-0" >
+                    <p className="" > Add Category</p>  
+              </li>
+              <li className="sidebarmenus my-0 py-0">
+                    <p className="" > Add Inventory type</p>  
+              </li>
+              <li className="sidebarmenus my-0 py-0">
+                    <p className="" > Inventory Form</p>  
+              </li>
+              <li className="sidebarmenus my-0 py-0" >
+                    <p className="" > Category list</p>  
+              </li>
+              <li className="sidebarmenus my-0 py-0">
+                    <p className="" > Inventory</p>  
+              </li>
+              <li className="sidebarmenus my-0 py-0">
+                    <p className="" > History</p>  
+              </li>
+              <li className="sidebarmenus my-0 py-0">
+                    <p className="" > Report</p>  
+              </li>
+              </span>
+              <li className="sidebarmenu">
+                    <span className="fa fa-wrench" ></span>
+                    <p className="" data-toggle='collapse' data-target="#dash">Maintennce {" "}</p>
+                    <span className="fa fa-caret-right" ></span>  
+              </li>
+              <li className="sidebarmenu">
+                    <span className="fa fa-users" ></span>
+                    <p className="" data-toggle='collapse' data-target="#dash">Staff {" "}</p>
+                    <span className="fa fa-caret-right" ></span>  
+              </li>
+              <li className="sidebarmenu">
+                    <span className="fa fa-lock" ></span>
+                    <p className="" data-toggle='collapse' data-target="#dash">Logout {" "}</p> 
+                    <span className="fa fa-caret-right" ></span> 
+              </li>
+              
+
+               
         </Nav>
         </div>
       </div>

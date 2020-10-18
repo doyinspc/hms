@@ -1,4 +1,8 @@
 import {
+    USER_LOGIN,
+    USER_LOGIN_ERROR,
+    USER_LOGOUT_SUCCESS,
+    USER_LOGOUT_FAIL,
     USER_GET_MULTIPLE,
     USER_GET_ONE,
     USER_REGISTER_SUCCESS,
@@ -13,13 +17,35 @@ import {
     USER_DELETE_FAIL,
     USER_EDIT
 } from "../types/user";
+import Swal from 'sweetalert2';
 
-let userStore = JSON.parse(localStorage.getItem('user'))
-
+ const callError = ($err) =>{
+    Swal.fire({
+        position: 'top-end',
+        icon: 'error',
+        title: 'Check your internet connection or confirm you are using the right loging information',
+        showConfirmButton: false,
+        timer: 1500
+      })
+ }
+ const callLoading = () =>{
+    Swal.fire({
+        position: 'top-end',
+        icon: 'info',
+        title: 'Please wait... processing',
+        showConfirmButton: false,
+        timer: 1500
+      })
+ }
+let user = localStorage.getItem('user') !== 'undefined' ? JSON.parse(localStorage.getItem('user')) : {};
+let auth = localStorage.getItem('auth') !== 'undefined' ? JSON.parse(localStorage.getItem('auth')) : false;
 const initialState = {
+    token: localStorage.getItem('token'),
+    isAuthenticated: auth  && parseInt(auth) === 1? true : false,
     isLoading: false,
-    users: userStore ? userStore : [],
-    user:{},
+    isAdmin: user && parseInt(user.is_admin) === 1 ? true : false,
+    isRegistered: user && user.id > 1 ? true: false,
+    user: user ? user : {},
     msg: null,
     isEdit:-1,
     ref:null,
@@ -39,65 +65,26 @@ const changeState = (aluu, actid) =>
 
 export default function(state = initialState, action){
     switch (action.type) {
-        case USER_EDIT:
-            return {
-                ...state,
-                isEdit : action.payload
-        };
         case USER_LOADING:
+            callLoading();
             return {
                 ...state,
                 isLoading : true
             };
-        case USER_GET_MULTIPLE:
-            localStorage.setItem('user', JSON.stringify(action.payload));
-            return {
-                ...state,
-                users : action.payload,
-                msg:'DONE!!!'
-            };
-        case USER_GET_ONE:
-            let all = [...state.users];
-            let ses = all.filter(row=>row.cid == action.payload)[0];
-            return {
-                ...state,
-                user : ses,
-                MSG:"DONE!!!"
-            };
-        case USER_REGISTER_SUCCESS:
-            localStorage.setItem('user', JSON.stringify([...state.users, action.payload]));
-            return {
-                ...state,
-                users: [...state.users, action.payload],
-                msg:action.msg
-            }; 
-        case USER_ACTIVATE_SUCCESS:
-            let ac = changeState(state.users, action.payload);
-            localStorage.setItem('user', JSON.stringify(ac));
-            return{
-                ...state,
-                msg:'DONE!!!',
-                users: ac
-            }
-        case USER_DELETE_SUCCESS:
-            let rem = state.users.filter(cat => cat.id != action.payload);
-            localStorage.setItem('user', JSON.stringify(rem));
-            return{
-                ...state,
-                msg:'DONE!!!',
-                users: rem
-            }
-        case USER_UPDATE_SUCCESS:
-            const findInd = state.users.findIndex(cat => cat.id == action.payload.id);
-            let newState = [...state.users];
-            newState[findInd] = action.payload;
-            localStorage.setItem('user', JSON.stringify(newState));
+        case USER_LOGIN:
+            localStorage.setItem('token', action.token)
+            localStorage.setItem('auth', JSON.stringify(1));
+            localStorage.setItem('user', JSON.stringify(action.payload))
+            
             return {
                 ...state,
                 ...action.payload,
-                users : newState,
-                user:action.payload
+                isLoading: false,
+                isAuthenticated: true,
+                user: action.payload,
+                isAdmin: action.payload.is_admin
             }; 
+       
         case USER_LOADING_ERROR:
         case USER_ACTIVATE_FAIL:
         case USER_REGISTER_FAIL:
@@ -109,6 +96,37 @@ export default function(state = initialState, action){
                 isLoading: false,
                 msg: action.msg
             };
+        case USER_LOGOUT_SUCCESS:
+        case USER_LOGOUT_FAIL:
+            localStorage.removeItem('token')
+            localStorage.removeItem('auth')
+            localStorage.removeItem('user')
+            localStorage.removeItem('user')
+
+            return{
+                ...state,
+                token: null,
+                isRegistered: true,
+                isAuthenticated: false,
+                isLoading: false,
+                user: {},
+                isAdmin : null
+            } 
+        case USER_LOGIN_ERROR:
+            localStorage.removeItem('token')
+            localStorage.removeItem('auth')
+            localStorage.removeItem('user')
+            callError(action.payload);
+            return{
+                ...state,
+                token: null,
+                isRegistered: true,
+                isAuthenticated: false,
+                isLoading: false,
+                user: {},
+                user: {},
+                isAdmin : null
+            } 
         default:
             return state;
     }

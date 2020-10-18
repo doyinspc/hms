@@ -21,6 +21,7 @@ const Modals = (props) => {
   const [surname, setSurname] = useState('');
   const [fullname, setFullname] = useState('');
   const [startbook, setStartbook] = useState(null);
+  const [startbooks, setStartbooks] = useState([]);
   const [endbook, setEndbook] = useState(null);
   const [guestno, setGuestno] = useState(new Date());
   const [roomid, setRoomid] = useState(new Date());
@@ -32,6 +33,7 @@ const Modals = (props) => {
   const [idnumber, setIdnumber] = useState(null);
   const [cate, setCate] = useState([]);
   const [cateid, setCateid] = useState(null);
+  const [isdates, setIsdates] = useState(0);
   const [roomoption, setRoomoption] = useState([]);
 
   const resetdata= async() =>{
@@ -76,11 +78,18 @@ const Modals = (props) => {
       er.label = props.roomdata.name;
       setRoomid(er);
     }
-
-    if(props.roomdate && props.roomdate !== "" && props.roomdate != null)
+    console.log(props.roomdate);
+    if(props.roomdate && Array.isArray(props.roomdate) && props.roomdate.length > 0)
+    {
+      setStartbooks(props.roomdate);
+      setIsdates(2);
+    }
+    else if(props.roomdate && props.roomdate !== "" && props.roomdate != null && !Array.isArray(props.roomdate))
     {
       setStartbook(moment(props.roomdate).format("YYYY-MM-DD hh:mm:ss"));
+      setIsdates(1);
     }
+   
     setCate(newArrs);
 },[props.mid]);
 
@@ -99,6 +108,9 @@ const Modals = (props) => {
 
   const handleSubmit = (e) =>{
         e.preventDefault();
+        let trackid = Math.floor(Math.random() * 10000000000);
+      if(isdates === 1)
+        {
         let duration = Math.abs(new Date(startbook) - new Date());
         let fd = new FormData();
         fd.append('fullname', fullname);
@@ -113,6 +125,7 @@ const Modals = (props) => {
         fd.append('phone', phone);
         fd.append('idtype', idtype);
         fd.append('idnumber', idnumber);
+        fd.append('trackid', trackid);
         fd.append('duration', duration);
         fd.append('checker', startbook+":::"+roomid.value);
         fd.append('table', 'room_transactions');
@@ -126,8 +139,39 @@ const Modals = (props) => {
           fd.append('cat', 'insert');
           props.registerRoomtransaction(fd);
         }
-        
-        resetdata();
+      }
+      if(isdates === 2)
+      {
+        for(let i = 0 ; i < startbooks.length; i++)
+        {
+          let newbook =   startbooks[i];
+          let duration = Math.abs(new Date(newbook) - new Date());
+              let fd = new FormData();
+              fd.append('fullname', fullname);
+              fd.append('roomid', roomid.value);
+              fd.append('userid', props.user.id);
+              fd.append('guestno', guestno);
+              fd.append('transaction_date', newbook);
+              fd.append('endbook', endbook);
+              fd.append('description', description);
+              fd.append('is_paid', ispaid);
+              fd.append('is_lodged', islodged);
+              fd.append('phone', phone);
+              fd.append('idtype', idtype);
+              fd.append('idnumber', idnumber);
+              fd.append('trackid', trackid);
+              fd.append('duration', duration);
+              fd.append('checker', newbook+":::"+roomid.value);
+              fd.append('table', 'room_transactions');
+
+              fd.append('cat', 'confirm');
+              props.registerRoomtransaction(fd);
+              
+
+        }
+
+      }
+        //resetdata();
         
   }
 
@@ -172,17 +216,17 @@ const Modals = (props) => {
   
 
   let editId = id ? id : null;
-  let editName = 'Create';
-  let editIcon = 'fa-plus';
   let editColor = 'primary';
-  let editCss = 'btn-sm';
 
   return (
     <div>
       <Modal isOpen={modal} toggle={toggle} backdrop='static' keyboard={false}>
         <ModalHeader toggle={resetdata}>{parseInt(props.roomid) > 0 ? props.roomdata.categoryname +" "+ props.roomdata.name: "Booking"}</ModalHeader>
         <ModalBody>
-          {props.rommdate === null ? '' : <h6>{new Date(props.roomdate).toDateString()}</h6>}{startbook}
+          <h6>
+            {isdates === 1 ? new Date(startbook).toDateString() : ''} 
+            {isdates === 2 ? startbooks.map(prp=>{return new Date(prp).toDateString() + ' | '}):''}
+          </h6>
         <Form>
         {parseInt(props.roomid) > 0 ? "" : 
               <><FormGroup row>

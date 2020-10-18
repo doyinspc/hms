@@ -15,6 +15,8 @@ const Modals = (props) => {
   const [activeyear, setActiveyear] = useState(0);
   const [booking, setBooking] = useState({});
   const [datas, setDatas] = useState({});
+  const [keepdate, setKeepdate] = useState([]);
+  const [keeplog, setKeeplog] = useState([]);
 
   const toggle = () => setModal(!modal);
   useEffect(()=>{
@@ -139,10 +141,40 @@ const calendarArray = (yr, mt) =>{
     return days;
 }
 
-const loadForm= (roomid, roomdata, roomdate) =>{
-    props.handleBooking(roomid, roomdata, roomdate, id)
+const loadForm= () =>{
+    props.handleBooking(props.mid, props.data, keepdate, id);
 }
 
+const removedata = () =>{
+
+}
+
+const selectDate = (dt, lg) =>{
+    let d = [...keepdate];
+    let k = [...keeplog];
+    if(d.includes(dt))
+    {
+        let y = d.filter(rw =>rw !== dt );
+        setKeepdate(y);
+    }else
+    {
+        d.push(dt);
+        setKeepdate(d);
+    }
+
+    if(lg !== 0){
+            if(k.includes(lg))
+            {
+                let y1 = k.filter(rw =>rw !== lg );
+                setKeeplog(y1);
+            }else
+            {
+                k.push(lg);
+                setKeeplog(k);
+            }
+        }
+    
+}
 
 let d = [0, 1, 2, 3, 4].map((prop, ind)=>{
      return <tr>
@@ -150,19 +182,23 @@ let d = [0, 1, 2, 3, 4].map((prop, ind)=>{
                 [0, 1, 2, 3, 4, 5, 6].map((prop1, ind1)=>{
                     return prop1 in datas[prop] ? <td 
                             key={ind1.toString() + ind.toString()}
-                            className={ id in booking && moment(new Date(datas[prop][prop1]['dt'])).format("YYYY-MM-DD") in booking[id] && booking[id][moment(new Date(datas[prop][prop1]['dt'])).format("YYYY-MM-DD")]['islodged'] == 1 ? "tablerow1" : "tablerow2"}
-                            onClick={()=>loadForm(props.mid, props.data, datas[prop][prop1]['dt'])}>
+                            style={{border : keepdate.includes(moment(new Date(datas[prop][prop1]['dt'])).format("YYYY-MM-DD")) ? '5px solid skyblue' : ''}}
+                            className={ id in booking && moment(new Date(datas[prop][prop1]['dt'])).format("YYYY-MM-DD") in booking[id] && booking[id][moment(new Date(datas[prop][prop1]['dt'])).format("YYYY-MM-DD")]['islodged'] == 1 ? "tablerow1 bg-info" : "tablerow2"}
+                            onClick={()=>selectDate(moment(new Date(datas[prop][prop1]['dt'])).format("YYYY-MM-DD"),  id in booking && moment(new Date(datas[prop][prop1]['dt'])).format("YYYY-MM-DD") in booking[id]  ? booking[id][moment(new Date(datas[prop][prop1]['dt'])).format("YYYY-MM-DD")]['rowid'] : 0)}>
                         <div>
                           <b>{datas[prop][prop1]['dx']}</b>
                         </div>
                         <div 
                             className='m-0 p-0' 
                             style={{
+                                font :'Josefin Sans',
                                 width:'100%', 
                                 fontSize:'0.8em', 
                                 minHeight:'80%',
                                 lineHeight:'110%',
-                                textAlign:'center'
+                                textAlign:'center',
+                                textTransform:'capitalize',
+                                fontWeight:'normal'
                                 }}>
                             <b className={id in booking && moment(new Date(datas[prop][prop1]['dt'])).format("YYYY-MM-DD") in booking[id] && booking[id][moment(new Date(datas[prop][prop1]['dt'])).format("YYYY-MM-DD")]['islodged'] == 0 ? 'text-info': 'text-light'}>
                             {id in booking && moment(new Date(datas[prop][prop1]['dt'])).format("YYYY-MM-DD") in booking[id] ? booking[id][moment(new Date(datas[prop][prop1]['dt'])).format("YYYY-MM-DD")]['name'] : ''}
@@ -227,7 +263,9 @@ let occ = get_days_num >  0 ? (get_days_num/month_days) * 100 : 0;
         </ModalBody>
         <ModalFooter>
           <Button color="primary" onClick={onPrev}>Previos</Button>{" "}
-          <Button color="secondary" onClick={resetdata}>Cancel</Button>{" "}
+          { keepdate.length > 0 ? <Button color="success" onClick={loadForm}>Book</Button>:''}
+          { keeplog.length > 0 ? <Button color="danger" onClick={removedata}>Remove</Button>:''}
+          <Button color="secondary" onClick={resetdata}>Close</Button>{" "}
           <Button color="primary" onClick={onNext}>Next</Button>
         </ModalFooter>
       </Modal>

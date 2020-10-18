@@ -89,7 +89,7 @@ class TopCard extends React.Component {
                         <a onClick={()=>this.lunchLock(prop.id, prop)} href="#"><li>Lock/Unlock Room</li></a>
                     </ul>
                 </div>
-                {prop.categoryname}{' '}<b className='pull-right'>{prop.name}</b>
+                <b className='pull-right'>{prop.name}</b>
             </div>
             </>
         }):''

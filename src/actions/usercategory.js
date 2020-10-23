@@ -12,10 +12,10 @@ import {
     USERCATEGORY_DELETE_FAIL,
     USERCATEGORY_EDIT,
 } from "./../types/usercategory";
-import { MAIN_TOKEN, API_PATHS, axiosConfig1, axiosConfig } from './common';
+import { MAIN_TOKEN, SERVER_PATHS, axiosConfig1, axiosConfig } from './common';
 
 let TABLE_NAME = 'usercategorys';
-const path = API_PATHS;
+const path = SERVER_PATHS + '/staff.php';;
 
 let params = {
     data:{},

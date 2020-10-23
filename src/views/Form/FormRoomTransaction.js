@@ -5,12 +5,11 @@ import { registerRoomtransaction, updateRoomtransaction } from '../../actions/ro
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, FormText,  Input, Col, Label } from 'reactstrap';
 import Select  from 'react-select';
 import { callError, axiosConfig, MAIN_TOKEN, API_PATHS } from 'actions/common';
-import { convertCompilerOptionsFromJson } from 'typescript';
 
 const statuss = [
     {'value':1, 'label':'Supplied, in-store'},
     {'value':2, 'label':'Dispatched, Consumed, Used'},
-    {'value':3, 'label':'Deployed, sent to a department or location'},
+    {'value':3, 'label':'Deployed, sent to a deparstment or location'},
     {'value':4, 'label':'Damaged, Out of service'}
   ];
 

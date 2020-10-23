@@ -17,7 +17,8 @@ var ps;
 
 class Dashboard extends React.Component {
   state = {
-    backgroundColor: "blue"
+    backgroundColor: "blue",
+    backgroundColors: "info"
   };
   mainPanel = React.createRef();
   componentDidMount() {
@@ -41,6 +42,15 @@ class Dashboard extends React.Component {
   handleColorClick = color => {
     this.setState({ backgroundColor: color });
   };
+  handleColorClicks = color => {
+  
+    this.setState({ backgroundColors: color });
+  };
+
+  menuAction=(a, b)=>{
+    this.props.topcard = a;
+    this.props.bottomcard = b;
+  }
   render() {
     return (
       <div className="wrapper">
@@ -48,9 +58,25 @@ class Dashboard extends React.Component {
           {...this.props}
           routes={routes}
           backgroundColor={this.state.backgroundColor}
+          menuAction={(a, b)=>this.props.menuAction(a, b)}
+          addRoomCategory={()=>this.setState({addroomcategory:true, numroomcategory:null})}
+          addRoom={()=>this.setState({addroom:true, numroom:null})}
+          postRoom={()=>this.setState({addroomtransaction:true})}
+          addBooking={()=>this.setState({addbooking:true, numbooking:null })}
+          addMaintenanceCategory={()=>this.setState({addmaintenancecategory:true, nummaintenancecategory:null})}
+          addMaintenance={()=>this.setState({addmaintenance:true, nummaintenance:null})}
+          postMaintenance={()=>this.setState({addmaintenancetransaction:true})}
+          addInventoryCategory={()=>this.setState({addinventorycategory:true, numinventorycategory:null})}
+          addInventory={()=>this.setState({addinventory:true,  numinventory:null})}
+          postInventory={()=>this.setState({addinventorytransaction:true})}
+          addUserCategory={()=>this.setState({addusercategory:true, numusercategory:null})}
+          addUser={()=>this.setState({adduser:true,  numuser:null})}
+          postUser={()=>this.setState({addusertransaction:true})}
         />
         <div className="main-panel" ref={this.mainPanel}>
-          <DemoNavbar {...this.props} />
+          <DemoNavbar {...this.props} 
+            backgroundColor={this.state.backgroundColors}
+          />
           <Switch>
             {routes.map((prop, key) => {
               return (
@@ -58,6 +84,7 @@ class Dashboard extends React.Component {
                   path={prop.layout + prop.path}
                   component={prop.component}
                   key={key}
+                  {...this.props}
                 />
               );
             })}
@@ -65,10 +92,6 @@ class Dashboard extends React.Component {
           </Switch>
           <Footer fluid />
         </div>
-        <FixedPlugin
-          bgColor={this.state.backgroundColor}
-          handleColorClick={this.handleColorClick}
-        />
       </div>
     );
   }

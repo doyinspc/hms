@@ -1,0 +1,27 @@
+REACT_APP_API_PATHS=http://silhms.com/kainji-api/api/index.php
+REACT_APP_SERVER_PATHS=http://silhms.com/kainji-api/api/
+REACT_APP_SERVER_URL=http://silhms.com/kainji-api/api/
+REACT_APP_WEBSITE_NAME='StreSERT Intergrated Limited HMS'
+REACT_APP_WEBSITE_AKA =SILHMS
+REACT_APP_PHOTO =/kainji/profile.png
+REACT_APP_CHAT_PIC =/kainji/chat.gif 
+REACT_APP_BG=/kainji/bg3.jpg
+REACT_APP_HOMEPAGE=http://silhms.com/kainji
+REACT_APP_COLOR=info
+SKIP_PREFLIGHT_CHECK=true
+REACT_APP_FOLDER=kainji
+
+
+REACT_APP_API_PATHS=http://silhms.com/jebba-api/api/index.php
+REACT_APP_SERVER_PATHS=http://silhms.com/jebba-api/api/
+REACT_APP_SERVER_URL=http://silhms.com/jebba-api/api/
+REACT_APP_WEBSITE_NAME='StreSERT Intergrated Limited HMS'
+REACT_APP_WEBSITE_AKA =SILHMS
+REACT_APP_PHOTO =/jebba/profile.png
+REACT_APP_CHAT_PIC =/jebba/chat.gif 
+REACT_APP_BG=/jebba/bg.jpg
+REACT_APP_HOMEPAGE=http://silhms.com/jebba
+REACT_APP_COLOR=info
+SKIP_PREFLIGHT_CHECK=true
+REACT_APP_FOLDER=jebba
+

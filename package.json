@@ -3,12 +3,11 @@
   "version": "1.2.0",
   "main": "dist/index.js",
   "private": true,
-  "homepage": ".",
+  "homepage": "http://silhms.com/jebba/",
   "dependencies": {
     "axios": "^0.19.0",
     "bootstrap": "4.3.1",
     "chart.js": "2.8.0",
-    "ckeditor4-react": "^1.1.1",
     "datatables.net-dt": "^1.10.22",
     "date-fns": "^2.16.1",
     "history": "4.9.0",
@@ -36,12 +35,11 @@
     "redux": "^4.0.4",
     "redux-devtools-extension": "^2.13.8",
     "redux-thunk": "^2.3.0",
-    "sweetalert2": "^9.17.0",
-    "webpack": "^4.36.0"
+    "sweetalert2": "^9.17.0"
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts --max_old_space_size=8000 build",
+    "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "install:clean": "rm -rf node_modules/ && rm -rf package-lock.json && npm install && npm start",

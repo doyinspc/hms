@@ -9,6 +9,7 @@ import {
   UncontrolledDropdown,
   NavbarBrand,
   Navbar,
+  NavbarToggler,
   NavItem,
   NavLink,
   Nav,
@@ -16,10 +17,16 @@ import {
   UncontrolledTooltip
 } from "reactstrap";
 
-function ExamplesNavbar() {
-  
+function ExamplesNavbar(props) {
+  console.log(props.backgroundColor);
   const [navbarColor, setNavbarColor] = React.useState("navbar-info");
   const [collapseOpen, setCollapseOpen] = React.useState(false);
+  const [isOpen, setIsOpen] = React.useState(false);
+
+  const sidebarToggle = React.useRef();
+  const toggle = () => {
+    setIsOpen(!this.state.isOpen)
+  };
   React.useEffect(() => {
     const updateNavbarColor = () => {
       if (
@@ -39,6 +46,10 @@ function ExamplesNavbar() {
       window.removeEventListener("scroll", updateNavbarColor);
     };
   });
+  const openSidebar = () => {
+    document.documentElement.classList.toggle("nav-open");
+    sidebarToggle.current.classList.toggle("toggled");
+  };
   return (
     <>
       {collapseOpen ? (
@@ -50,15 +61,40 @@ function ExamplesNavbar() {
           }}
         />
       ) : null}
-      <Navbar className={"fixed-top " + navbarColor} color="info" expand="lg">
-        <Container>
+      <Navbar className={"fixed-top " + navbarColor} color={props.backgroundColor} expand="lg">
+        <Container fluid>
+        <div className="navbar-wrapper">
+            <div className="navbar-toggle">
+              <button
+                type="button"
+                ref={sidebarToggle}
+                className="navbar-toggler"
+                onClick={() => openSidebar()}
+              >
+                <span className="navbar-toggler-bar bar1" />
+                <span className="navbar-toggler-bar bar2" />
+                <span className="navbar-toggler-bar bar3" />
+              </button>
+            </div>
+           
+          </div>
+          
+           <NavbarToggler onClick={toggle}>
+            <span className="navbar-toggler-bar navbar-kebab" />
+            <span className="navbar-toggler-bar navbar-kebab" />
+            <span className="navbar-toggler-bar navbar-kebab" />
+          </NavbarToggler>
           <div className="navbar-translate">
             <NavbarBrand
               href="#"
               target="_blank"
               id="navbar-brand"
+              style={{fontFamily:'Josefin sans', fontSize:'1.3em', textTransform:'capitalize'}}
             >
-             {process.env.REACT_APP_WEBSITE_AKA}
+           
+             Welcome James !
+
+            
             </NavbarBrand>  
           </div>
           
@@ -68,31 +104,34 @@ function ExamplesNavbar() {
             navbar
           >
             <Nav navbar>
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Student
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                  <a class="dropdown-item" href="/">SingIn</a>
-                  <a class="dropdown-item" href="/register">SignUp</a>
+              <form class="form-inline my-0 py-0 ml-auto">
+                <div class="form-group no-border">
+                  <input type="text" style={{height:'25px'}} class="form-control form-control-sm" placeholder="Search"/>
                 </div>
-              </li>
+               
+              </form>
                 
+             
               <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Staff
+                 <i className='now-ui-icons business_globe'></i>
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink1">
-                  <a class="dropdown-item" href="/staff">SingIn</a>
-                  <a class="dropdown-item" href="/staffregister">SignUp</a>
+                  <a class="dropdown-item" href="/staffregister"><i className='now-ui-icons business_globe'></i> Kainji</a>
+                  <a class="dropdown-item" href="/staffregister"><i className='now-ui-icons business_globe'></i> Jebba</a>
                 </div>
               </li>
-              <NavItem>
-                <NavLink to="#" tag={Link}>
-                  Help :+234-8136184913
-                </NavLink>
-              </NavItem>
-
+             
+               <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                 <i className='now-ui-icons users_single-02'></i>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink1">
+                  <a class="dropdown-item" href="/staffregister"><i className='now-ui-icons users_single-02'></i> Edit</a>                  
+                  <a class="dropdown-item" href="/staffregister"><i className='now-ui-icons users_single-02'></i> Logout</a>
+                </div>
+                
+              </li>
               
             </Nav>
           </Collapse>

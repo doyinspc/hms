@@ -36,7 +36,7 @@ const Modals = (props) => {
       
         let fd = new FormData();
         fd.append('name', name);
-        fd.append('description', description);
+        fd.append('description', '');
         fd.append('table', 'user_categorys');
         
         if(id && id > 0)
@@ -65,7 +65,7 @@ const Modals = (props) => {
   return (
     <div>
       <Modal isOpen={modal} toggle={toggle} backdrop='static' keyboard={false}>
-        <ModalHeader toggle={resetdata}><i className='fa fa-hospital-o'></i> User Categories</ModalHeader>
+        <ModalHeader toggle={resetdata}><i className='fa fa-hospital-o'></i> Departments</ModalHeader>
         <ModalBody>
         <Form>
           <FormGroup row>
@@ -88,20 +88,7 @@ const Modals = (props) => {
           </FormGroup>
           
             
-            <FormGroup row>
-                <Col sm={12}>
-                <Input 
-                    type="textarea" 
-                    name="description" 
-                    id="description"  
-                    placeholder="Description"
-                    required
-                    defaultValue={description}
-                    onChange={e=>setDescription(e.target.value)} 
-                     />
-                </Col>
-                <FormText color='mute'></FormText>
-            </FormGroup>
+           
             
         </Form>
         </ModalBody>

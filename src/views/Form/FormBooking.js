@@ -78,7 +78,7 @@ const Modals = (props) => {
       er.label = props.roomdata.name;
       setRoomid(er);
     }
-    console.log(props.roomdate);
+    
     if(props.roomdate && Array.isArray(props.roomdate) && props.roomdate.length > 0)
     {
       setStartbooks(props.roomdate);

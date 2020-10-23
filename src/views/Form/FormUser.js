@@ -66,7 +66,7 @@ const Modals = (props) => {
     }
     if(props.st1 && parseInt(props.st1) > 0)
     {
-      let se = props.usercategorys.usercategorys && Array.isArray(props.usercategorys.usercategorys) ? props.usercategorys.usercategory.filter(rw=>parseInt(rw.id) === parseInt(props.st1))[0]  : [] ;
+      let se = props.usercategorys.usercategorys && Array.isArray(props.usercategorys.usercategorys) ? props.usercategorys.usercategorys.filter(rw=>parseInt(rw.id) === parseInt(props.st1))[0]  : [] ;
       let ar = {'value':props.st1, 'label':se.name};
       setCategoryid(ar);
       setCats(true);
@@ -190,12 +190,13 @@ const Modals = (props) => {
         <ModalBody>
         <Form>
         <FormGroup row>
-                <Label for="employment_no" sm={3}>Employment Number<span className='text-danger'>*</span> </Label>
-                <Col sm={9}>
+                <Label for="employment_no" sm={12}>Employment Number<span className='text-danger'>*</span> </Label>
+                <Col sm={12}>
                 <Input 
                     type="text" 
                     name="employment_no" 
                     id="employment_no"
+                    className='form-control form-control-sm'
                     required
                     defaultValue={employment_no}
                     onChange={e=>setEmployment_no(e.target.value)} 
@@ -203,8 +204,8 @@ const Modals = (props) => {
                 </Col>
             </FormGroup>
         { id && parseInt(id) > 0 ? '' : <><FormGroup row>
-                <Label for="passwd" sm={3}>Pssword<span className='text-danger'>*</span> </Label>
-                <Col sm={9}>
+                <Label for="passwd" sm={12}>Password<span className='text-danger'>*</span> </Label>
+                <Col sm={12}>
                 <Input 
                     type="password" 
                     name="passwd" 
@@ -217,8 +218,8 @@ const Modals = (props) => {
                 </Col>
             </FormGroup>
             <FormGroup row>
-                <Label for="rpasswd" sm={3}>Repeat Password<span className='text-danger'>*</span> </Label>
-                <Col sm={9}>
+                <Label for="rpasswd" sm={12}>Repeat Password<span className='text-danger'>*</span> </Label>
+                <Col sm={12}>
                 <Input 
                     type="text" 
                     name="rpasswd" 
@@ -242,11 +243,11 @@ const Modals = (props) => {
                 />
                 <FormText></FormText>
           </Col>
-            </FormGroup>:<h2>{categoryid.label}</h2>}
+            </FormGroup>:<h4>{categoryid.label} Department</h4>}
             
             <FormGroup row>
-                <Label for="title" sm={3}>Title </Label>
-                <Col sm={9}>
+                <Label for="title" sm={12}>Title </Label>
+                <Col sm={12}>
                 <Input 
                     type="text" 
                     name="title" 
@@ -257,8 +258,8 @@ const Modals = (props) => {
                 </Col>
             </FormGroup>
             <FormGroup row>
-                <Label for="surname" sm={3}>Surname<span className='text-danger'>*</span> </Label>
-                <Col sm={9}>
+                <Label for="surname" sm={12}>Surname<span className='text-danger'>*</span> </Label>
+                <Col sm={12}>
                 <Input 
                     type="text" 
                     name="surname" 
@@ -270,8 +271,8 @@ const Modals = (props) => {
                 </Col>
             </FormGroup>
             <FormGroup row>
-                <Label for="firstname" sm={3}>Firstname<span className='text-danger'>*</span> </Label>
-                <Col sm={9}>
+                <Label for="firstname" sm={12}>Firstname<span className='text-danger'>*</span> </Label>
+                <Col sm={12}>
                 <Input 
                     type="text" 
                     name="firstname" 
@@ -283,8 +284,8 @@ const Modals = (props) => {
                 </Col>
             </FormGroup>
             <FormGroup row>
-                <Label for="middlename" sm={3}>Middlename</Label>
-                <Col sm={9}>
+                <Label for="middlename" sm={12}>Middlename</Label>
+                <Col sm={12}>
                 <Input 
                     type="text" 
                     name="middlename" 
@@ -296,8 +297,8 @@ const Modals = (props) => {
             </FormGroup>
 
             <FormGroup row>
-              <Label for="gender" sm={3}>Gender</Label>
-              <Col sm={9}>
+              <Label for="gender" sm={12}>Gender</Label>
+              <Col sm={12}>
                 <Select
                   styles = { customStyles }
                   defaultValue={gender}
@@ -310,8 +311,8 @@ const Modals = (props) => {
             </FormGroup>
           
           <FormGroup row>
-                <Label for="dob" sm={3}>Date of Birth<span className='text-danger'>*</span> </Label>
-                <Col sm={9}>
+                <Label for="dob" sm={12}>Date of Birth<span className='text-danger'>*</span> </Label>
+                <Col sm={12}>
                 <Input 
                     type="date" 
                     name="dob" 
@@ -323,8 +324,8 @@ const Modals = (props) => {
                 </Col>
             </FormGroup>
             <FormGroup row>
-                <Label for="doe" sm={3}>Date of Employment<span className='text-danger'>*</span> </Label>
-                <Col sm={9}>
+                <Label for="doe" sm={12}>Date of Employment<span className='text-danger'>*</span> </Label>
+                <Col sm={12}>
                 <Input 
                     type="date" 
                     name="doe" 
@@ -336,8 +337,8 @@ const Modals = (props) => {
                 </Col>
             </FormGroup>
             <FormGroup row>
-                <Label for="phone1" sm={3}>Phone No.<span className='text-danger'>*</span> </Label>
-                <Col sm={9}>
+                <Label for="phone1" sm={12}>Phone Number.<span className='text-danger'>*</span> </Label>
+                <Col sm={12}>
                 <Input 
                     type="text" 
                     name="phone1" 
@@ -349,8 +350,8 @@ const Modals = (props) => {
                 </Col>
             </FormGroup>
             <FormGroup row>
-                <Label for="phone2" sm={3}>Alt. Phone No. </Label>
-                <Col sm={9}>
+                <Label for="phone2" sm={12}>Alternative. Phone Number. </Label>
+                <Col sm={12}>
                 <Input 
                     type="text" 
                     name="phone2" 
@@ -362,8 +363,8 @@ const Modals = (props) => {
             </FormGroup>
             
             <FormGroup row>
-                <Label for="email" sm={3}>Email<span className='text-danger'>*</span> </Label>
-                <Col sm={9}>
+                <Label for="email" sm={12}>Email<span className='text-danger'>*</span> </Label>
+                <Col sm={12}>
                 <Input 
                     type="email" 
                     name="email" 
@@ -375,8 +376,8 @@ const Modals = (props) => {
                 </Col>
             </FormGroup>
             <FormGroup row>
-                <Label for="office" sm={3}>Designtion</Label>
-                <Col sm={9}>
+                <Label for="office" sm={12}>Designation</Label>
+                <Col sm={12}>
                 <Input 
                     type="text" 
                     name="office" 

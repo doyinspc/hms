@@ -4,9 +4,8 @@ import { getRoomtransactions, getRoomtransaction, registerRoomtransaction, updat
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, FormText, Label, Input, Col, Container, Row } from 'reactstrap';
 import axios from 'axios';
 import moment from 'moment';
-import "assets/css/mine.css";
 
-const Modals = (props) => {
+const Modalx = (props) => {
   
   const [modal, setModal] = useState(false);
   const [id, setId] = useState(null);
@@ -279,4 +278,4 @@ const mapStateToProps = (state, ownProps) => ({
     rooms:state.roomReducer.rooms,
   })
   
-export default connect(mapStateToProps, { getRoomtransactions, getRoomtransaction, registerRoomtransaction, updateRoomtransaction})(Modals)
+export default connect(mapStateToProps, { getRoomtransactions, getRoomtransaction, registerRoomtransaction, updateRoomtransaction})(Modalx)

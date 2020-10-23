@@ -74,10 +74,7 @@ class Home extends React.Component {
           adduser:false,
           addusercategory:false,
           addusertransaction:false,
-          addroom:false,
-          addroomcategory:false,
-          addroomtransaction:false,
-
+         
           numbooking:null,
           numroom:null,
           numroomcategory:null,
@@ -91,9 +88,7 @@ class Home extends React.Component {
           numuser:null,
           numusercategory:null,
           numusertransaction:null,
-          numroom:null,
-          numroomcategory:null,
-          numroomtransaction:null,
+          
 
           bookingroomid:null,
           bookingroomdata:{},
@@ -101,7 +96,11 @@ class Home extends React.Component {
 
         }
       }
+
+
     componentDidMount(){
+     
+
       let dt = new Date();
       let firstday = new Date(dt.getFullYear(), dt.getMonth(), 1);
       let lastday = new Date(dt.getFullYear(), dt.getMonth() + 1, 0);
@@ -143,6 +142,11 @@ class Home extends React.Component {
 
     }
     
+
+    componentWillUpdate(prevProps, prevState){
+          if(prevProps.topcard !== this.props.topcard){this.setState({topcard:this.props.topcard})}
+          if(prevProps.bottomcard !== this.props.bottomcard){this.setState({bottomcard:this.props.bottomcard})}
+    }
     menuAction = (topcard, bottomcard) =>{
         this.setState({topcard:topcard, bottomcard:bottomcard});
     }
@@ -432,7 +436,8 @@ class Home extends React.Component {
 
 }
 
-const mapStateToProps = () =>{
+const mapStateToProps = (state, ownprop) =>{
+  
 
 }
 export default connect(mapStateToProps, 

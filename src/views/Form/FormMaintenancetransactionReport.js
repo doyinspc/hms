@@ -3,16 +3,11 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 import moment from 'moment';
 import Swal from 'sweetalert2';
-import ReactToPrint from "react-to-print";
 import { deleteMaintenancetransaction, registerMaintenancetransaction, updateMaintenancetransaction, getMaintenancetransactions, getMaintenancetransaction } from '../../actions/maintenancetransaction';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, FormText,  Input, Col, Label, Container } from 'reactstrap';
 import Select  from 'react-select';
 import { callError, axiosConfig, axiosConfig1, MAIN_TOKEN, API_PATHS } from 'actions/common';
-import "assets/css/mine.css";
-import 'jquery/dist/jquery.min.js';
-//Datatable Modules
-import "datatables.net-dt/js/dataTables.dataTables";
-import "datatables.net-dt/css/jquery.dataTables.min.css";
+
 import $ from 'jquery'; 
 
 const statuss = [

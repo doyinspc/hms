@@ -27,28 +27,30 @@ const SignUp = (props) => {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState(false);
   const [passwordFocus, setPasswordFocus] = React.useState(false);
+  const [islog, setIslog] = React.useState(false);
 
   
 
   const onSubmit = e => {
-     if(password && email)
-     {
-       let fd = new FormData();
-       fd.append('username', email);
-       fd.append('password', password);
-       fd.append('cat' , 'login');
-       fd.append('table' , 'user_types');
-       props.userLogin(fd);
-     }
+    setIslog(true);
+     // if(password && email)
+     // {
+     //   let fd = new FormData();
+     //   fd.append('username', email);
+     //   fd.append('password', password);
+     //   fd.append('cat' , 'login');
+     //   fd.append('table' , 'user_types');
+     //   props.userLogin(fd);
+     // }
   };
-  if (props.user.isAuthenticated) {
+  if (props.user.isAuthenticated  || islog === true) {
     return <Redirect to="/account/home" />;
   }
 
  
   return (
     <>
-      <div
+      <div 
         className="section section-signup"
         style={{
           backgroundImage: "url(" + process.env.REACT_APP_BG + ")",
@@ -73,7 +75,7 @@ const SignUp = (props) => {
                       ></img>
                     </div>
                   
-                  <h5 className='text-light'>HMS <b>Login</b></h5>
+                  <h5 className='text-light'> <b>HMS</b> Staff <b>Login</b></h5>
                   </CardHeader>
                   <CardBody style={{ marginTop:5 }}>
                     <InputGroup

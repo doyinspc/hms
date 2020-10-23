@@ -5,7 +5,7 @@ import { registerInventorytransaction, updateInventorytransaction } from '../../
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, FormText,  Input, Col, Label } from 'reactstrap';
 import Select  from 'react-select';
 import { callError, axiosConfig, MAIN_TOKEN, API_PATHS } from 'actions/common';
-import { convertCompilerOptionsFromJson } from 'typescript';
+
 
 const statuss = [
     {'value':1, 'label':'Supplied, in-store'},

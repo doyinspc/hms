@@ -16,10 +16,10 @@ import {
     USER_DELETE_FAIL,
     USER_EDIT,
 } from "../types/user";
-import { MAIN_TOKEN, API_PATHS, axiosConfig, axiosConfig1 } from './common';
+import { MAIN_TOKEN, SERVER_PATHS, axiosConfig, axiosConfig1 } from './common';
 
 let TABLE_NAME = 'user_types';
-const path = API_PATHS;
+const path = SERVER_PATHS + '/staff.php';
 
 let params = {
     data:{},

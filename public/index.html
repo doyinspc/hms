@@ -32,13 +32,15 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
    
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <link rel="stylesheet" type="text/css" href="%PUBLIC_URL%/table/datatables.min.css"/>
+   
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.6.4/css/buttons.dataTables.min.css"/>
    <link
       href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200"
       rel="stylesheet"
     />
     <link href="https://fonts.googleapis.com/css2?family=Shadows+Into+Light&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Advent+Pro:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bree+Serif&display=swap" rel="stylesheet">
     <link
       href="https://use.fontawesome.com/releases/v5.0.6/css/all.css"
       rel="stylesheet"
@@ -66,9 +68,59 @@
     <!-- Plugin for Fileupload, full documentation here: http://www.jasny.net/bootstrap/javascript/#fileinput -->
     <script src="%PUBLIC_URL%/jasny.js"></script>
     <script type="text/javascript" src="%PUBLIC_URL%/table/datatables.min.js"></script>
-    <script type='text/javascript' src="https://cdn.datatables.net/buttons/1.2.4/js/buttons.print.min.js"></script>
-    <script type="text/javascript" src="%PUBLIC_URL%/video.js"></script>
     
+    <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.6.4/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.6.4/js/buttons.flash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.6.4/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.6.4/js/buttons.print.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.6.4/js/buttons.colVis.min.js"></script>
+
+
+
+
+
+
+
+    <script type="text/javascript">
+      $(document).ready(function() {
+    $('#myTables').DataTable( {
+        'dom': 'PfrBtip',
+        bFilter: true,
+        bAutoWidth: false,
+        autoWidth: false,
+        fixedColumns: false,
+        buttons: [
+            {
+                extend:    'copyHtml5',
+                text:      '<i class="fa fa-files-o"></i>',
+                titleAttr: 'Copy'
+            },
+            {
+                extend:    'excelHtml5',
+                text:      '<i class="fa fa-file-excel-o"></i>',
+                titleAttr: 'Excel'
+            },
+            {
+                extend:    'csvHtml5',
+                text:      '<i class="fa fa-file-text-o"></i>',
+                titleAttr: 'CSV',
+                css: 'btn btn-primary'
+            },
+            {
+                extend:    'pdfHtml5',
+                text:      '<i class="fa fa-file-pdf-o"></i>',
+                titleAttr: 'PDF'
+            },
+            'print',
+            'colvis'
+        ]
+    });
+} );
+    </script>
   </body>
   
     

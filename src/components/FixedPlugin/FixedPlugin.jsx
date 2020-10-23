@@ -33,6 +33,7 @@ class FixedPlugin extends Component {
       this.setState({ classes: "dropdown" });
     }
   }
+   
   render() {
     return (
       <div className="fixed-plugin">
@@ -97,6 +98,66 @@ class FixedPlugin extends Component {
                   data-color="red"
                   onClick={() => {
                     this.props.handleColorClick("red");
+                  }}
+                />
+              </div>
+            </li>
+            <li className="header-title">TOPBAR BACKGROUND</li>
+            <li className="adjustments-line">
+              <div className="badge-colors text-center">
+                <span
+                  className={
+                    this.props.bgColor === "yellow"
+                      ? "badge filter badge-yellow active"
+                      : "badge filter badge-yellow"
+                  }
+                  data-color="yellow"
+                  onClick={() => {
+                    this.props.handleColorClicks("warning");
+                  }}
+                />
+                <span
+                  className={
+                    this.props.bgColor === "blue"
+                      ? "badge filter badge-blue active"
+                      : "badge filter badge-blue"
+                  }
+                  data-color="blue"
+                  onClick={() => {
+                    this.props.handleColorClicks("info");
+                  }}
+                />
+                <span
+                  className={
+                    this.props.bgColor === "green"
+                      ? "badge filter badge-green active"
+                      : "badge filter badge-green"
+                  }
+                  data-color="green"
+                  onClick={() => {
+                    this.props.handleColorClicks("success");
+                  }}
+                />
+                <span
+                  className={
+                    this.props.bgColor === "orange"
+                      ? "badge filter badge-orange active"
+                      : "badge filter badge-orange"
+                  }
+                  data-color="orange"
+                  onClick={() => {
+                    this.props.handleColorClicks("primary");
+                  }}
+                />
+                <span
+                  className={
+                    this.props.bgColor === "red"
+                      ? "badge filter badge-red active"
+                      : "badge filter badge-red"
+                  }
+                  data-color="red"
+                  onClick={() => {
+                    this.props.handleColorClicks("danger");
                   }}
                 />
               </div>

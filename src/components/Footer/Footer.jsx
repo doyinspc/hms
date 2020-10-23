@@ -35,13 +35,7 @@ class Footer extends React.Component {
           </nav>
           <div className="copyright">
             &copy; {1900 + new Date().getYear()}, Designed by{" "}
-            <a
-              href="https://www.invisionapp.com"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Invision & Creative Tim
-            </a>
+            
             . Coded by{" "}
             <a
               href=""

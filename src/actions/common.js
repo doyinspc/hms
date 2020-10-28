@@ -48,3 +48,9 @@ export const alllocationsObj = [
 {'value':1, 'label':'Kainji'},
 {'value':2, 'label':'Jebba'}
 ];
+export const statuss = {
+    1 :'Low',
+    2 :'Normal',
+    3 :'High',
+    4 :'Emergency'
+  };

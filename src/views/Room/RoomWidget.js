@@ -139,7 +139,7 @@ class RoomWidget extends React.Component {
         let vacant = rm2.filter((rw)=>!isarray.includes(rw.id));
         let vacantno = vacant.length - rm;
 
-        //ALL ROOMS OUT OF ORDER
+        //ALL ROOMS OUT OF service
         let rm3 = this.props.roomdata && Array.isArray(this.props.roomdata) && this.props.roomdata[2] ? this.props.roomdata[2] : [] ;
         let vacant3 = rm3.filter((rw)=>!isarray.includes(rw.id));
         let vacantno3 = vacant3.length;
@@ -156,6 +156,7 @@ class RoomWidget extends React.Component {
 
         //GET ROOMS OCCUPIDE
         let guestno1 = rm1.filter(rw=>parseInt(rw.is_lodged) === 1).map((prp, inp) =>{return prp.guestno});
+        let guestno2 = rm1.filter(rw=>parseInt(rw.is_lodged) === 1);
         let guestno = guestno1.reduce((a, b)=> a + parseInt(b), 0);
         
         let allrm = vacant.length;
@@ -190,7 +191,7 @@ class RoomWidget extends React.Component {
                         <div class="dropdown-menu dropdown-menu-right">
                           <a class="dropdown-item" onClick={()=>this.lunchDate(this.props.getRoomdata, this.retState, this.props.user.location)} href="#">
                           <i className="now-ui-icons ui-1_calendar-60"></i> {moment(dateset).calendar()}</a>
-                          <a class="dropdown-item" onClick={()=>this.showOccupied(rm1, dateset)} href="#">
+                          <a class="dropdown-item" onClick={()=>this.showOccupied(islodged, dateset)} href="#">
                           <i className="now-ui-icons design_bullet-list-67"></i> Report</a>
                         </div>
                         </div>
@@ -228,7 +229,7 @@ class RoomWidget extends React.Component {
                         <div class="dropdown-menu dropdown-menu-right">
                           <a class="dropdown-item" onClick={()=>this.lunchDate(this.props.getRoomdata, this.retState, this.props.user.location)} href="#">
                           <i className="now-ui-icons ui-1_calendar-60"></i> {moment(dateset).calendar()}</a>
-                          <a class="dropdown-item" onClick={()=>this.showBooked(rm, dateset)} href="#">
+                          <a class="dropdown-item" onClick={()=>this.showBooked(rm1, dateset)} href="#">
                           <i className="now-ui-icons design_bullet-list-67"></i> Report</a>
                         </div>
                         </div>
@@ -266,7 +267,7 @@ class RoomWidget extends React.Component {
                         <div class="dropdown-menu dropdown-menu-right">
                           <a class="dropdown-item" onClick={()=>this.lunchDate(this.props.getRoomdata, this.retState, this.props.user.location)} href="#">
                           <i className="now-ui-icons ui-1_calendar-60"></i> {moment(dateset).calendar()}</a>
-                          <a class="dropdown-item" onClick={()=>this.showAvailable(rm, dateset)} href="#">
+                          <a class="dropdown-item" onClick={()=>this.showAvailable(vacant, dateset)} href="#">
                           <i className="now-ui-icons design_bullet-list-67"></i> Report</a>
                         </div>
                         </div>
@@ -294,7 +295,7 @@ class RoomWidget extends React.Component {
                         <div class="dropdown-menu dropdown-menu-right">
                           <a class="dropdown-item" onClick={()=>this.lunchDate(this.props.getRoomdata, this.retState)} href="#">
                           <i className="now-ui-icons ui-1_calendar-60"></i> {moment(dateset).calendar()}</a>
-                          <a class="dropdown-item" onClick={()=>this.showGuest(rm, dateset)} href="#">
+                          <a class="dropdown-item" onClick={()=>this.showGuest(guestno2, dateset)} href="#">
                           <i className="now-ui-icons design_bullet-list-67"></i> Report</a>
                         </div>
                         </div>
@@ -321,7 +322,7 @@ class RoomWidget extends React.Component {
                         <div class="dropdown-menu dropdown-menu-right">
                           <a class="dropdown-item" onClick={()=>this.lunchDate(this.props.getRoomdata, this.retState, this.props.user.location)} href="#">
                           <i className="now-ui-icons ui-1_calendar-60"></i> {moment(dateset).calendar()}</a>
-                          <a class="dropdown-item" onClick={()=>this.showService(rm, dateset)} href="#">
+                          <a class="dropdown-item" onClick={()=>this.showService(vacant3, dateset)} href="#">
                           <i className="now-ui-icons design_bullet-list-67"></i> Report</a>
                         </div>
                         </div>

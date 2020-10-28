@@ -74,10 +74,33 @@ const deleteRow =(id, data)=>{
         }
       })
 }
+const convertdays = (time) =>{
+        let ys = parseInt(time)/( 60 * 60 * 30 * 24 * 12);
+        let y = Math.floor(ys);
+        let mts = (ys - y) * 12;
+        let mt = Math.floor(mts);
+        let ds = (mts - mt) * 30;
+        let d = Math.floor(ds);
+        let hs = (ds - d) * 24;
+        let h  = Math.floor(hs);
+        let ms = (hs - h) * 60;
+        let m = Math.floor(ms);
+        let ss = (ms - m) * 60;
+        let s = Math.floor(ss);
+
+        let dates = y > 0 ? y > 1 ? y + 'yrs ' :  y + 'yr  ' : '';
+        dates += mt > 0 ? mt > 1 ? mt + 'mths ' :  mt + 'mth' : '';
+        dates += d > 0 ? d > 1 ? d + 'days ' :  d + 'day' : '';
+        dates += h > 0 ? h > 1 ? h + 'hrs ' :  h + 'hr ' : '';
+        dates += m > 0 ? m > 1 ? m + 'mins ' :  m + 'min ' : '';
+        dates += s > 0 ? s > 1 ? s + 'secs' :  s + 'sec' : '';
+
+        return dates;
+    }
 
 let tabl ='';
 console.log(data);
-if(grp === 1 || grp === 2)
+if(grp === 1)
 {
      tabl = data && Array.isArray(data) && data.length > 0 ? data.map((prop, ind)=>{
      if(prop !== null)
@@ -93,7 +116,28 @@ if(grp === 1 || grp === 2)
                 <td style={{padding:'1px', margin:'0px'}}>{prop.name}</td>
                 <td style={{padding:'1px', margin:'0px', textTransform:'capitalize'}}>{prop.fullname}</td>
                 <td style={{padding:'1px', margin:'0px'}}>{prop.phone}</td>
-                <td style={{padding:'1px', margin:'0px'}}>{prop.duration}</td>
+                <td style={{padding:'1px', margin:'0px'}}>{convertdays(prop.duration)}</td>
+            </tr>
+      }
+    }):''
+}
+if(grp === 2)
+{
+     tabl = data && Array.isArray(data) && data.length > 0 ? data.map((prop, ind)=>{
+     if(prop !== null)
+     {
+         return <tr 
+                id={ind} 
+                style={{padding:'1px', margin:'0px'}}
+                onMouseEnter={()=>loadShown(prop.id, 0)}
+                onMouseLeave={()=>loadShown(prop.id, 1)}
+                >
+                <td style={{padding:'1px', margin:'0px'}}>{lockz[prop.locationid]}</td>
+                <td style={{padding:'1px', margin:'0px'}}>{prop.categoryname}</td>
+                <td style={{padding:'1px', margin:'0px'}}>{prop.name}</td>
+                <td style={{padding:'1px', margin:'0px', textTransform:'capitalize'}}>{prop.fullname}</td>
+                <td style={{padding:'1px', margin:'0px'}}>{prop.phone}</td>
+                <td style={{padding:'1px', margin:'0px'}}>{moment(prop.transaction_date).format('DD/MM/YYYY hh:mm:ss')}</td>
             </tr>
       }
     }):''
@@ -110,8 +154,30 @@ if(grp === 3)
                 onMouseEnter={()=>loadShown(prop.id, 0)}
                 onMouseLeave={()=>loadShown(prop.id, 1)}
                 >
+                <td style={{padding:'1px', margin:'0px'}}>{lockz[prop.locationid]}</td>
                 <td style={{padding:'1px', margin:'0px'}}>{prop.categoryname}</td>
                 <td style={{padding:'1px', margin:'0px'}}>{prop.name}</td>
+            </tr>
+      }
+    }):''
+}
+if(grp === 1)
+{
+     tabl = data && Array.isArray(data) && data.length > 0 ? data.map((prop, ind)=>{
+     if(prop !== null)
+     {
+         return <tr 
+                id={ind} 
+                style={{padding:'1px', margin:'0px'}}
+                onMouseEnter={()=>loadShown(prop.id, 0)}
+                onMouseLeave={()=>loadShown(prop.id, 1)}
+                >
+                <td style={{padding:'1px', margin:'0px'}}>{lockz[prop.locationid]}</td>
+                <td style={{padding:'1px', margin:'0px'}}>{prop.categoryname}</td>
+                <td style={{padding:'1px', margin:'0px'}}>{prop.name}</td>
+                <td style={{padding:'1px', margin:'0px', textTransform:'capitalize'}}>{prop.fullname}</td>
+                <td style={{padding:'1px', margin:'0px'}}>{prop.phone}</td>
+                <td style={{padding:'1px', margin:'0px'}}>{convertdays(prop.duration)}</td>
             </tr>
       }
     }):''
@@ -123,26 +189,36 @@ if(grp === 3)
       isOpen={modal} 
       size='lg' 
       toggle={toggle} backdrop='static' keyboard={false}>
-        <ModalHeader toggle={resetdata}><i className='fa fa-wrench'></i> {title}{' '}{moment(date).format('DD MM YYYY')}</ModalHeader>
+        <ModalHeader toggle={resetdata}><i className='fa fa-wrench'></i> {title}{' '}<small>{moment(date).format('DD MMMM YYYY')}</small></ModalHeader>
         <ModalBody >
         <Container>
         <table width='100%' className=" table table-bordered table-striped" id="myTable">
             <thead>
-            {grp == 1 || grp == 2 ?
+            {grp == 1 ?
                 <tr style={{fontSize:'0.9em', fontFamily:'Tahoma', fontWeight:'bolder', lineHeight:'110%'}}>
                     <th style={{fontSize:'0.9em', fontFamily:'Tahoma', fontWeight:'bolder', lineHeight:'110%'}}>LOCATION</th>
                     <th style={{fontSize:'0.9em', fontFamily:'Tahoma', fontWeight:'bolder', lineHeight:'110%'}}>HOUSE</th>
-                    <th style={{fontSize:'0.9em', fontFamily:'Tahoma', fontWeight:'bolder', lineHeight:'110%'}} width='90px'>ROOM</th>
+                    <th style={{fontSize:'0.9em', fontFamily:'Tahoma', fontWeight:'bolder', lineHeight:'110%'}}>ROOM</th>
                     <th style={{fontSize:'0.9em', fontFamily:'Tahoma', fontWeight:'bolder', lineHeight:'110%'}}>GUEST NAME</th>
                     <th style={{fontSize:'0.9em', fontFamily:'Tahoma', fontWeight:'bolder', lineHeight:'110%'}}>PHONE</th>
-                    <th style={{fontSize:'0.9em', fontFamily:'Tahoma', fontWeight:'bolder', lineHeight:'110%'}} width='70px'>RES</th>
+                    <th style={{fontSize:'0.9em', fontFamily:'Tahoma', fontWeight:'bolder', lineHeight:'110%'}}>RES. TIME</th>
+                </tr>
+              :''}
+            {grp == 2 ?
+                <tr style={{fontSize:'0.9em', fontFamily:'Tahoma', fontWeight:'bolder', lineHeight:'110%'}}>
+                    <th style={{fontSize:'0.9em', fontFamily:'Tahoma', fontWeight:'bolder', lineHeight:'110%'}}>LOCATION</th>
+                    <th style={{fontSize:'0.9em', fontFamily:'Tahoma', fontWeight:'bolder', lineHeight:'110%'}}>HOUSE</th>
+                    <th style={{fontSize:'0.9em', fontFamily:'Tahoma', fontWeight:'bolder', lineHeight:'110%'}}>ROOM</th>
+                    <th style={{fontSize:'0.9em', fontFamily:'Tahoma', fontWeight:'bolder', lineHeight:'110%'}}>GUEST NAME</th>
+                    <th style={{fontSize:'0.9em', fontFamily:'Tahoma', fontWeight:'bolder', lineHeight:'110%'}}>PHONE</th>
+                    <th style={{fontSize:'0.9em', fontFamily:'Tahoma', fontWeight:'bolder', lineHeight:'110%'}}>BOOKED</th>
                 </tr>
               :''}
             {grp == 3 ?
                 <tr style={{fontSize:'0.9em', fontFamily:'Tahoma', fontWeight:'bolder', lineHeight:'110%'}}>
                     <th style={{fontSize:'0.9em', fontFamily:'Tahoma', fontWeight:'bolder', lineHeight:'110%'}}>LOCATION</th>
                     <th style={{fontSize:'0.9em', fontFamily:'Tahoma', fontWeight:'bolder', lineHeight:'110%'}}>HOUSE</th>
-                    <th style={{fontSize:'0.9em', fontFamily:'Tahoma', fontWeight:'bolder', lineHeight:'110%'}} width='90px'>ROOM</th>
+                    <th style={{fontSize:'0.9em', fontFamily:'Tahoma', fontWeight:'bolder', lineHeight:'110%'}}>ROOM</th>
                 </tr>
             : ''}
             {grp == 4 ?

@@ -3,19 +3,26 @@ import { connect } from "react-redux";
 import moment from 'moment';
 import Swal from "sweetalert2";
 import { getMaintenanceanalysis } from "./../../actions/maintenancetype";
+import ReportMaintenanceWidget from "./../Form/ReportMaintenanceWidget";
 import $ from 'jquery';
 import Chart1 from "./Chart1";
 import Chart2 from "./Chart2";
 import Chart3 from "./Chart3";
 import Chart4 from "./Chart4";
 import Chart5 from "./Chart5";
-
+import { statuss } from './../../actions/common.js';
 class MaintenanceWidget extends React.Component {
     constructor(props){
         super(props);
         this.state ={
           startdate:new Date(),
-          enddate:new Date()
+          enddate:new Date(),
+          fid:false,
+          title:'',
+           data:{},
+           start:'',
+           end:'',
+           grp:''
         }
       }
 
@@ -90,6 +97,37 @@ class MaintenanceWidget extends React.Component {
           
             return Number(d).toFixed(6);
         }
+    showCategory = (data, start, end) =>{
+        this.setState({
+            fid:true,
+            title:'Maintenance Category',
+            data:data,
+            start:start,
+            end:end,
+            grp:1
+        })
+    }
+    showPiority = (data, start, end) =>{
+        this.setState({
+            fid:true,
+            title:'Maintenance Piority',
+            data:data,
+            start:start,
+            end:end,
+            grp:2
+        })
+    }
+    showState = (data, start, end) =>{
+        this.setState({
+            fid:true,
+            title:'Maintenance State',
+            data:data,
+            start:start,
+            end:end,
+            grp:3
+        })
+    }
+
     render() {
         let {startdate, enddate } = this.state;
         let odata1 = this.props.maintenanceanalysis && Array.isArray(this.props.maintenanceanalysis) && this.props.maintenanceanalysis[0] ? this.props.maintenanceanalysis[0] : [] ;
@@ -108,7 +146,7 @@ class MaintenanceWidget extends React.Component {
 
         let er2 = {};
         odata2.forEach(prop=>{
-                er2[prop.status] = prop.num;
+                er2[statuss[prop.status]] = prop.num;
                 return er2;
         });
         let okeyz2 = Object.keys(er2);
@@ -144,11 +182,27 @@ class MaintenanceWidget extends React.Component {
 
         return (
             <>
+             {this.state.fid ?
+            <ReportMaintenanceWidget
+                st={this.state.fid}
+                title={this.state.title}
+                data={this.state.data}
+                start={this.state.start}
+                end={this.state.end}
+                grp={this.state.grp}
+                handleClose={()=>this.setState({
+                    fid:false, 
+                    title:'',
+                    grp:'', 
+                    data:{},
+                    date:''
+                })}
+                />:''}
             <div class="row">
                 <div class="col-md-4">
                     <div class="card card-stats">
                     <div class="card-header">
-                        <h5 class="card-category"><b>Maintenance Categorys</b></h5>
+                        <h5 class="card-category" onClick={()=>this.showCategory(odata1, startdate, enddate)}><b><i className='fa fa-ellipsis-v'></i>{' '}Maintenance Categorys</b></h5>
                     </div>
                         <div class="card-body">
                             <div id="chart" class="chart">
@@ -165,7 +219,7 @@ class MaintenanceWidget extends React.Component {
                 <div class="col-md-4">
                     <div class="card card-stats">
                     <div class="card-header">
-                        <h5 class="card-category"><b>Maintenance Piority</b></h5>
+                        <h5 class="card-category" onClick={()=>this.showPiority(odata2, startdate, enddate)} ><b><i className='fa fa-ellipsis-v'></i>{' '} Maintenance Piority</b></h5>
                     </div>
                         <div class="card-body">
                             <div id="chart" class="chart">
@@ -183,7 +237,7 @@ class MaintenanceWidget extends React.Component {
                 
                     <div class="card card-stats">
                     <div class="card-header">
-                        <h5 class="card-category"><b>Maintenance State</b></h5>
+                        <h5 class="card-category" onClick={()=>this.showState(odata3, startdate, enddate)}><b><i className='fa fa-ellipsis-v'></i>{' '} Maintenance State</b></h5>
                     </div>
                         <div class="card-body">
                             <div id="chart" class="chart">

@@ -37,6 +37,14 @@ export const callError = (err) =>{
 
   }
   export const timeConvert = date =>{
-    return ''
+    return '';
 
 }
+export const alllocations = {
+   1:'Kainji',
+   2:'Jebba'
+  };
+export const alllocationsObj = [
+{'value':1, 'label':'Kainji'},
+{'value':2, 'label':'Jebba'}
+];

@@ -110,7 +110,7 @@ class Home extends React.Component {
       })
 
       let params1 = {
-        data:{},
+        data:JSON.stringify({'locationid':this.props.user.location}),
         cat:'categoryroomall',
         table:'rooms'
       }
@@ -130,7 +130,7 @@ class Home extends React.Component {
         table:'user_types'
       }
       let params5 = {
-        data:{},
+        data:JSON.stringify({'locationid':this.props.user.location}),
         cat:'roomall',
         table:'room_types'
       }
@@ -139,6 +139,34 @@ class Home extends React.Component {
       this.props.getMaintenancecategorys(params3);
       this.props.getUsercategorys(params4);
       this.props.getRoomtypes(params5);
+
+    }
+
+    componentDidUpdate(prevProps){
+     
+      if(prevProps.user.location !== this.props.user.location){
+      let dt = new Date();
+      let firstday = new Date(dt.getFullYear(), dt.getMonth(), 1);
+      let lastday = new Date(dt.getFullYear(), dt.getMonth() + 1, 0);
+      this.setState({
+         defaultstarted: moment(firstday).format("YYYY-MM-DD"),
+         defaultended: moment(lastday).format("YYYY-MM-DD")
+      })
+
+      let params1 = {
+        data:JSON.stringify({'locationid':this.props.user.location}),
+        cat:'categoryroomall',
+        table:'rooms'
+      }
+      
+      let params5 = {
+        data:JSON.stringify({'locationid':this.props.user.location}),
+        cat:'roomall',
+        table:'room_types'
+      }
+      this.props.getRoomcategorys(params1);
+      this.props.getRoomtypes(params5);
+    }
 
     }
     
@@ -436,10 +464,9 @@ class Home extends React.Component {
 
 }
 
-const mapStateToProps = (state, ownprop) =>{
-  
-
-}
+const mapStateToProps = (state, ownprop) =>({
+  user:state.userReducer
+})
 export default connect(mapStateToProps, 
   {
     getRoomcategorys, 

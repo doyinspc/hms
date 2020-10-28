@@ -1,10 +1,12 @@
 import React from "react";
+import { connect } from 'react-redux';
 import { NavLink, Link, Redirect } from "react-router-dom";
 import { Nav } from "reactstrap";
 // javascript plugin used to create scrollbars on windows
 import PerfectScrollbar from "perfect-scrollbar";
 import logo from "logo-white.svg";
 import {SERVER_URL, imgx} from './../../actions/common';
+import {getUserLogout} from './../../actions/user';
 import "assets/css/mine.css";
 var ps;
 
@@ -38,11 +40,15 @@ class Sidebar extends React.Component {
     return <Redirect to="/account/user" />
   }
 
+  logOut = () =>{
+    this.props.getUserLogout();
+  }
+
   render() {
     let {username, photo} = this.props.user || {};
    
     return (
-      <div className="sidebar" data-color={this.props.backgroundColor}>
+      <div className="sidebar d-print-none" data-color={this.props.backgroundColor}>
         <div className="logo" style={{backgroundColor:'#fff', color:'skyblue'}}>
           <a
             href=""
@@ -70,7 +76,7 @@ class Sidebar extends React.Component {
             target="_blank"
             style={{fontFamily:'Josefin Sans', textTransform:'capitalize', textAlign:'center', fontSize:'1.6rem'}}
           >
-           {process.env.REACT_APP_FOLDER}
+           {this.props.user.locationname}
           </a>
         </div>
         
@@ -100,55 +106,97 @@ class Sidebar extends React.Component {
                     <span className="fa fa-caret-right" ></span>
               </li>
               <span className='collapse' id='invt'>
-              <li className="sidebarmenus my-0 py-0" >
-                    <p className="" > Add Category</p>  
+              <li className="sidebarmenus my-0 py-0">
+                    <NavLink 
+                    to='/account/inventory' 
+                    className="sidebarmenux my-0 py-0"
+                    >Inventory Categories</NavLink>
               </li>
               <li className="sidebarmenus my-0 py-0">
-                    <p className="" > Add Inventory type</p>  
+                    <NavLink 
+                    to='/account/inventory' 
+                    className="sidebarmenux my-0 py-0"
+                    >Inventories</NavLink>
               </li>
               <li className="sidebarmenus my-0 py-0">
-                    <p className="" > Inventory Form</p>  
+                    <NavLink 
+                    to='/account/inventory' 
+                    className="sidebarmenux my-0 py-0"
+                    >Inventory Report</NavLink>
               </li>
-              <li className="sidebarmenus my-0 py-0" >
-                    <p className="" > Category list</p>  
-              </li>
+              
               <li className="sidebarmenus my-0 py-0">
-                    <p className="" > Inventory</p>  
-              </li>
-              <li className="sidebarmenus my-0 py-0">
-                    <p className="" > History</p>  
-              </li>
-              <li className="sidebarmenus my-0 py-0">
-                    <p className="" > Report</p>  
+                     <NavLink 
+                    to='/account/inventoryreport' 
+                    className="sidebarmenux my-0 py-0"
+                    >Inventory Summary</NavLink>
               </li>
               </span>
               <li className="sidebarmenu">
                     <span className="fa fa-wrench" ></span>
-                    <p className="" data-toggle='collapse' data-target="#mtn">Maintennce {" "}</p>
+                    <p className="" data-toggle='collapse' data-target="#rom">Housekeeping {" "}</p>
+                    <span className="fa fa-caret-right" ></span>  
+              </li>
+              <span className='collapse' id='rom'>
+              <li className="sidebarmenus my-0 py-0">
+                    <NavLink 
+                    to='/account/room' 
+                    className="sidebarmenux my-0 py-0"
+                    >Room Categories</NavLink>
+              </li>
+              <li className="sidebarmenus my-0 py-0">
+                    <NavLink 
+                    to='/account/room' 
+                    className="sidebarmenux my-0 py-0"
+                    >Room Types</NavLink>
+              </li>
+              <li className="sidebarmenus my-0 py-0">
+                    <NavLink 
+                    to='/account/room' 
+                    className="sidebarmenux my-0 py-0"
+                    >Room Report</NavLink>
+              </li>
+              
+              <li className="sidebarmenus my-0 py-0">
+                     <NavLink 
+                    to='/account/roomreport' 
+                    className="sidebarmenux my-0 py-0"
+                    >Room Summary</NavLink>
+              </li>
+           
+              </span>
+              <li className="sidebarmenu">
+                    <span className="fa fa-wrench" ></span>
+                    <p className="" data-toggle='collapse' data-target="#mtn">Maintenance {" "}</p>
                     <span className="fa fa-caret-right" ></span>  
               </li>
               <span className='collapse' id='mtn'>
-              <li className="sidebarmenus my-0 py-0" >
-                    <p className="" > Add Category</p>  
+              <li className="sidebarmenus my-0 py-0">
+                    <NavLink 
+                    to='/account/maintenance' 
+                    className="sidebarmenux my-0 py-0"
+                    >Maintenance Categories</NavLink>
               </li>
               <li className="sidebarmenus my-0 py-0">
-                    <p className="" > Add Maintenance type</p>  
+                    <NavLink 
+                    to='/account/maintenance' 
+                    className="sidebarmenux my-0 py-0"
+                    >Maintenance Types</NavLink>
               </li>
               <li className="sidebarmenus my-0 py-0">
-                    <p className="" > Maintenance Request Form</p>  
+                    <NavLink 
+                    to='/account/maintenance' 
+                    className="sidebarmenux my-0 py-0"
+                    >Maintenance Report</NavLink>
               </li>
-              <li className="sidebarmenus my-0 py-0" >
-                    <p className="" > Category list</p>  
-              </li>
+              
               <li className="sidebarmenus my-0 py-0">
-                    <p className="" > Inventory</p>  
+                     <NavLink 
+                    to='/account/maintenancereport' 
+                    className="sidebarmenux my-0 py-0"
+                    >Maintenance Summary</NavLink>
               </li>
-              <li className="sidebarmenus my-0 py-0">
-                    <p className="" > History</p>  
-              </li>
-              <li className="sidebarmenus my-0 py-0">
-                    <p className="" > Report</p>  
-              </li>
+           
               </span>
               <li className="sidebarmenu">
                     <span className="fa fa-users" ></span>
@@ -156,23 +204,23 @@ class Sidebar extends React.Component {
                     <span className="fa fa-caret-right" ></span>  
               </li>
               <span className='collapse' id='stf'>
-              <li className="sidebarmenus my-0 py-0" >
-                   <NavLink 
-                    to='/account/user' 
-                    className="sidebarmenux my-0 py-0"
-                    >Add Department </NavLink>  
-              </li>
               <li className="sidebarmenus my-0 py-0">
                     <NavLink 
                     to='/account/user' 
                     className="sidebarmenux my-0 py-0"
-                    >Add Staff </NavLink>
+                    >Departments</NavLink>
               </li>
               <li className="sidebarmenus my-0 py-0">
                     <NavLink 
-                    to='/account/user' 
+                    to='/account/users/active' 
                     className="sidebarmenux my-0 py-0"
-                    >Staff List </NavLink>
+                    >Active Staff</NavLink>
+              </li>
+               <li className="sidebarmenus my-0 py-0">
+                    <NavLink 
+                    to='/account/users/inactive' 
+                    className="sidebarmenux my-0 py-0"
+                    >Inactive Staff</NavLink>
               </li>
               <li className="sidebarmenus my-0 py-0">
                      <NavLink 
@@ -182,19 +230,18 @@ class Sidebar extends React.Component {
               </li>
            
               </span>
-              <li className="sidebarmenu">
+              <li className="sidebarmenu" onClick={this.logOut}>
                     <span className="fa fa-lock" ></span>
                     <p className="" data-toggle='collapse' data-target="#dash">Logout {" "}</p> 
-                    
-              </li>
-              
-
-               
+              </li> 
         </Nav>
         </div>
       </div>
     );
   }
 }
+const mapStateToProps = (state, ownProps) =>({
+  user: state.userReducer
+})
 
-export default Sidebar;
+export default connect(mapStateToProps, {getUserLogout})(Sidebar);

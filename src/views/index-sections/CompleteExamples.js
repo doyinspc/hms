@@ -12,12 +12,10 @@ function CompleteExamples() {
         <Container className="text-center">
           <Row className="justify-content-md-center">
             <Col lg="8" md="12">
-              <h2 className="title">Completed with examples</h2>
+              <h2 className="title" style={{fontFamily:'Kaushan Script', textTransform:'none'}}>Welcome to SIL HMS</h2>
               <h5 className="description">
-                The kit comes with three pre-built pages to help you get started
-                faster. You can change the text and images and you're good to
-                go. More importantly, looking at them will give you a picture of
-                what you can built with this powerful Bootstrap 4 ui kit.
+                With so much competition in the hospitality space, hotels must do more to show guests they’re the number one choice. 
+                StreSERT Integrated Limited Hotels stands are keen on optimizing guest satisfaction at all its hotels. .
               </h5>
             </Col>
           </Row>

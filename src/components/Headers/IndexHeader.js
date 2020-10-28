@@ -1,51 +1,15 @@
 /*eslint-disable*/
 import React from "react";
-import { Container, Row,  Col,
-  Carousel,
-  CarouselItem,
-  CarouselIndicators, } from "reactstrap";
+import Animate from 'animate.css-react'
+import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+// reactstrap components
+import { Container } from "reactstrap";
 // core components
-const items = [
-  {
-    src: require("assets/img/header.jpg"),
-    altText: "Nature, United States",
-    caption: "Nature, United States",
-  },
-  {
-    src: require("assets/img/bg3.jpg"),
-    altText: "Somewhere Beyond, United States",
-    caption: "Somewhere Beyond, United States",
-  },
-  {
-    src: require("assets/img/bg4.jpg"),
-    altText: "Yellowstone National Park, United States",
-    caption: "Yellowstone National Park, United States",
-  },
-];
-function IndexHeader() {
+
+function IndexHeader(props) {
   let pageHeader = React.createRef();
-  const [activeIndex, setActiveIndex] = React.useState(0);
-  const [animating, setAnimating] = React.useState(false);
-  const onExiting = () => {
-    setAnimating(true);
-  };
-  const onExited = () => {
-    setAnimating(false);
-  };
-  const next = () => {
-    if (animating) return;
-    const nextIndex = activeIndex === items.length - 1 ? 0 : activeIndex + 1;
-    setActiveIndex(nextIndex);
-  };
-  const previous = () => {
-    if (animating) return;
-    const nextIndex = activeIndex === 0 ? items.length - 1 : activeIndex - 1;
-    setActiveIndex(nextIndex);
-  };
-  const goToIndex = (newIndex) => {
-    if (animating) return;
-    setActiveIndex(newIndex);
-  };
+
   React.useEffect(() => {
     if (window.innerWidth > 991) {
       const updateScroll = () => {
@@ -62,83 +26,53 @@ function IndexHeader() {
 
   return (
     <>
-      <div className="page-header " filter-color="blue">
-     
-        <Container ref={pageHeader} fluid className='page-header-image m-0 p-0 ' style={{zIndex:'-15'}}>
-          
-          <Row className="justify-content-center m-0 p-0">
-            <Col className='m-0 p-0' lg="12" md="12">
-              <Carousel
-                activeIndex={activeIndex}
-                next={next}
-                previous={previous}
-              >
-                <CarouselIndicators
-                  items={items}
-                  activeIndex={activeIndex}
-                  onClickHandler={goToIndex}
-                />
-                {items.map((item) => {
-                  return (
-                    <CarouselItem
-                      onExiting={onExiting}
-                      onExited={onExited}
-                      key={item.src}
-                    >
-                    <div
-                        className="page-header-image"
-                        style={{
-                          backgroundImage: "url(" + item.src2 + ")",
-                        }}
-                        ref={pageHeader}
-                      ></div>
-                      
-                      <div className="carousel-caption d-none d-md-block">
-                        <h5>{item.caption}</h5>
-                      </div>
-                    </CarouselItem>
-                  );
-                })}
-                <a
-                  className="carousel-control-prev"
-                  data-slide="prev"
-                  href="#pablo"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    previous();
-                  }}
-                  role="button"
-                >
-                  <i className="now-ui-icons arrows-1_minimal-left"></i>
-                </a>
-                <a
-                  className="carousel-control-next"
-                  data-slide="next"
-                  href="#pablo"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    next();
-                  }}
-                  role="button"
-                >
-                  <i className="now-ui-icons arrows-1_minimal-right"></i>
-                </a>
-              </Carousel>
-            </Col>
-          </Row>
-        </Container>
-       
-        <Container>
-          <div className="content-center brand">
-            <h1 className="h1-seo">SIL HMS</h1>
-            <h3>A beautiful Bootstrap 4 UI kit. Yours free.</h3>
+    
+      <div className="page-header clear-filter" filter-color="blue">
+        <div
+          className="page-header-image"
+          style={{
+            backgroundImage: "url(" + require("assets/img/header.jpg") + ")",
+          }}
+          ref={pageHeader}
+        ></div>
+        <Container className='pagemaker'>
+
+           
+          <div className="content-center brand" style={{padding:'15px' , backgroundColor:'rgba(0, 0, 0, 0.4)', borderRadius:'10px'}}>
+          <Animate
+                appear="fadeIn"
+                durationAppear={2000}
+                component="div" >
+            <img
+              alt="silhms"
+              className="n-logo"
+              height='100px'
+              src={require("assets/img/logo.png")}
+            />
+            </Animate>
+            <Animate
+                appear="fadeInDown"
+                durationAppear={3000}
+                component="div" >
+            <h1 className="h1-seo" style={{fontFamily:'Kaushan Script', textTransform:'lowercase'}}>{process.env.REACT_APP_WEBSITE_AKA}</h1>
+            </Animate>
+             <Animate
+                appear="fadeInDown"
+                durationAppear={4000}
+                component="div" >
+            <h3>{process.env.REACT_APP_WEBSITE_NAME}.</h3>
+            <a href='#booking' className='btn btn-round btn-lg btn-warning'><i className="now-ui-icons files_paper"></i> <b>Guest Booking</b></a>
+            {props.user.isAuthenticated ? <Link to='/account/home' className='btn btn-round btn-lg btn-outline-secondary'><i className="now-ui-icons users_single-02"></i> {props.user.user.surname} Login</Link>: <a href='#' onClick={()=>props.login(true)} className='btn btn-round btn-lg btn-outline-secondary'><i className="now-ui-icons ui-1_lock-circle-open"></i> Staff login</a>}
+              </Animate>
           </div>
-          <h6 className="category category-absolute">
-          </h6>
+          
         </Container>
       </div>
     </>
   );
 }
-
-export default IndexHeader;
+const mapStateToProps = (state, ownProps) => ({ 
+    user:state.userReducer
+})
+  
+export default connect(mapStateToProps, {})(IndexHeader);

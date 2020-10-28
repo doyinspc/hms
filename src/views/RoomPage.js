@@ -2,13 +2,13 @@ import React from "react";
 import {connect} from "react-redux";
 import moment from "moment";
 import Container from "reactstrap/lib/Container";
-import HomeTopCard from "./../HomeTopCard";
-import UserBottomCard from "./BottomData";
-import FormUser from './../Form/FormUser';
-import FormUserCategory from './../Form/FormUserCategory';
-import FormUserTransaction from './../Form/FormUserTransaction';
+import HomeTopCard from "./HomeTopCard";
+import RoomBottomCard from "./Room/BottomCategory";
+import FormRoom from './Form/FormRoom';
+import FormRoomCategory from './Form/FormRoomCategory';
+import FormRoomTransaction from './Form/FormRoomTransaction';
 
-class UserPages extends React.Component {
+class RoomPage extends React.Component {
 	 constructor(props){
         super(props);
         this.state ={
@@ -22,23 +22,21 @@ class UserPages extends React.Component {
         defaultended:null,
   			choicestarted : new Date(),
   			choiceended : new Date(),
-  			userid: null,
-        username:'',
-        adduser:false,
-      	addusercategory:false,
-      	addusertransaction:false,
-      	numuser:null,
-      	numusercategory:null,
-      	numusertransaction:null,
+  			roomid: null,
+        roomname:'',
+        addroom:false,
+      	addroomcategory:false,
+      	addroomtransaction:false,
+      	numroom:null,
+      	numroomcategory:null,
+      	numroomtransaction:null,
       	categoryid:null,
         categoryname:''
         }
      }
 
-     
      componentDidMount()
      {
-      console.log(this.props);
 	      let dt = new Date();
 	      let firstday = new Date(dt.getFullYear(), dt.getMonth(), 1);
 	      let lastday = new Date(dt.getFullYear(), dt.getMonth() + 1, 0);
@@ -61,33 +59,33 @@ class UserPages extends React.Component {
 				choiceended,
 				defaultstarted,
     		defaultended,
-    		userid,
-        username,
-        adduser,
-      	addusercategory,
-      	addusertransaction,
-      	numuser,
-      	numusercategory,
-      	numusertransaction,
+    		roomid,
+        roomname,
+        addroom,
+      	addroomcategory,
+      	addroomtransaction,
+      	numroom,
+      	numroomcategory,
+      	numroomtransaction,
       	categoryid,
     		categoryname
 
 			 } = this.state || '';
 
-  
+
 		return(
 			<>
-			{adduser ? <FormUser st={adduser} st1={numuser} handleClose={()=>this.setState({adduser:false})} />:''}
-            {addusercategory ? <FormUserCategory st={addusercategory} st1={numusercategory} handleClose={()=>this.setState({addusercategory:false})} />:''}
-            {addusertransaction ? <FormUserTransaction st={addusertransaction} st1={numusertransaction} handleClose={()=>this.setState({addusertransaction:false})} /> : ''}
+			{addroom ? <FormRoom st={addroom} st1={numroom} handleClose={()=>this.setState({addroom:false})} />:''}
+            {addroomcategory ? <FormRoomCategory st={addroomcategory} st1={numroomcategory} handleClose={()=>this.setState({addroomcategory:false})} />:''}
+            {addroomtransaction ? <FormRoomTransaction st={addroomtransaction} st1={numroomtransaction} handleClose={()=>this.setState({addroomtransaction:false})} /> : ''}
 			<Container style={{position:'relative'}}>
                 <>
                 <div style={{minHeight:'50px'}}>
                 </div>
                   <HomeTopCard  
                       id={0}
-                      title={'Staff '}
-                      icon={'fa fa-user'}
+                      title={'HouseKeeping '}
+                      icon={'fa fa-room'}
                       handleBooking={(roomid, roomdata, roomdate, rowid)=>this.setState({
                           addbooking:true,
                           numbooking:rowid,
@@ -97,18 +95,18 @@ class UserPages extends React.Component {
                       })}
                       setDate={(start, end)=>this.setState({choicestarted:start, choiceended:end})}
                       />
-                  <UserBottomCard 
-                      id={this.props.ids}
+                  <RoomBottomCard 
+                      id={1}
                       categoryid={categoryid}
                       categoryname={categoryname}
-                      userid={this.props.user.id}
-                      username={this.props.user.surname}
+                      roomid={roomid}
+                      roomname={roomname}
                       choicestarted={choicestarted}
                       choiceended={choiceended}
                       defaultstarted={defaultstarted}
                       defaultended={defaultended}
-                      userAdd={(rid)=>this.setState({adduser:true, numuser:rid})}
-                      userTransactionAdd={(rid)=>this.setState({addusertransaction:true, numusertransaction:rid})}
+                      roomAdd={(rid)=>this.setState({addroom:true, numroom:rid})}
+                      roomTransactionAdd={(rid)=>this.setState({addroomtransaction:true, numroomtransaction:rid})}
                       />
                 </>
              </Container>
@@ -118,8 +116,8 @@ class UserPages extends React.Component {
 	}
 
 }
-const mapStateToProps = (state, ownProps) =>({
-  ids: ownProps.match.params.id,
-  user: state.userReducer.user
+const mapStateToProps = (state, ownprop) =>({
+  
+
 })
-export default connect(mapStateToProps, {})(UserPages);
+export default connect(mapStateToProps, {})(RoomPage);

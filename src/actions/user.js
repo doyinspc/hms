@@ -5,6 +5,7 @@ import {
     USER_LOGOUT_SUCCESS,
     USER_LOGOUT_FAIL,
     USER_GET_ONE,
+    USER_CHANGE_ONE,
     USER_GET_MULTIPLE,
     USER_REGISTER_SUCCESS,
     USER_REGISTER_FAIL,
@@ -79,6 +80,15 @@ export const getUser = id => (dispatch, getState) => {
     dispatch(
         {
         type : USER_GET_ONE,
+        payload: id
+    });  
+};
+//GET SINGLE USER 
+export const changeLocation = id => (dispatch, getState) => {
+    //SET PAGE LOADING
+    dispatch(
+        {
+        type : USER_CHANGE_ONE,
         payload: id
     });  
 };

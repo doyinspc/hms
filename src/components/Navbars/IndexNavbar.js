@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 // reactstrap components
 import {
   Button,
@@ -17,7 +18,7 @@ import {
   UncontrolledTooltip,
 } from "reactstrap";
 
-function IndexNavbar() {
+function IndexNavbar(props) {
   const [navbarColor, setNavbarColor] = React.useState("navbar-transparent");
   const [collapseOpen, setCollapseOpen] = React.useState(false);
   React.useEffect(() => {
@@ -57,8 +58,9 @@ function IndexNavbar() {
               href=""
               target="_blank"
               id="navbar-brand"
-            >
-              Now UI Kit React
+              className='mainname'
+              style={{fontFamily:'Kaushan Script', color:'yellow', fontSize:'1.5em', textTransform:'none'}}
+            >silhms
             </NavbarBrand>
             <UncontrolledTooltip target="#navbar-brand">
               Powered By {process.env.REACT_APP_WEBSITE_NAME}
@@ -85,47 +87,44 @@ function IndexNavbar() {
             <Nav navbar>
               <NavItem>
                 <NavLink
-                  href="#pablo"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    document
-                      .getElementById("download-section")
-                      .scrollIntoView();
-                  }}
+                  href="#booking"
+                  
                 >
-                  <i className="now-ui-icons arrows-1_cloud-download-93"></i>
-                  <p>Download</p>
+                  <i className="now-ui-icons files_paper"></i>
+                  <p>Booking</p>
                 </NavLink>
               </NavItem>
-              <UncontrolledDropdown nav>
-                <DropdownToggle
-                  caret
-                  color="default"
-                  href="#pablo"
-                  nav
-                  onClick={(e) => e.preventDefault()}
-                >
-                  <i className="now-ui-icons design_app mr-1"></i>
-                  <p>Components</p>
-                </DropdownToggle>
-                <DropdownMenu>
-                  <DropdownItem to="/index" tag={Link}>
-                    <i className="now-ui-icons business_chart-pie-36 mr-1"></i>
-                    All components
-                  </DropdownItem>
-                  <DropdownItem
-                    href="https://demos.creative-tim.com/now-ui-kit-react/#/documentation/introduction?ref=nukr-index-navbar"
-                    target="_blank"
-                  >
-                    <i className="now-ui-icons design_bullet-list-67 mr-1"></i>
-                    Documentation
-                  </DropdownItem>
-                </DropdownMenu>
-              </UncontrolledDropdown>
-             
+              
+             {props.user.isAuthenticated ? 
               <NavItem>
                 <NavLink
-                  href="https://twitter.com/CreativeTim?ref=creativetim"
+                  href="/account/home"
+                >
+                  <i className="now-ui-icons users_single-02"></i>
+                  <p>Welcome {props.user.user.surname} !</p>
+                </NavLink>
+              </NavItem>:
+              <NavItem> 
+                <NavLink
+                  href="#"
+                  onClick={()=>props.login(true)}
+                >
+                  <i className="now-ui-icons ui-1_lock-circle-open"></i>
+                  <p>Staff Login</p>
+                </NavLink>
+              </NavItem>}
+               {props.user.isAuthenticated ? 
+              <NavItem>
+                <NavLink
+                  onClick={()=>props.logout()}
+                >
+                  <i className="now-ui-icons ui-1_lock-circle-open"></i>
+                  <p>Logout</p>
+                </NavLink>
+              </NavItem>:''}
+              <NavItem>
+                <NavLink
+                  href=""
                   target="_blank"
                   id="twitter-tooltip"
                 >
@@ -138,7 +137,7 @@ function IndexNavbar() {
               </NavItem>
               <NavItem>
                 <NavLink
-                  href="https://www.facebook.com/CreativeTim?ref=creativetim"
+                  href=""
                   target="_blank"
                   id="facebook-tooltip"
                 >
@@ -151,7 +150,7 @@ function IndexNavbar() {
               </NavItem>
               <NavItem>
                 <NavLink
-                  href="https://www.instagram.com/CreativeTimOfficial?ref=creativetim"
+                  href=""
                   target="_blank"
                   id="instagram-tooltip"
                 >
@@ -170,4 +169,8 @@ function IndexNavbar() {
   );
 }
 
-export default IndexNavbar;
+const mapStateToProps = (state, ownProps) => ({ 
+    user:state.userReducer
+})
+  
+export default connect(mapStateToProps, {})(IndexNavbar)

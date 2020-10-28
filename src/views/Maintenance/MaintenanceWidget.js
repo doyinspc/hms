@@ -26,6 +26,7 @@ class MaintenanceWidget extends React.Component {
             data:JSON.stringify({
               'startdate':moment(new Date(td.getFullYear(), td.getMonth(), 1)).format('YYYY-MM-DD'),
               'enddate':moment(new Date(bk.getFullYear(), bk.getMonth() + 1, 0)).format('YYYY-MM-DD'),
+              'locationid': this.props.user.location
             }),
             cat:'mainana',
             table:'maintenance_types'
@@ -35,6 +36,29 @@ class MaintenanceWidget extends React.Component {
           startdate:moment(new Date(td.getFullYear(), td.getMonth(), 1)).format('YYYY-MM-DD'), 
           enddate:moment(new Date(bk.getFullYear(), bk.getMonth() + 1, 0)).format('YYYY-MM-DD')
         });
+      }
+
+
+      componentDidUpdate(prevProps)
+      {
+        if(prevProps.user.location !== this.props.user.location){
+        let bk = new Date();
+        let td = new Date(moment().subtract(3, 'months').calendar());
+        let params = {
+            data:JSON.stringify({
+              'startdate':moment(new Date(td.getFullYear(), td.getMonth(), 1)).format('YYYY-MM-DD'),
+              'enddate':moment(new Date(bk.getFullYear(), bk.getMonth() + 1, 0)).format('YYYY-MM-DD'),
+              'locationid': this.props.user.location
+            }),
+            cat:'mainana',
+            table:'maintenance_types'
+        }
+        this.props.getMaintenanceanalysis(params);
+        this.setState({
+          startdate:moment(new Date(td.getFullYear(), td.getMonth(), 1)).format('YYYY-MM-DD'), 
+          enddate:moment(new Date(bk.getFullYear(), bk.getMonth() + 1, 0)).format('YYYY-MM-DD')
+        });
+       }
       }
 
       lunchDate = (func, func1) =>{
@@ -216,7 +240,7 @@ class MaintenanceWidget extends React.Component {
     }
 }
 const mapStateToProps = (state, ownProps) => ({ 
-    user:state.userReducer.user,
+    user:state.userReducer,
     maintenanceanalysis:state.maintenancetypeReducer.maintenanceanalysis,
   })
   export default connect(mapStateToProps, {getMaintenanceanalysis})(MaintenanceWidget);

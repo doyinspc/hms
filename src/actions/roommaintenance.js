@@ -24,10 +24,9 @@ let params = {
     token:MAIN_TOKEN
   }
 //GET ALL ROOMMAINTENANCE 
-export const getRoommaintenances = dat => (dispatch, getState) => {
+export const getRoommaintenances = params => (dispatch, getState) => {
     //SET PAGE LOADING
-    params.data = dat;
-    params.cat = 'select';
+    params.token = MAIN_TOKEN;
     dispatch({type : ROOMMAINTENANCE_LOADING});
         axios.get(path, {params}, axiosConfig)
             .then(res => {                                                                                                                                                                                                                                        

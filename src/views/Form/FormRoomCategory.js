@@ -2,13 +2,18 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { registerRoomcategory, updateRoomcategory } from './../../actions/roomcategory';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, FormText, Label, Input, Col } from 'reactstrap';
+import { alllocations, alllocationsObj } from './../../actions/common'; 
+import Select  from 'react-select';
 
+const lockz = alllocations;
+const lockzobject = alllocationsObj;
 
 const Modals = (props) => {
   
   const [modal, setModal] = useState(false);
   const [id, setId] = useState(null);
   const [name, setName] = useState(null);
+  const [location, setLocation] = useState(null);
   const [description, setDescription] = useState(null);
   
 
@@ -16,7 +21,6 @@ const Modals = (props) => {
     toggle();
     setId(0);
     setName('');
-    setDescription('');
     props.handleClose();
 }
 
@@ -26,17 +30,18 @@ const Modals = (props) => {
     if(parseInt(props.mid) > 0 )
     {
      setId(parseInt(props.mid));
-     populate(props.roomcategorys.roomcategory);  
+     populate(props.data);  
     }
     
 },[props.st]);
 
   const handleSubmit = (e) =>{
         e.preventDefault();
-      
+        
+        let ll = props.user.location === 3 ? location.value : props.user.location;
         let fd = new FormData();
         fd.append('name', name);
-        fd.append('description', description);
+        fd.append('locationid', ll);
         fd.append('table', 'room_categorys');
         
         if(id && id > 0)
@@ -54,10 +59,28 @@ const Modals = (props) => {
 
   const populate = async(data) =>{
         setName(data.name);
-        setDescription(data.description);
+        let nm = {};
+        nm['value'] = data.locationid;
+        nm['label'] = lockz[data.locationid];
+        setLocation(nm);
     }
 
-    
+     const handleCate = (selected) => {
+      setLocation( selected );
+    }
+    const customStyles = {
+      option: (provided, state) => ({
+        ...provided,
+        borderBottom: '1px dotted green',
+        color: state.isSelected ? 'yellow' : 'black',
+        backgroundColor: state.isSelected ? 'green' : 'white'
+      }),
+      control: (provided) => ({
+        ...provided,
+        marginTop: "1%",
+      })
+    }
+
   
   let editId = id ? id : null;
   let editColor = 'primary';
@@ -65,7 +88,7 @@ const Modals = (props) => {
   return (
     <div>
       <Modal isOpen={modal} toggle={toggle} backdrop='static' keyboard={false}>
-        <ModalHeader toggle={resetdata}><i className='fa fa-hospital-o'></i> Room Categories</ModalHeader>
+        <ModalHeader toggle={resetdata}><i className='fa fa-hospital-o'></i> House</ModalHeader>
         <ModalBody>
         <Form>
           <FormGroup row>
@@ -86,22 +109,26 @@ const Modals = (props) => {
             </div>
           </Col>
           </FormGroup>
-          
+          {props.user.location === 3 ? <FormGroup row>
+           <Col sm={12}>
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <div class="input-group-text"><i class="fa fa-location"></i></div>
+              </div>
+              <Col sm={11}>
+                <Select
+                  styles = { customStyles }
+                  value={location}
+                  onChange={handleCate}
+                  options={lockzobject}
+                  autoFocus={true}
+                />
+                <FormText></FormText>
+                </Col> 
+            </div>
+          </Col>
+            </FormGroup>:<h2>{lockz[props.user.location]}</h2>}
             
-            <FormGroup row>
-                <Col sm={12}>
-                <Input 
-                    type="textarea" 
-                    name="description" 
-                    id="description"  
-                    placeholder="Description"
-                    required
-                    defaultValue={description}
-                    onChange={e=>setDescription(e.target.value)} 
-                     />
-                </Col>
-                <FormText color='mute'></FormText>
-            </FormGroup>
             
         </Form>
         </ModalBody>
@@ -114,7 +141,7 @@ const Modals = (props) => {
   );
 }
 const mapStateToProps = (state, ownProps) => ({ 
-    user:state.userReducer.user,
+    user:state.userReducer,
     roomcategorys:state.roomcategoryReducer
   })
   

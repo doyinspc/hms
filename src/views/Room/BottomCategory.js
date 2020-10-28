@@ -3,16 +3,21 @@ import { connect } from 'react-redux';
 import Swal from 'sweetalert2';
 import moment from 'moment';
 import { Link, NavLink } from "react-router-dom";
-import {getUsercategorys, getUsercategory, registerUsercategory, updateUsercategory, deleteUsercategory } from './../../actions/usercategory';
-import {getUsertypes, getUsertype, registerUsertype, updateUsertype, deleteUsertype } from './../../actions/usertype';
-import {getUsertransactions, getUsertransaction, registerUsertransaction, updateUsertransaction, deleteUsertransaction } from './../../actions/usertransaction';
-import FormUserCategory from "views/Form/FormUserCategory";
-import FormUser from "views/Form/FormUser";
-import UserRow from './UserRow';
-import FormUserTransaction from "views/Form/FormUserTransaction";
-import FormUserAccess from "views/Form/FormUserAccess";
+import {getRoomcategorys, getRoomcategory, registerRoomcategory, updateRoomcategory, deleteRoomcategory } from './../../actions/roomcategory';
+import {getRoomtypes, getRoomtype, registerRoomtype, updateRoomtype, deleteRoomtype } from './../../actions/roomtype';
+import {getRoomtransactions, getRoomtransaction, registerRoomtransaction, updateRoomtransaction, deleteRoomtransaction } from './../../actions/roomtransaction';
+import FormRoomCategory from "views/Form/FormRoomCategory";
+import FormRoom from "views/Form/FormRoom";
+import RoomRow from './RoomRow';
+import FormRoomTransaction from "views/Form/FormRoomTransaction";
 import $ from 'jquery';
 
+
+const locs = {
+    1:'Kaimji',
+    2:'Jebba',
+    3:'HQ'
+}
 class BottomCard extends React.Component {
    constructor(props){
        super(props);
@@ -37,13 +42,13 @@ class BottomCard extends React.Component {
        }
    }
 
-    componentDidMount(){
+    async componentDidMount(){
         //GET PROPS
         let id = parseInt(this.props.id);
         let categoryid = this.props.categoryid ? parseInt(this.props.categoryid) : null;
         let categoryname = this.props.category ? parseInt(this.props.categoryname) : '';
-        let userid = this.props.userid ? parseInt(this.props.userid) : null;
-        let username = this.props.user ? parseInt(this.props.username) : '';
+        let roomid = this.props.roomid ? parseInt(this.props.roomid) : null;
+        let roomname = this.props.room ? parseInt(this.props.roomname) : '';
         let choicestarted = this.props.choicestarted ? this.props.choicestarted : null;
         let choiceended = this.props.choiceended ? this.props.choiceended : null;
         let started = this.props.defaultstarted ? this.props.defaultstarted : null;
@@ -65,31 +70,31 @@ class BottomCard extends React.Component {
             daterange:daterange
         });
         
-        if(id === 1)
-        {
+       
             //GET ALL CATEGORYS
             let params = {
-                data:{},
-                cat:'categoryuserall',
-                table:'user_categorys'
+                data:JSON.stringify({'locationid':this.props.user.location}),
+                cat:'categoryroomall',
+                table:'room_categorys'
             }
          
-         this.setState({subtopic:'User Categories List'});
-         this.props.getUsercategorys(params);
-         $('#myTablex').DataTable();
-        }
+         this.setState({subtopic:'Room Categories List'});
+        await  this.props.getRoomcategorys(params);
+        
+        $('#myTablex').DataTable();
+        //tb.destroy();
     }
         
-    componentDidUpdate(prevProps, prevState)
+    async componentDidUpdate(prevProps, prevState)
     {
         //GET PROPS
-        if(prevProps.id !== this.props.id || prevProps.choicestarted !== this.props.choicestarted || prevProps.choiceended !== this.props.choiceended)
+        if(prevProps.user.location !== this.props.user.location || prevProps.id !== this.props.id || prevProps.choicestarted !== this.props.choicestarted || prevProps.choiceended !== this.props.choiceended)
         {
         let id = parseInt(this.props.id);
         let categoryid = this.props.categoryid ? parseInt(this.props.categoryid) : null;
         let categoryname = this.props.category ? parseInt(this.props.categoryname) : '';
-        let userid = this.props.userid ? parseInt(this.props.userid) : null;
-        let username = this.props.user ? parseInt(this.props.username) : '';
+        let roomid = this.props.roomid ? parseInt(this.props.roomid) : null;
+        let roomname = this.props.room ? parseInt(this.props.roomname) : '';
         let choicestarted = this.props.choicestarted ? this.props.choicestarted : null;
         let choiceended = this.props.choiceended ? this.props.choiceended : null;
         let started = this.props.defaultstarted ? this.props.defaultstarted : null;
@@ -113,62 +118,64 @@ class BottomCard extends React.Component {
             daterange:daterange
         });
        
-        if(id === 1)
-        {
+       
             //GET ALL CATEGORYS
             let params = {
-                data:{},
-                cat:'categoryuserall',
-                table:'user_categorys'
+                data:JSON.stringify({'locationid':this.props.user.location}),
+                cat:'categoryroomall',
+                table:'room_categorys'
             }
          
-         this.setState({subtopic:'User Categories List'});
-         this.props.getUsercategorys(params);
-        }
+         this.setState({subtopic:'Room Categories List'});
+         await this.props.getRoomcategorys(params);
+        $('#myTablex').DataTable();
         
     }
     }
+    componentWillUnmount(){
+        $('#myTablex').DataTable().destroy();
+    }
     //EDIT CATEGORY
     categoryEditForm = (id, dat) =>{
-        this.props.getUsercategory(id);
-        this.setState({cfid:true, mid:id});
+        this.props.getRoomcategory(id);
+        this.setState({cfid:true, mid:id, data:dat});
     }
     //REPORT
     categoryReport = (cid, catname) =>{
         this.setState({id:5});
-        //GET ALL USERS
-         //GET USER TRANSACTIONS PARTICULAR TYPE
+        //GET ALL ROOMS
+         //GET ROOM TRANSACTIONS PARTICULAR TYPE
             //DATE RANGE NEEDED
             //INVTORY ID NEEDED
             let dt = {
                 'starts':this.state.started,
                 'ends':this.state.ended,
-                'userid':cid,
+                'roomid':cid,
             }
             let params = {
                 data:JSON.stringify(dt),
-                cat:'usertransaction',
-                table:'user_transactions'
+                cat:'roomtransaction',
+                table:'room_transactions'
             }
-        let catn = 'User History :' + catname + this.state.daterange;
+        let catn = 'Room History :' + catname + this.state.daterange;
         this.setState({subtopic:catn});
-        this.props.getUsertransactions(params);
+        this.props.getRoomtransactions(params);
     }
     //EXPAND
     categoryExpand = (cid, catname) =>{
         this.setState({id:3});
-        //GET ALL USERS
+        //GET ALL ROOMS
         let params = {
             data:{'categoryid':cid},
-            cat:'categoryuser',
-            table:'user_types'
+            cat:'categoryroom',
+            table:'room_types'
         }
         this.setState({subtopic: catname});
-        this.props.getUsertypes(params);
+        this.props.getRoomtypes(params);
     }
     //EXPAND
     categoryAdd = (id, dat) =>{
-        this.props.userAdd(id)
+        this.props.roomAdd(id)
     }
     //DELETE CATEGORY
     categoryDeleteForm = (id, dat) =>{
@@ -187,8 +194,8 @@ class BottomCard extends React.Component {
                 fd.append('id', id);
                 fd.append('is_delete', 1);
                 fd.append('cat', 'update');
-                fd.append('table', 'user_categorys');
-                this.props.updateUsercategory(fd);
+                fd.append('table', 'room_categorys');
+                this.props.updateRoomcategory(fd);
               Swal.fire(
                 'Deleted!',
                 'Your file has been deleted.',
@@ -204,24 +211,20 @@ class BottomCard extends React.Component {
         fd.append('id', id);
         fd.append('is_active', act);
         fd.append('cat', 'update');
-        fd.append('table', 'user_categorys');
-        this.props.updateUsercategory(fd);
+        fd.append('table', 'room_categorys');
+        this.props.updateRoomcategory(fd);
     }
      //ADD A TRANSACTION
     addTransactionForm = id =>{
-        this.props.userTransactionAdd(id)
+        this.props.roomTransactionAdd(id)
     }
-    //EDIT USER
+    //EDIT ROOM
     editForm = id =>{
-        this.props.getUsertype(id);
+        this.props.getRoomtype(id);
         this.setState({fid:true, mid:id});
     }
-    //EDIT USER
-    accessForm = (id, data) =>{
-        this.props.getUsertype(id);
-        this.setState({afid:true, mid:id, data:data});
-    }
-    //DELETE USER
+  
+    //DELETE ROOM
     deleteForm = id =>{
         Swal.fire({
             title: 'Are you sure?',
@@ -238,8 +241,8 @@ class BottomCard extends React.Component {
                 fd.append('id', id);
                 fd.append('is_delete', 1);
                 fd.append('cat', 'update');
-                fd.append('table', 'user_types');
-                this.props.updateUsertype(fd);
+                fd.append('table', 'room_types');
+                this.props.updateRoomtype(fd);
               Swal.fire(
                 'Deleted!',
                 'Your file has been deleted.',
@@ -249,22 +252,22 @@ class BottomCard extends React.Component {
           })
         
     }
-    //ACTIVATE USER
+    //ACTIVATE ROOM
     activateForm = (id, ac) =>{
         let act = ac === 0 ? 1 : 0;
         let fd = new FormData();
         fd.append('id', id);
         fd.append('is_active', act);
         fd.append('cat', 'update');
-        fd.append('table', 'user_types');
-        this.props.updateUsertype(fd);
+        fd.append('table', 'room_types');
+        this.props.updateRoomtype(fd);
     }
-    //EDIT USER TRANSACTION
+    //EDIT ROOM TRANSACTION
     transactionEditForm = id =>{
-        this.props.getUsertransaction(id);
+        this.props.getRoomtransaction(id);
         this.setState({tfid:true, mid:id});
     }
-    //DELETE USER TRANSACTION
+    //DELETE ROOM TRANSACTION
     transactionDeleteForm = id =>{
         Swal.fire({
             title: 'Are you sure?',
@@ -277,7 +280,7 @@ class BottomCard extends React.Component {
           }).then((result) => {
         
             if (result.value) {
-                this.props.deleteUsertransaction(id);
+                this.props.deleteRoomtransaction(id);
               Swal.fire(
                 'Deleted!',
                 'Your file has been deleted.',
@@ -298,9 +301,9 @@ class BottomCard extends React.Component {
           this.setState({isshown:ar});
     }
     render() {
-        let { cfid, mid, isshown } = this.state  || '';
-        let data = this.props.usercategorys.usercategorys;
-        let tabl = data && Array.isArray(data) ? data.map((prop, ind)=>{
+        let { cfid, mid, isshown, data } = this.state  || '';
+        let datas = this.props.roomcategorys.roomcategorys;
+        let tabl = datas && Array.isArray(datas) ? datas.map((prop, ind)=>{
             return <tr 
             key={ind}
                         style={{padding:'1px', margin:'0px'}}
@@ -312,8 +315,8 @@ class BottomCard extends React.Component {
                              {parseInt(prop.is_active) === 0 ? prop.name : <strike>{prop.name}</strike> }
                              { prop.id in isshown && isshown[prop.id] === true ? 
                                 <span className='reportcontrol pull-right'>
-                                    <a onClick={()=>this.categoryReport(prop.id, prop)} href='#'><i className='fa fa-file'></i></a>
-                                    <NavLink to={`/account/users/${prop.id}`}><i className='fa fa-list'></i></NavLink>
+                                    
+                                    <NavLink to={`/account/rooms/${prop.id}`}><i className='fa fa-list'></i></NavLink>
                                     <a onClick={()=>this.categoryActivateForm(parseInt(prop.id), parseInt(prop.is_active))} href='#'>{<i className= {parseInt(prop.is_active) === 0 ? "fa fa-thumbs-up" : "fa fa-thumbs-down"}></i>}</a>
                                     <a onClick={()=>this.categoryAdd(prop.id, prop)} href='#'><i className='now-ui-icons ui-1_simple-add'></i></a>
                                     <a onClick={()=>this.categoryEditForm(prop.id, prop)} href='#'><i className='fa fa-edit'></i></a>
@@ -323,6 +326,7 @@ class BottomCard extends React.Component {
                             
 
                         </td>
+                        <td className='text-center' style={{maxWidth:'10px'}} >{locs[prop.locationid]}</td>
                         <td className='text-center' style={{maxWidth:'10px'}} >{prop.qty}</td>
                     </tr>
                 }): '';
@@ -333,16 +337,17 @@ class BottomCard extends React.Component {
             <>
             
             {cfid === true? 
-            <FormUserCategory
+            <FormRoomCategory
                 st={cfid}
                 mid={mid}
-                handleClose={()=>this.setState({mid:null, cfid:false})}
+                data={data}
+                handleClose={()=>this.setState({mid:null, cfid:false, data:{}})}
             />:''}
             
               <div className="content">
                   <div className='card'>
                   <div className='card-header tablecardheader'>
-                  <h4 className='cardtitl'>Departments</h4>
+                  <h4 className='cardtitl'><a href='#' onClick={()=>this.categoryEditForm(null, {})}><i className='now-ui-icons ui-1_simple-add'></i></a> Houses</h4>
                   </div>
                   <div className='card-body table-responsive'>
                     <table className=' table-bordered display nowrap table-striped mytables table-condensed table-hover' id='myTablex' width='100%'>
@@ -350,6 +355,7 @@ class BottomCard extends React.Component {
                             <tr>
                                 <th style={{maxWidth:'10px'}}>SN.</th>
                                 <th>Departments</th>
+                                <th>Location</th>
                                 <th style={{maxWidth:'10px'}} className='text-center'>QTY.</th>
                             </tr>
                         </thead>
@@ -366,16 +372,16 @@ class BottomCard extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({ 
-    user:state.userReducer.user,
-    usercategorys:state.usercategoryReducer
+    user:state.userReducer,
+    roomcategorys:state.roomcategoryReducer
   })
   
 export default connect(mapStateToProps, 
     { 
-        getUsercategorys, 
-        getUsercategory, 
-        registerUsercategory,
-        updateUsercategory,
-        deleteUsercategory,
-        getUsertypes
+        getRoomcategorys, 
+        getRoomcategory, 
+        registerRoomcategory,
+        updateRoomcategory,
+        deleteRoomcategory,
+        getRoomtypes
     })(BottomCard)

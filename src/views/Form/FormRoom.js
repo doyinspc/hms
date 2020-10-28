@@ -34,7 +34,7 @@ const Modals = (props) => {
     }
     if(props.st1 && parseInt(props.st1) > 0)
     {
-      console.log()
+      
       let se = props.roomcategorys.roomcategorys && Array.isArray(props.roomcategorys.roomcategorys) ? props.roomcategorys.roomcategorys.filter(rw=>parseInt(rw.id) === parseInt(props.st1))[0]  : [] ;
       let ar = {'value':props.st1, 'label':se.name};
       console.log(ar)

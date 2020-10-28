@@ -77,7 +77,7 @@ function CarouselSection() {
                       onExited={onExited}
                       key={item.src}
                     >
-                      <img src={item.src} alt={item.altText} height="inherit"/>
+                      <img className="page-header-image" src={item.src} alt={item.altText} height="inherit"/>
                       <div className="carousel-caption d-none d-md-block">
                         <h5>{item.caption}</h5>
                       </div>

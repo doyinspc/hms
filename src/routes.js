@@ -1,6 +1,7 @@
 
 import Home from "views/Home.js";
 import User from "views/UserPage.js";
+import Room from "views/RoomPage.js";
 import Users from "views/User/UserPages.js";
 var dashRoutes = [
   
@@ -20,9 +21,16 @@ var dashRoutes = [
     component: User ,
     layout: "/account",
     num: 1
+  },{
+    path: "/room",
+    name: "Room",
+    icon: "design_app",
+    component: Room ,
+    layout: "/account",
+    num: 1
   },
    {
-    path: "/users",
+    path: "/users/:id",
     name: "Staffs",
     icon: "design_app",
     component: Users ,

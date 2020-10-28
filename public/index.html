@@ -40,6 +40,7 @@
     />
     <link href="https://fonts.googleapis.com/css2?family=Shadows+Into+Light&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Advent+Pro:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Kaushan+Script&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Bree+Serif&display=swap" rel="stylesheet">
     <link
       href="https://use.fontawesome.com/releases/v5.0.6/css/all.css"
@@ -47,7 +48,7 @@
     />
    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="%PUBLIC_URL%/font-awesome-4.7.0/css/font-awesome.min.css">
-    <title>%REACT_APP_WEBSITE_NAME%</title>
+    <title>%REACT_APP_WEBSITE_AKAS%</title>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
@@ -87,39 +88,84 @@
 
     <script type="text/javascript">
       $(document).ready(function() {
-    $('#myTables').DataTable( {
-        'dom': 'PfrBtip',
-        bFilter: true,
-        bAutoWidth: false,
-        autoWidth: false,
-        fixedColumns: false,
-        buttons: [
-            {
-                extend:    'copyHtml5',
-                text:      '<i class="fa fa-files-o"></i>',
-                titleAttr: 'Copy'
-            },
-            {
-                extend:    'excelHtml5',
-                text:      '<i class="fa fa-file-excel-o"></i>',
-                titleAttr: 'Excel'
-            },
-            {
-                extend:    'csvHtml5',
-                text:      '<i class="fa fa-file-text-o"></i>',
-                titleAttr: 'CSV',
-                css: 'btn btn-primary'
-            },
-            {
-                extend:    'pdfHtml5',
-                text:      '<i class="fa fa-file-pdf-o"></i>',
-                titleAttr: 'PDF'
-            },
-            'print',
-            'colvis'
-        ]
-    });
-} );
+        $('#myTables').DataTable( {
+            'dom': 'PfrBtip',
+            bFilter: true,
+            bAutoWidth: false,
+            autoWidth: false,
+            fixedColumns: false,
+            buttons: [
+                {
+                    extend:    'copyHtml5',
+                    text:      '<i class="fa fa-files-o"></i>',
+                    titleAttr: 'Copy'
+                },
+                {
+                    extend:    'excelHtml5',
+                    text:      '<i class="fa fa-file-excel-o"></i>',
+                    titleAttr: 'Excel'
+                },
+                {
+                    extend:    'csvHtml5',
+                    text:      '<i class="fa fa-file-text-o"></i>',
+                    titleAttr: 'CSV',
+                    css: 'btn btn-primary'
+                },
+                {
+                    extend:    'pdfHtml5',
+                    text:      '<i class="fa fa-file-pdf-o"></i>',
+                    titleAttr: 'PDF'
+                },
+                'print',
+                'colvis'
+            ]
+        });
+      } );
+
+       $(document).ready(function() {
+        $('#myTablesStaff').DataTable( {
+            'dom': 'Bfrtip',
+            bFilter: true,
+            bAutoWidth: false,
+            autoWidth: false,
+            fixedColumns: false,
+            lengthMenu: [
+                [ 50, 100, -1 ],
+                [ '50 rows', '100 rows',  'Show all' ]
+            ],
+            
+            buttons: [
+                {
+                    extend:    'copyHtml5',
+                    text:      '<i class="fa fa-files-o"></i>',
+                    titleAttr: 'Copy'
+                },
+                {
+                    extend:    'excelHtml5',
+                    text:      '<i class="fa fa-file-excel-o"></i>',
+                    titleAttr: 'Excel'
+                },
+                {
+                    extend:    'csvHtml5',
+                    text:      '<i class="fa fa-file-text-o"></i>',
+                    titleAttr: 'CSV',
+                    css: 'btn btn-primary'
+                },
+                {
+                    extend:    'pdfHtml5',
+                    text:      '<i class="fa fa-file-pdf-o"></i>',
+                    titleAttr: 'PDF'
+                },
+                'print',
+                'pageLength',
+                {
+                   extend: 'colvis',
+                   collectionLayout: 'fixed two-column'
+                }
+                
+            ]
+        });
+      } );
     </script>
   </body>
   

@@ -11,6 +11,7 @@ const Modals = (props) => {
   
   const [modal, setModal] = useState(false);
   const [id, setId] = useState(null);
+  const [accessa, setAccessa] = useState([]);
   const [access0, setAccess0] = useState([]);
   const [access1, setAccess1] = useState([]);
   const [access2, setAccess2] = useState([]);
@@ -30,13 +31,14 @@ const Modals = (props) => {
     if(parseInt(props.mid) > 0 )
     {
      setId(parseInt(props.mid));
-     let d = props.data.access !== '' && props.data.access !== null && props.data.access !== undefined ? JSON.parse(props.data.access):[[],[],[],[],[],[]];
-     
-     setAccess0(d[0]);
-      setAccess1(d[1]);
-      setAccess2(d[2]);
-      setAccess3(d[3]);
-      setAccess4(d[4]);
+     let d = props.data.access !== '' && props.data.access !== null && props.data.access !== undefined ? JSON.parse(props.data.access):[[],[],[],[],[],[],[]];
+      setAccessa(d[0]);
+      setAccess0(d[1]);
+      setAccess1(d[2]);
+      setAccess2(d[3]);
+      setAccess3(d[4]);
+      setAccess4(d[5]);
+
     }
 
 },[props.mid]);
@@ -45,7 +47,7 @@ const Modals = (props) => {
         e.preventDefault();
       
         let fd = new FormData();
-        let accc = [access0, access1, access2, access3, access4]
+        let accc = [accessa, access0, access1, access2, access3, access4]
         let ac= JSON.stringify(accc);
         fd.append('access', ac);
         fd.append('table', 'user_types');
@@ -59,6 +61,13 @@ const Modals = (props) => {
         resetdata();
   }
   
+ const handleChange0a = (e) =>{
+    let ch = e.target.checked;
+    let va = parseInt(e.target.value);
+    let acc = [...accessa];
+    if(ch){acc.push(va); setAccessa(acc)}
+    else{let aco = acc.filter(rw=>rw === va); setAccessa(aco)}
+}
 
   const handleChange0 = (e) =>{
     let ch = e.target.checked;
@@ -114,6 +123,37 @@ const handleChange4 = (e) =>{
   <div class="card z-depth-0 bordered">
     <div class="card-header my-0 py-0" id="headingOne">
       <h5 class="mb-0">
+        <button class="btn btn-link my-0 py-1" type="button" data-toggle="collapse" data-target="#collapseOnea"
+          aria-expanded="true" aria-controls="collapseOnea">
+          Location
+        </button>
+      </h5>
+    </div>
+    <div id="collapseOnea" class="collapse" aria-labelledby="headingOne"
+      data-parent="#accordionExample">
+      <div class="card-body">
+          <Container style={{backgroundColor:'#cff'}}>
+        <table width='100%'>
+            <tr>
+                <th>All</th>
+                <td><input type='checkbox' defaultChecked={accessa.includes(3) ? 'checked' : ''} value='3' onClick={handleChange0a} /></td>
+            </tr>
+            <tr>
+                <th>Kainji</th>
+                <td><input type='checkbox' defaultChecked={accessa.includes(1) || accessa.includes(3) ? 'checked' : ''} value='1' onClick={handleChange0a}/></td>
+            </tr>
+            <tr>
+                <th>Jebba</th>
+                <td><input type='checkbox' defaultChecked={accessa.includes(2) || accessa.includes(3) ? 'checked' : ''} value='2' onClick={handleChange0a}/></td>
+            </tr>
+        </table>
+        </Container>
+      </div>
+    </div>
+  </div>
+    <div class="card z-depth-0 bordered">
+    <div class="card-header my-0 py-0" id="headingOne">
+      <h5 class="mb-0">
         <button class="btn btn-link my-0 py-1" type="button" data-toggle="collapse" data-target="#collapseOne"
           aria-expanded="true" aria-controls="collapseOne">
           Guest
@@ -131,7 +171,28 @@ const handleChange4 = (e) =>{
             </tr>
             <tr>
                 <th>Veiw Report</th>
-                <td><input type='checkbox' defaultChecked={access0.includes(5) || access0.includes(0) ? 'checked' : ''}value='5' onClick={handleChange0}/></td>
+                <td><input type='checkbox' defaultChecked={access0.includes(5) || access0.includes(0) ? 'checked' : ''} value='5' onClick={handleChange0}/></td>
+            </tr>
+            <tr>
+                <th>Send Message</th>
+                <td><input type='checkbox' defaultChecked={access0.includes(6) || access0.includes(0) ? 'checked' : ''} value='6' onClick={handleChange0}/></td>
+            </tr>
+        </table>
+        </Container>
+      </div>
+    </div>
+    <div id="collapseOne" class="collapse" aria-labelledby="headingOne"
+      data-parent="#accordionExample">
+      <div class="card-body">
+          <Container style={{backgroundColor:'#cff'}}>
+        <table width='100%'>
+            <tr>
+                <th>All</th>
+                <td><input type='checkbox' defaultChecked={access0.includes(0) ? 'checked' : ''} value='0' onClick={handleChange0} /></td>
+            </tr>
+            <tr>
+                <th>Veiw Report</th>
+                <td><input type='checkbox' defaultChecked={access0.includes(5) || access0.includes(0) ? 'checked' : ''} value='5' onClick={handleChange0}/></td>
             </tr>
             <tr>
                 <th>Send Message</th>

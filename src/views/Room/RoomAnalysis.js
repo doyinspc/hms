@@ -34,6 +34,26 @@ class RoomWidget extends React.Component {
           data:JSON.stringify({
             'startdate':moment(new Date(td.getFullYear(), td.getMonth(), 1)).format('YYYY-MM-DD'),
             'enddate':moment(new Date(bk.getFullYear(), bk.getMonth() + 1, 0)).format('YYYY-MM-DD'),
+            'locationid':this.props.user.location
+          }),
+          cat:'roomana',
+          table:'room_types'
+      }
+      this.props.getRoomanalysis(params);
+      this.setState({
+        startdate:moment(new Date(td.getFullYear(), td.getMonth(), 1)).format('YYYY-MM-DD'), 
+        enddate:moment(new Date(bk.getFullYear(), bk.getMonth() + 1, 0)).format('YYYY-MM-DD'),
+      });
+    }
+    componentDidUpdate(prevProps){
+      if(prevProps.user.location != this.props.user.location){
+      let bk = new Date();
+      let td = new Date(moment().subtract(12, 'months').calendar());
+      let params = {
+          data:JSON.stringify({
+            'startdate':moment(new Date(td.getFullYear(), td.getMonth(), 1)).format('YYYY-MM-DD'),
+            'enddate':moment(new Date(bk.getFullYear(), bk.getMonth() + 1, 0)).format('YYYY-MM-DD'),
+            'locationid':this.props.user.location
           }),
           cat:'roomana',
           table:'room_types'
@@ -43,6 +63,7 @@ class RoomWidget extends React.Component {
         startdate:moment(new Date(td.getFullYear(), td.getMonth(), 1)).format('YYYY-MM-DD'), 
         enddate:moment(new Date(bk.getFullYear(), bk.getMonth() + 1, 0)).format('YYYY-MM-DD')
       });
+    }
     }
     convertdays = (time) =>{
         let ys = parseInt(time)/( 60 * 60 * 30 * 24 * 12);
@@ -75,7 +96,7 @@ class RoomWidget extends React.Component {
     retState = (dt, dt1) =>{
       this.setState({startdate:new Date(dt), enddate:new Date(dt1)});
   }
-  lunchDate = (func, func1) =>{
+  lunchDate = (func, func1, locs) =>{
       Swal.fire({
           title: 'pick a date from and to:',
           type: 'question',
@@ -87,7 +108,7 @@ class RoomWidget extends React.Component {
                 let v = $('#datepicker').val();
                 let v1 = $('#datepicker1').val();
                 let params = {
-                  data:JSON.stringify({'startdate':moment(new Date(v)).format('YYYY-MM-DD'), 'enddate':moment(new Date(v1)).format('YYYY-MM-DD')}),
+                  data:JSON.stringify({'startdate':moment(new Date(v)).format('YYYY-MM-DD'), 'enddate':moment(new Date(v1)).format('YYYY-MM-DD'), 'locationid':locs}),
                   cat:'roomana',
                   table:'room_types'
               }
@@ -200,7 +221,7 @@ class RoomWidget extends React.Component {
             </div>:''}
             </div>
         <div class="card-footer">
-          <div class="stats" onClick={()=>this.lunchDate(this.props.getRoomanalysis, this.retState)}>
+          <div class="stats" onClick={()=>this.lunchDate(this.props.getRoomanalysis, this.retState,this.props.user.location)}>
                 <i class="now-ui-icons arrows-1_refresh-69"></i> {moment(new Date(startdate)).format("MMMM YYYY")}{" "}{moment(new Date(enddate)).format("MMMM YYYY")}
             </div>
         </div>
@@ -234,7 +255,7 @@ class RoomWidget extends React.Component {
           </div>
         </div>
         <div class="card-footer">
-          <div class="stats" onClick={()=>this.lunchDate(this.props.getRoomanalysis, this.retState)}>
+          <div class="stats" onClick={()=>this.lunchDate(this.props.getRoomanalysis, this.retState, this.props.user.location)}>
                 <i class="now-ui-icons arrows-1_refresh-69"></i> {moment(new Date(startdate)).format("MMMM YYYY")}{" "}{moment(new Date(enddate)).format("MMMM YYYY")}
             </div>
         </div>
@@ -273,7 +294,7 @@ class RoomWidget extends React.Component {
             </div>:''}
         </div>
         <div class="card-footer">
-          <div class="stats" onClick={()=>this.lunchDate(this.props.getRoomanalysis, this.retState)}>
+          <div class="stats" onClick={()=>this.lunchDate(this.props.getRoomanalysis, this.retState, this.props.user.location)}>
             <i class="now-ui-icons ui-2_time-alarm"></i> {moment(new Date(startdate)).format("MMMM YYYY")}{" "}{moment(new Date(enddate)).format("MMMM YYYY")}
           </div>
         </div>
@@ -288,7 +309,7 @@ class RoomWidget extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({ 
-  user:state.userReducer.user,
+  user:state.userReducer,
   roomanalysis:state.roomtypeReducer.roomanalysis,
 })
 export default connect(mapStateToProps, {getRoomanalysis})(RoomWidget);

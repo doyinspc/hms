@@ -1,5 +1,7 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { connect } from 'react-redux';
+import { Link, Redirect } from "react-router-dom";
+import { getUserLogout, changeLocation } from "./../../actions/user";
 // reactstrap components
 import {
   Collapse,
@@ -18,14 +20,16 @@ import {
 } from "reactstrap";
 
 function ExamplesNavbar(props) {
-  console.log(props.backgroundColor);
   const [navbarColor, setNavbarColor] = React.useState("navbar-info");
   const [collapseOpen, setCollapseOpen] = React.useState(false);
   const [isOpen, setIsOpen] = React.useState(false);
-
+  const logOut = () =>{
+      props.getUserLogout();
+  }
+ 
   const sidebarToggle = React.useRef();
   const toggle = () => {
-    setIsOpen(!this.state.isOpen)
+    setIsOpen(!isOpen)
   };
   React.useEffect(() => {
     const updateNavbarColor = () => {
@@ -50,6 +54,12 @@ function ExamplesNavbar(props) {
     document.documentElement.classList.toggle("nav-open");
     sidebarToggle.current.classList.toggle("toggled");
   };
+
+  if(!props.user.isAuthenticated)
+  {
+      logOut();
+      return <Redirect to='/'/>;
+  }
   return (
     <>
       {collapseOpen ? (
@@ -79,11 +89,7 @@ function ExamplesNavbar(props) {
            
           </div>
           
-           <NavbarToggler onClick={toggle}>
-            <span className="navbar-toggler-bar navbar-kebab" />
-            <span className="navbar-toggler-bar navbar-kebab" />
-            <span className="navbar-toggler-bar navbar-kebab" />
-          </NavbarToggler>
+           
           <div className="navbar-translate">
             <NavbarBrand
               href="#"
@@ -92,15 +98,20 @@ function ExamplesNavbar(props) {
               style={{fontFamily:'Josefin sans', fontSize:'1.3em', textTransform:'capitalize'}}
             >
            
-             Welcome James !
+             Welcome {props.user.user.surname} !
 
             
             </NavbarBrand>  
+            <NavbarToggler onClick={toggle}>
+            <span className="navbar-toggler-bar navbar-kebab" />
+            <span className="navbar-toggler-bar navbar-kebab" />
+            <span className="navbar-toggler-bar navbar-kebab" />
+          </NavbarToggler>
           </div>
           
           <Collapse
             className="justify-content-end"
-            isOpen={collapseOpen}
+            isOpen={isOpen}
             navbar
           >
             <Nav navbar>
@@ -112,23 +123,24 @@ function ExamplesNavbar(props) {
               </form>
                 
              
-              <li class="nav-item dropdown">
+              <li class="nav-item dropdown  dropleft">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                 <i className='now-ui-icons business_globe'></i>
-                </a>
+                 <i className='now-ui-icons business_globe text-light'></i><span className='sr-only'>Location</span>
+                </a> 
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink1">
-                  <a class="dropdown-item" href="/staffregister"><i className='now-ui-icons business_globe'></i> Kainji</a>
-                  <a class="dropdown-item" href="/staffregister"><i className='now-ui-icons business_globe'></i> Jebba</a>
+                  <a class="dropdown-item text-dark" href="#" onClick={()=>props.changeLocation(1)}><i className='now-ui-icons business_globe'></i> Kainji</a>
+                  <a class="dropdown-item text-dark" href="#" onClick={()=>props.changeLocation(2)}><i className='now-ui-icons business_globe'></i> Jebba</a>
+                  <a class="dropdown-item text-dark" href="#" onClick={()=>props.changeLocation(3)}><i className='now-ui-icons business_globe'></i> Unified</a>
                 </div>
               </li>
              
-               <li class="nav-item dropdown">
+               <li class="nav-item dropdown dropleft">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                 <i className='now-ui-icons users_single-02'></i>
+                 <i className='now-ui-icons users_single-02 '></i><span className='sr-only'>User</span>
                 </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink1">
-                  <a class="dropdown-item" href="/staffregister"><i className='now-ui-icons users_single-02'></i> Edit</a>                  
-                  <a class="dropdown-item" href="/staffregister"><i className='now-ui-icons users_single-02'></i> Logout</a>
+                <div class="dropdown-menu text-dark" aria-labelledby="navbarDropdownMenuLink1">
+                  <a class="dropdown-item text-dark" href="/staffregister"><i className='now-ui-icons users_single-02'></i> Edit</a>                  
+                  <a class="dropdown-item text-dark" onClick={logOut}><i className='now-ui-icons users_single-02'></i> Logout</a>
                 </div>
                 
               </li>
@@ -141,4 +153,8 @@ function ExamplesNavbar(props) {
   );
 }
 
-export default ExamplesNavbar;
+const mapStateToProps = (state, ownProps) => ({ 
+    user:state.userReducer
+})
+  
+export default connect(mapStateToProps, {getUserLogout, changeLocation})(ExamplesNavbar)

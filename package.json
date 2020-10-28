@@ -3,8 +3,10 @@
   "version": "1.2.0",
   "main": "dist/index.js",
   "private": true,
-  "homepage": "http://silhms.com/jebba/",
+  "homepage": "http://silhms.com/hms/",
   "dependencies": {
+    "animate.css": "^4.1.1",
+    "animate.css-react": "^1.1.0",
     "axios": "^0.19.0",
     "bootstrap": "4.3.1",
     "chart.js": "2.8.0",
